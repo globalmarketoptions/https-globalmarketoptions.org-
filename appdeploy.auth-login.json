@@ -1,0 +1,18 @@
+{
+  "methods": [
+    "email"
+  ],
+  "headline": "Secure client portal access",
+  "subtitle": "Continue with a one-time email sign-in link. This site does not collect passwords.",
+  "style": {
+    "mode": "dark",
+    "accentColor": "#62d6a4",
+    "backgroundColor": "#07110f",
+    "panelColor": "#101d18",
+    "textColor": "#eaf4ef",
+    "fontFamily": "DM Sans, system-ui, sans-serif",
+    "borderRadius": 10
+  },
+  "termsUrl": "https://globalmarketoptions.org/#/terms",
+  "privacyUrl": "https://globalmarketoptions.org/#/privacy"
+}
