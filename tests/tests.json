@@ -1,0 +1,115 @@
+[
+  {
+    "name": "Review account overview and place a simulated paper trade",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": [
+      "dashboard overview starting funds",
+      "paper trading market orders",
+      "buy and sell direction",
+      "leverage and risk fields",
+      "positions and open P/L",
+      "available balance and realized P/L",
+      "simulated mark updates"
+    ],
+    "description": "Checks dashboard entry shows the paper balance and market orders reserve demo funds, update open positions, and realize P/L on close.",
+    "steps": [
+      "Open the dashboard and review the $10,000 simulated starting balance",
+      "Select Trading desk",
+      "Enter a demo margin amount of 100 and keep Market order selected",
+      "Place a BUY order and review the position, available balance and changing simulated P/L",
+      "Close the paper position"
+    ],
+    "expected": "Dashboard entry shows the overview and demo balance. The open position is simulated, available balance decreases by margin, and closing returns margin plus simulated P/L and updates realized P/L. No external order is sent."
+  },
+  {
+    "name": "Create and manage a simulated limit order",
+    "viewport": "desktop",
+    "covers": [
+      "limit order validation",
+      "pending limit order log",
+      "simulated fill and cancel controls"
+    ],
+    "description": "Verifies a limit order can be queued, filled at its demo limit price, or cancelled without contacting a broker.",
+    "steps": [
+      "Select Trading desk, choose Limit order, and enter a positive limit price",
+      "Submit a SELL paper order",
+      "Review the pending order in Positions & open orders",
+      "Use Fill or Cancel and review the resulting simulated state"
+    ],
+    "expected": "The limit order appears as a pending demo record and can be filled into a paper position or cancelled. No external order is transmitted."
+  },
+  {
+    "name": "Submit demo deposit and withdrawal requests",
+    "viewport": "desktop",
+    "covers": [
+      "demo deposit modal",
+      "simulated approval and ledger credit",
+      "withdrawal amount limit",
+      "withdrawal balance reservation",
+      "transaction statuses",
+      "no real payment credentials collected"
+    ],
+    "description": "Checks demo requests and simulated approval update only the browser ledger while preventing withdrawals above available funds.",
+    "steps": [
+      "Open Deposit & withdraw and submit a demo deposit request",
+      "Enable Demo control mode and approve the pending deposit",
+      "Submit a withdrawal larger than the available demo balance and review the validation message",
+      "Submit a valid demo withdrawal using a label only, then approve and complete it",
+      "Review transaction history"
+    ],
+    "expected": "Deposit requests remain pending until a simulated approval credits the paper ledger. Withdrawals above available funds are rejected; valid requests reserve demo funds and progress through statuses. No real addresses, bank details, or money transfers are used."
+  },
+  {
+    "name": "Retain the browser paper ledger and reset demo data",
+    "viewport": "desktop",
+    "covers": [
+      "account-specific browser ledger persistence",
+      "demo balance reset",
+      "transaction and trade records are simulated"
+    ],
+    "description": "Ensures demo ledger state can be revisited in the same browser and reset without implying a server-side trading account.",
+    "steps": [
+      "Place a paper trade or create a demo transaction",
+      "Refresh the dashboard",
+      "Review the demo ledger and records",
+      "Open Account and reset the demo ledger"
+    ],
+    "expected": "The same browser retains only its simulated ledger data; reset clears demo positions, requests and history and restores the starting paper balance."
+  },
+  {
+    "name": "View certificate and submit a support ticket",
+    "viewport": "mobile",
+    "covers": [
+      "responsive certificate image frame",
+      "accessible full-size certificate lightbox",
+      "footer certificate and registration link",
+      "company details verification disclaimer",
+      "contact channels and registered office",
+      "Resend email delivery to both official addresses",
+      "support ticket backend logging",
+      "honeypot spam rejection",
+      "per-IP ticket submission rate limit",
+      "signed Resend delivery webhook status updates",
+      "support success confirmation"
+    ],
+    "description": "Checks the About page certificate and sends a support request through the backend email route.",
+    "steps": [
+      "Open About Us and review the company details and certificate frame",
+      "Open and close View Full Certificate",
+      "Use the footer Verify Certificate / Company Registration link",
+      "Open Contact Us and check both emails, registered office and company number",
+      "Enter a name, valid email, subject and message in Submit a Support Ticket",
+      "Submit the form and read the confirmation modal"
+    ],
+    "expected": "The company details and certificate remain readable. Contact information is shown, a synthetic honeypot submission is safely discarded, the endpoint limits each source to five tickets per 15-minute window, and valid signed Resend delivery events update archived ticket status. When Resend accepts a real ticket for both official addresses, the exact ticket-logged confirmation appears."
+  },
+  {
+    "name": "Use the separated account and practice routes",
+    "viewport": "mobile",
+    "covers": ["direct register route", "direct login route", "dedicated demo trading route", "separate homepage demo action", "accurate practice-only account security notice", "beginner portfolio allocation example", "responsive investment pricing cards", "left-aligned plan labels and right-aligned values", "step-by-step Bitcoin double-spend explainer", "centralized versus decentralized ledger concepts", "TradingView mini-chart embed", "live price and percentage change display", "asset-tab symbol mapping", "homepage interactive TradingView market overview", "market ticker quotes and percentage moves", "market-session status and data timing disclosure", "hero background video with readable overlay", "animated canvas fallback behind hero text", "reduced-motion preference support for hero canvas", "accurate live-execution availability copy", "updated Live Managed Strategy Portfolios heading", "PRO STRATEGY FRAMEWORK card labels", "strategy allocation opens wallet top-up modal for registered users", "top-up explains funding provider is not connected", "verified transaction feed empty state", "no unsupported performance statistics"],
+    "description": "Checks account route separation and that visitors can open the clearly labeled practice trading view without entering registration details.",
+    "steps": ["Open the homepage and review the video hero, market overview, and accurate live-execution availability copy", "Select PRACTICE TRADING and review the Practice Trading page, chart, and simulated trade labels", "Return to the homepage and use Explore in practice on a strategy framework", "Review the $10,000 example portfolio and its three allocations, pricing examples, and Bitcoin explainer", "Select each market tab and confirm its TradingView mini-chart loads", "Open #/register and review the Create Account form and practice-only notice", "Open #/login and review the Account Login fields and provider-managed sign-in option"],
+    "expected": "The homepage retains the muted looping hero video and animated canvas fallback behind a dark readable overlay; the canvas respects reduced-motion preferences. The strategy section uses the Live Managed Strategy Portfolios heading and PRO STRATEGY FRAMEWORK labels while clearly stating that live execution awaits verified provider integration. Strategy cards open the wallet top-up modal for a signed-in user or route a visitor to login. The modal states funding is not connected and does not claim allocation or deposit success. The market activity feed shows an empty state until verified transaction events are connected. The homepage shows the $10,000 example allocation, aligned unverified pricing examples, and the Bitcoin explainer. TradingView tabs load market widgets with data timing caveats, and registration, login, and practice routes remain clearly distinguished."
+  }
+]
