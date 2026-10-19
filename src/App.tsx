@@ -309,12 +309,28 @@ function App() {
                 </div>
                 <p className="mobile-nav-note">Market and account areas are informational previews. Trading, mining, deposits and withdrawals are not active.</p>
               </div>
-            ) : nav.slice(0, 7).map(n => (
-              <a key={n} className={title === n ? 'selected' : ''} href={'#/' + slugs[n]}>
-                {n}
-                {['Markets', 'Copy Trading'].includes(n) && <ChevronDown size={13} />}
-              </a>
-            ))}
+            ) : (
+              <>
+                {nav.slice(0, 5).map(n => (
+                  <a key={n} className={title === n ? 'selected' : ''} href={'#/' + slugs[n]} aria-current={route === slugs[n] ? 'page' : undefined}>
+                    {n}
+                  </a>
+                ))}
+                <details className="nav-more">
+                  <summary aria-label="More public pages">More <ChevronDown size={13} /></summary>
+                  <div className="nav-more-menu" aria-label="More public pages">
+                    {nav.slice(5).map(n => (
+                      <a key={n} className={title === n ? 'selected' : ''} href={'#/' + slugs[n]} aria-current={route === slugs[n] ? 'page' : undefined}>
+                        {n}<ArrowRight size={13} />
+                      </a>
+                    ))}
+                    <a href="#/security" aria-current={route === 'security' ? 'page' : undefined}>Security &amp; Compliance <ArrowRight size={13} /></a>
+                    <a href="#/terms" aria-current={route === 'terms' ? 'page' : undefined}>Terms of Service <ArrowRight size={13} /></a>
+                    <a href="#/privacy" aria-current={route === 'privacy' ? 'page' : undefined}>Privacy Policy <ArrowRight size={13} /></a>
+                  </div>
+                </details>
+              </>
+            )}
           </nav>
           <div className="headactions">
             {authUser ? (
