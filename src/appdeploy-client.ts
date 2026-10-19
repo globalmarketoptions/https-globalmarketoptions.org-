@@ -42,13 +42,17 @@ export const api = {
 
 export const auth = {
   async getUser(): Promise<AuthUser | null> {
-    return null;
+    const response = await fetch('/api/auth/session', { credentials: 'same-origin', headers: { Accept: 'application/json' } });
+    if (!response.ok) return null;
+    const data = await response.json().catch(() => ({}));
+    return data?.user && typeof data.user.email === 'string' ? data.user as AuthUser : null;
   },
   async signIn(): Promise<never> {
-    throw new Error('Authentication is not configured for the standalone Vercel build. Use the AppDeploy runtime or configure a real identity provider.');
+    window.location.assign('/api/auth/google');
+    return new Promise<never>(() => {});
   },
   async signOut(): Promise<void> {
-    // No standalone session exists to sign out.
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' });
   },
 };
 
