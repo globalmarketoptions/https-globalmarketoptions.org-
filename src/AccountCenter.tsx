@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { api, ws } from '@appdeploy/client';
 
+const depositMethods = [
+  { id: 'BTC', name: 'Bitcoin', network: 'Bitcoin network', address: import.meta.env.VITE_DEPOSIT_BTC_ADDRESS || '' },
+  { id: 'ETH', name: 'Ethereum', network: 'Ethereum (ERC-20 native ETH)', address: import.meta.env.VITE_DEPOSIT_ETH_ADDRESS || '' },
+  { id: 'USDT-ERC20', name: 'Tether (USDT)', network: 'Ethereum / ERC-20', address: import.meta.env.VITE_DEPOSIT_USDT_ERC20_ADDRESS || '' },
+  { id: 'USDT-TRC20', name: 'Tether (USDT)', network: 'Tron / TRC-20', address: import.meta.env.VITE_DEPOSIT_USDT_TRC20_ADDRESS || '' },
+] as const;
+
 type AccountRequest = {
   id: string;
   kind: 'deposit' | 'withdrawal';
@@ -53,6 +60,8 @@ export function AccountWalletPanel({ user, authReady, onSignIn }: AccountPanelPr
   const [errorMessage, setErrorMessage] = useState('');
   const [notice, setNotice] = useState('');
   const [topUpOpen, setTopUpOpen] = useState(false);
+  const [selectedDepositMethod, setSelectedDepositMethod] = useState<string>('BTC');
+  const [copiedDepositAddress, setCopiedDepositAddress] = useState(false);
   const connectionRef = useRef<ReturnType<typeof ws.connect> | null>(null);
 
   useEffect(() => {
@@ -140,7 +149,31 @@ export function AccountWalletPanel({ user, authReady, onSignIn }: AccountPanelPr
         <span className='demo-pill'>FUNDING NOT CONNECTED</span>
       </div>
       {notice && <div className='account-wallet-toast' role='status' aria-live='polite'>{notice}</div>}
-      {topUpOpen && <div className='desk-modal-backdrop' role='presentation' onMouseDown={event => { if (event.target === event.currentTarget) setTopUpOpen(false); }}><section className='desk-modal' role='dialog' aria-modal='true' aria-labelledby='wallet-topup-title'><div className='dashboard-section-heading'><div><span className='dashboard-card-kicker'>WALLET FUNDING</span><h2 id='wallet-topup-title'>Top Up</h2></div><button className='dashboard-icon-button' type='button' aria-label='Close top up modal' onClick={() => setTopUpOpen(false)}>×</button></div><p>Payment processing is not connected yet. No funds, payment details, or wallet addresses are accepted here. Your displayed balance will remain unchanged.</p><button className='desk-primary' type='button' onClick={() => setTopUpOpen(false)}>Close</button></section></div>}
+      {topUpOpen && <div className='desk-modal-backdrop' role='presentation' onMouseDown={event => { if (event.target === event.currentTarget) setTopUpOpen(false); }}><section className='desk-modal' role='dialog' aria-modal='true' aria-labelledby='wallet-topup-title'><div className='dashboard-section-heading'><div><span className='dashboard-card-kicker'>WALLET FUNDING</span><h2 id='wallet-topup-title'>Top Up</h2></div><button className='dashboard-icon-button' type='button' aria-label='Close top up modal' onClick={() => setTopUpOpen(false)}>×</button></div><p className='deposit-intro'>Choose the asset and network you intend to use. Only send funds to an address that has been configured and independently confirmed by the site operator.</p>
+          <div className='deposit-method-tabs' role='tablist' aria-label='Deposit asset and network'>
+            {depositMethods.map(method => <button key={method.id} type='button' role='tab' aria-selected={selectedDepositMethod === method.id} className={selectedDepositMethod === method.id ? 'active' : ''} onClick={() => { setSelectedDepositMethod(method.id); setCopiedDepositAddress(false); }}>
+              <b>{method.id.startsWith('USDT') ? 'USDT' : method.id}</b><span>{method.network}</span>
+            </button>)}
+          </div>
+          {(() => {
+            const method = depositMethods.find(item => item.id === selectedDepositMethod) || depositMethods[0];
+            return <div className='deposit-address-panel'>
+              <div className='deposit-address-heading'><div><span className='dashboard-card-kicker'>{method.name}</span><h3>{method.network}</h3></div><span className={method.address ? 'deposit-configured' : 'deposit-unavailable'}>{method.address ? 'Address configured' : 'Address unavailable'}</span></div>
+              {method.address ? <>
+                <label className='deposit-address-label' htmlFor='wallet-deposit-address'>Deposit address</label>
+                <div className='deposit-address-copy-row'><code id='wallet-deposit-address'>{method.address}</code><button type='button' className='desk-primary' onClick={async () => { try { await navigator.clipboard.writeText(method.address); setCopiedDepositAddress(true); setNotice('Deposit address copied.'); } catch { setCopiedDepositAddress(false); setErrorMessage('Clipboard access was blocked. Please copy the address manually.'); } }}> {copiedDepositAddress ? 'Copied ✓' : 'Copy address'} </button></div>
+                <p className='deposit-network-warning'>Send only {method.name} on the {method.network} network to this address. Sending another asset or using a different network may result in permanent loss.</p>
+              </> : <p className='deposit-unavailable-copy'>A deposit address has not been configured for this asset and network. Do not send funds. Contact support to confirm the correct details.</p>}
+            </div>;
+          })()}
+          <section className='deposit-guidelines'><h3>Before you transfer</h3><ol>
+            <li>Confirm the asset and network match the sending wallet exactly.</li>
+            <li>Verify the full address with an authorized support channel before sending. Start with a small test transfer if appropriate.</li>
+            <li>Keep your transaction ID (TXID), amount, asset, network and transfer time for your records.</li>
+            <li>Do not share your wallet seed phrase or private keys with anyone.</li>
+          </ol></section>
+          <p className='deposit-review-notice'>Deposit submission and automated payment confirmation are not connected in this preview. Copying an address does not submit a deposit or change your wallet balance. Any transfer must be confirmed separately before a balance is updated.</p>
+          <div className='desk-modal-actions'><button className='desk-primary' type='button' onClick={() => setTopUpOpen(false)}>Close</button></div></section></div>}
       {errorMessage && <p className='support-form-error' role='alert'>{errorMessage}</p>}
       <div className='account-status-banner'><b>Account status: {account?.status || 'loading'}</b><span>Wallet funding and payment processing are not connected. No deposit or withdrawal can be completed from this page.</span></div>
       {loading && !account ? <p role='status'>Loading account…</p> : account && <>
