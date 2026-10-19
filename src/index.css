@@ -1807,3 +1807,5 @@ button {
 .deposit-guidelines ol{margin:0;padding-left:18px;color:#9eb2a3;font-size:10px;line-height:1.8}
 .deposit-review-notice{margin:12px 0 0;padding:10px;border:1px solid #5b4a2a;border-radius:5px;background:#211e13;color:#d8c994;font-size:10px;line-height:1.65}
 @media(max-width:460px){.deposit-address-heading{flex-direction:column}.deposit-address-copy-row{grid-template-columns:1fr}.deposit-address-copy-row button{min-height:40px}.deposit-method-tabs button{padding:9px}}
+
+.google-auth-card{margin-top:14px}.google-signin-button{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:44px;background:#fff;color:#26332c;border-color:#d7dfd9;font-weight:600}.google-signin-button:hover{background:#f4f7f5}.google-signin-button svg{flex:0 0 auto}.google-signin-button:focus-visible{outline:2px solid #3d9b6c;outline-offset:3px}
