@@ -678,7 +678,7 @@ function App() {
             ) : route === 'privacy' ? (
               <PrivacyPolicy />
             ) : account ? (
-              <AuthPage mode={route} user={authUser} error={authError} onContinue={() => startAuth()} onDashboard={() => go('dashboard')} onSwitch={() => go(route === 'register' || route === 'signup' ? 'login' : 'register')} onDemoRegister={profile => setDemoProfile(profile)} onDemoLogin={startDemoSession} />
+              <AuthPage mode={route} user={authUser} error={authError} onContinue={() => startAuth()} onGoogleSignIn={() => window.location.assign('/api/auth/google')} onDashboard={() => go('dashboard')} onSwitch={() => go(route === 'register' || route === 'signup' ? 'login' : 'register')} onDemoRegister={profile => setDemoProfile(profile)} onDemoLogin={startDemoSession} />
             ) : page ? (
               <div className="legal-content">
                 <div className="eyebrow">
