@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum WalletCurrency {
+  USD
+  EUR
+  GBP
+  BTC
+  ETH
+  USDT
+}
+
+model User {
+  id        String         @id @default(uuid()) @db.Uuid
+  googleId  String         @unique @map("google_id")
+  email     String         @unique
+  name      String         @default("")
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+  sessions  AuthSession[]
+  wallets   Wallet[]
+
+  @@map("users")
+}
+
+model AuthSession {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @db.Uuid @map("user_id")
+  expiresAt DateTime  @map("expires_at")
+  revokedAt DateTime? @map("revoked_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("auth_sessions")
+}
+
+model Wallet {
+  id        String         @id @default(uuid()) @db.Uuid
+  userId    String         @db.Uuid @map("user_id")
+  currency  WalletCurrency
+  balance   Decimal        @default(0) @db.Decimal(30, 10)
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @updatedAt @map("updated_at")
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, currency])
+  @@index([userId])
+  @@map("wallets")
+}
