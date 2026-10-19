@@ -1780,3 +1780,30 @@ button {
   .hero-video{display:none}
   .hero-cta-button{transition:none}
 }
+
+
+/* Wallet top-up deposit instructions */
+.deposit-intro{margin:0 0 14px;color:#a8b9ae;font-size:11px;line-height:1.65}
+.deposit-method-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.deposit-method-tabs button{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0;padding:11px;border:1px solid #30483a;border-radius:6px;background:#101e17;color:#d9e8de;text-align:left;cursor:pointer}
+.deposit-method-tabs button.active{border-color:#64ad7a;background:#183624;box-shadow:inset 0 0 0 1px #64ad7a}
+.deposit-method-tabs button b{font-size:11px}
+.deposit-method-tabs button span{color:#91a99a;font-size:9px;line-height:1.4}
+.deposit-method-tabs button:focus-visible,.deposit-address-copy-row button:focus-visible{outline:2px solid #8be0a5;outline-offset:3px}
+.deposit-address-panel{padding:14px;border:1px solid #30483a;border-radius:7px;background:#101b15}
+.deposit-address-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.deposit-address-heading h3{margin:4px 0 0;color:#e7f1e9;font-size:12px}
+.deposit-configured,.deposit-unavailable{flex:0 0 auto;border-radius:20px;padding:5px 7px;font-size:8px}
+.deposit-configured{background:#163d27;color:#a6e6b8}
+.deposit-unavailable{background:#34271a;color:#f0c78c}
+.deposit-address-label{display:block;margin-bottom:6px;color:#92a99a;font-size:9px}
+.deposit-address-copy-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:stretch;gap:7px}
+.deposit-address-copy-row code{display:block;min-width:0;padding:10px;overflow-wrap:anywhere;border:1px solid #30483a;border-radius:5px;background:#09120d;color:#dcece0;font-size:10px;line-height:1.6;user-select:all}
+.deposit-address-copy-row button{white-space:nowrap;padding:0 12px}
+.deposit-network-warning,.deposit-unavailable-copy{margin:10px 0 0;color:#e1c58b;font-size:10px;line-height:1.6}
+.deposit-unavailable-copy{color:#b6c4b9}
+.deposit-guidelines{margin-top:14px;padding:13px;border:1px solid #293e31;border-radius:6px;background:#0e1913}
+.deposit-guidelines h3{margin:0 0 8px;color:#e2eee5;font-size:12px}
+.deposit-guidelines ol{margin:0;padding-left:18px;color:#9eb2a3;font-size:10px;line-height:1.8}
+.deposit-review-notice{margin:12px 0 0;padding:10px;border:1px solid #5b4a2a;border-radius:5px;background:#211e13;color:#d8c994;font-size:10px;line-height:1.65}
+@media(max-width:460px){.deposit-address-heading{flex-direction:column}.deposit-address-copy-row{grid-template-columns:1fr}.deposit-address-copy-row button{min-height:40px}.deposit-method-tabs button{padding:9px}}
