@@ -40,15 +40,3 @@ ALTER TABLE "auth_sessions" ADD CONSTRAINT "auth_sessions_user_id_fkey"
   FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE "wallets" ADD CONSTRAINT "wallets_user_id_fkey"
   FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
-CREATE TABLE "_prisma_migrations" (
-  "id" VARCHAR(36) NOT NULL,
-  "checksum" VARCHAR(64) NOT NULL,
-  "finished_at" TIMESTAMP(3),
-  "migration_name" VARCHAR(255) NOT NULL,
-  "logs" TEXT,
-  "rolled_back_at" TIMESTAMP(3),
-  "started_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "applied_steps_count" INTEGER NOT NULL DEFAULT 0,
-  CONSTRAINT "_prisma_migrations_pkey" PRIMARY KEY ("id")
-);
