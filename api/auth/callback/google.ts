@@ -1,5 +1,5 @@
 import { createHmac } from 'node:crypto';
-import { clearCookie, cookieValue, oauthConfig, secureCookie, secureCompare, sessionToken, SESSION_COOKIE, STATE_COOKIE, CALLBACK_URL, SITE_ORIGIN } from '../../_oauth';
+import { clearCookie, cookieValue, oauthConfig, secureCookie, secureCompare, sessionToken, SESSION_COOKIE, STATE_COOKIE, CALLBACK_URL, SITE_ORIGIN } from '../_oauth';
 export default async function handler(req: any, res: any) {
   if (req.method !== 'GET') { res.setHeader('Allow','GET'); return res.status(405).json({error:'Method not allowed'}); }
   const clearState=clearCookie(STATE_COOKIE);
