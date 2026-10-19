@@ -368,24 +368,27 @@ function App() {
                     <span className="eyebrow-line" /> Welcome to Global Market Options
                   </div>
                   <h1>
-                    Experience The
+                    Explore global
                     <br />
-                    <em>Difference</em>
+                    <em>markets with clarity.</em>
                   </h1>
                   <p className="hero-lede">
-                    Explore live-updating market quotes and charts across Crypto, Stocks, Forex, ETFs and Indices. The practice trading experience is simulated; customer accounts and live copy-trade execution are not connected.
+                    Explore market information, asset-class guides and interactive charts in one considered experience. This site is an informational preview: practice features are simulated, and real-money trading, deposits and withdrawals are not available.
                   </p>
-                  <div className="hero-ctas">
-                    <button className="hero-cta-button hero-cta-primary" onClick={() => go('register')}>
-                      REGISTER ACCOUNT <ArrowRight size={16} />
+                  <div className="hero-ctas" aria-label="Explore the platform">
+                    <button className="hero-cta-button hero-cta-primary" onClick={() => go('markets')}>
+                      EXPLORE MARKETS <ArrowRight size={16} />
                     </button>
-                    <button className="hero-cta-button hero-cta-secondary" onClick={() => go('login')}>
-                      LOGIN
+                    <button className="hero-cta-button hero-cta-secondary" onClick={() => go('about')}>
+                      OUR APPROACH
                     </button>
                     <button className="hero-cta-button hero-cta-tertiary" onClick={startPracticeSession}>
-                      PRACTICE TRADING
+                      TRY PRACTICE PREVIEW
                     </button>
                   </div>
+                  <p className="hero-preview-note">
+                    <ShieldCheck size={14} /> Informational experience only. No real-money financial services are enabled.
+                  </p>
                   <div className="hero-assurance">
                     <span>
                       <Shield size={15} /> Built around transparency
@@ -454,7 +457,7 @@ function App() {
             </section>
             <section className="feature-section copy-preview">
               <div className="wrap">
-                <div className="section-head"><div><div className="eyebrow"><span className="eyebrow-line" /> STRATEGY ALLOCATION</div><h2>Explore Live Managed Strategy Portfolios</h2><p>Explore automated strategy concepts and institutional-style market signals. Live execution availability depends on verified service integration.</p></div><span className="feed-status">Live execution not enabled</span></div>
+                <div className="section-head"><div><div className="eyebrow"><span className="eyebrow-line" /> STRATEGY EDUCATION</div><h2>Explore Strategy Portfolio Concepts</h2><p>Review illustrative approaches to market themes and allocation. These examples are educational only; automated portfolio management and live trade execution are not available.</p></div><span className="feed-status">Illustrative only</span></div>
                 <div className="copy-grid">
                   {['Momentum framework','Macro framework','Balanced framework'].map((name,index)=><article className="copy-card" key={name}><span className="copy-avatar">{['M','G','B'][index]}</span><div><small>PRO STRATEGY FRAMEWORK</small><h3>{name}</h3><p>Review a strategy framework and allocation options for your account. Automated portfolio management and live trade execution require a verified execution provider; no live performance record is currently available.</p></div><div className="copy-metrics"><span>Market feed <b>TradingView</b></span><span>Execution <b>Awaiting integration</b></span></div><button type="button" onClick={() => openStrategyTopUp(name)}>{authUser ? 'Review allocation' : 'Sign in to allocate'}</button></article>)}
                 </div>
@@ -462,7 +465,7 @@ function App() {
             </section>
             <InvestmentPricingCards />
             <BitcoinComparison />
-            <section className="portal-band"><div className="wrap portal-preview"><div><div className="eyebrow"><span className="eyebrow-line" /> CLIENT PORTAL</div><h2>Account services are not active.</h2><p>No customer balances, deposits, withdrawals, trading accounts or admin tools are connected to this preview.</p></div><div className="portal-actions"><button className="primary" onClick={()=>go('signup')}>Sign up <ArrowRight size={15}/></button><button className="secondary" onClick={()=>go('login')}>Login</button></div><div className="portal-balance"><small>DEMO WALLET</small><b>— USD</b><span>Not a customer balance</span></div></div></section>
+            <section className="portal-band"><div className="wrap portal-preview"><div><div className="eyebrow"><span className="eyebrow-line" /> CLIENT PORTAL</div><h2>Account services are not active.</h2><p>No customer balances, deposits, withdrawals, trading accounts or admin tools are connected to this preview.</p></div><div className="portal-actions"><button className="primary" onClick={()=>go('help')}>Understand this preview <ArrowRight size={15}/></button><button className="secondary" onClick={()=>go('contact')}>Contact us</button></div><div className="portal-balance"><small>DEMO WALLET</small><b>— USD</b><span>Not a customer balance</span></div></div></section>
             <section className="ticker">
               <div className="wrap ticker-inner">
                 <span className="ticker-title">EXPLORE ASSET CLASSES</span>
