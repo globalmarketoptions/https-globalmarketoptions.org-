@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crude Oil Trading | Global Market Options</title>
+<style>:root{--bg:#08110f;--panel:#101f1b;--line:#294039;--text:#eef7f1;--muted:#9cb3a9;--green:#50d19a;--red:#fa7474;--gold:#eec66f}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,system-ui,sans-serif}.wrap{width:min(1180px,calc(100% - 36px));margin:auto}header{border-bottom:1px solid var(--line)}nav{height:70px;display:flex;justify-content:space-between;align-items:center}.brand,.back{color:var(--text);text-decoration:none;font-weight:850}.brand b{color:var(--green)}.back{color:var(--green)}main{padding:38px 0 70px}.eyebrow{color:var(--green);font-size:.8rem;font-weight:800;letter-spacing:.12em}.heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:7px 0 26px}.heading h1{font-size:clamp(2rem,5vw,3.7rem);letter-spacing:-.05em;margin:0}.heading p{color:var(--muted);margin:0}.grid{display:grid;grid-template-columns:1.6fr .8fr;gap:18px}.panel{border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:20px}.quote{display:flex;align-items:baseline;gap:13px}.quote strong{font-size:3rem;letter-spacing:-.06em}.quote span{color:var(--muted)}.unavailable{color:var(--gold);font-size:.88rem}.chart{height:500px;margin-top:15px;border-radius:9px;overflow:hidden;background:#0a1512}.chart>div{height:100%;width:100%}.stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:17px}.stat{background:var(--panel);padding:13px}.stat span{color:var(--muted);font-size:.8rem}.stat strong{display:block;margin-top:4px}.meter{height:10px;background:#273a34;border-radius:99px;overflow:hidden;margin:10px 0}.meter i{display:block;width:50%;height:100%;background:linear-gradient(90deg,var(--red),var(--gold),var(--green))}.signal{display:flex;justify-content:space-between;margin:14px 0}.signal b{color:var(--gold)}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}.buttons button,.modal button{border:0;border-radius:8px;padding:13px;font-weight:850}.buy{background:var(--green);color:#042218}.sell{background:#4e2528;color:#ffb8b8}.fund{width:100%;margin-top:10px;background:#263931;color:var(--text)}.note{color:var(--muted);font-size:.86rem}dialog{width:min(480px,calc(100% - 28px));border:1px solid var(--line);border-radius:14px;color:var(--text);background:var(--panel)}dialog::backdrop{background:#000b}.modal{padding:23px}.modal h2{margin:0}.modal p{color:var(--muted)}label{display:grid;gap:5px;margin:14px 0;color:var(--muted);font-size:.85rem;font-weight:700}input,select{padding:11px;background:#091512;border:1px solid var(--line);color:var(--text);border-radius:7px}.calc{padding:12px;border-radius:8px;background:#172c25}.actions{display:flex;gap:10px;margin-top:16px}.actions .submit{background:var(--green);color:#042218}.actions .close{background:#263931;color:var(--text)}@media(max-width:760px){.heading,.grid{display:block}.heading p{margin:10px 0 24px}.grid{display:grid;grid-template-columns:1fr}.chart{height:390px}}</style>
+</head>
+<body>
+<header>
+<nav class="wrap">
+<a class="brand" href="index.html">GLOBAL<b>MARKET</b>OPTIONS</a>
+<a class="back" href="index.html">← Trading dashboard</a>
+</nav>
+</header>
+<main class="wrap">
+<div class="eyebrow">Energy markets</div>
+<div class="heading">
+<div>
+<h1>Crude Oil Trading</h1>
+<p>Explore WTI and Brent charts with an order-request workspace.</p>
+</div>
+<p class="unavailable">Chart data is provided by TradingView</p>
+</div>
+<div class="grid">
+<section class="panel">
+<div class="quote">
+<strong id="quote">Live chart</strong>
+<span id="asset-label">WTI Crude · USD / barrel</span>
+</div>
+<p class="unavailable">The interactive chart updates from TradingView. Connect a licensed market-data API for account-side quotes, ranges, and volume.</p>
+<div class="tradingview-widget-container chart" style="height:500px;width:100%;">
+<div id="tradingview_crude_oil">
+</div>
+</div>
+<div class="stats">
+<div class="stat">
+<span>Daily change</span>
+<strong>—</strong>
+</div>
+<div class="stat">
+<span>Day range</span>
+<strong>—</strong>
+</div>
+<div class="stat">
+<span>52-week range</span>
+<strong>—</strong>
+</div>
+<div class="stat">
+<span>Volume</span>
+<strong>—</strong>
+</div>
+</div>
+</section>
+<aside class="panel">
+<h2>Order panel</h2>
+<label>Asset<select id="asset">
+<option value="TVC:USOIL">WTI Crude (USOIL)</option>
+<option value="TVC:UKOIL">Brent Crude (UKOIL)</option>
+</select>
+</label>
+<label>Order amount (USD)<input id="order-amount" type="number" min="1" step="0.01" placeholder="0.00">
+</label>
+<label>Lot size<input id="lot-size" type="number" min="0.01" step="0.01" value="1.00">
+</label>
+<p class="note">Estimated barrels require a verified executable quote. This page does not deduct or credit account balances.</p>
+<h2>Technical summary</h2>
+<p class="note">Indicators are unavailable until a licensed data source is connected.</p>
+<div class="signal">
+<span>Sell</span>
+<b>Neutral</b>
+<span>Buy</span>
+</div>
+<div class="meter">
+<i>
+</i>
+</div>
+<div class="signal">
+<span>Moving averages</span>
+<b>Unavailable</b>
+</div>
+<div class="signal">
+<span>Oscillators</span>
+<b>Unavailable</b>
+</div>
+<div class="buttons">
+<button class="buy" data-side="BUY (LONG)">BUY (LONG)</button>
+<button class="sell" data-side="SELL (SHORT)">SELL (SHORT)</button>
+</div>
+<button class="fund" id="fund-account">Deposit / Fund Account</button>
+<p class="note">No payment gateway or trade execution is connected to this interface.</p>
+</aside>
+</div>
+</main>
+<dialog id="order">
+<form class="modal" method="dialog">
+<h2 id="order-title">Order request</h2>
+<p>Review with a regulated broker and use a secure, server-side order flow before accepting any funds.</p>
+<div class="calc">Asset: <strong id="order-asset">WTI Crude (USOIL)</strong>
+<br>Amount: <strong id="order-summary">$0.00</strong>
+<br>Lot size: <strong id="lot-summary">1.00</strong>
+</div>
+<div class="note">Submitting does not collect money, change your account balance, or execute an order.</div>
+<div class="actions">
+<button class="submit" type="submit">Submit order request</button>
+<button class="close" value="cancel">Close</button>
+</div>
+</form>
+</dialog>
+<dialog id="funding">
+<form class="modal" method="dialog">
+<h2>Fund account</h2>
+<p>Select an asset and send funds only to the address shown for that asset.</p>
+<label>Payment method<select id="oil-payment-method"><option value="BTC">Bitcoin</option><option value="ETH">Ethereum</option><option value="USDT">USDT</option></select></label>
+<div class="calc" id="oil-wallet-address">No wallet address is configured for this method.</div>
+<div class="actions"><img id="oil-wallet-qr" alt="Wallet address QR code appears after a wallet is configured" width="104" height="104"><button class="close" id="oil-copy-wallet" type="button" disabled>Copy Wallet Address</button></div>
+<label>Transaction hash<input id="oil-transaction-hash" placeholder="Transaction hash"></label>
+<label>Proof screenshot<input id="oil-proof-file" accept="image/*,.pdf" type="file"></label>
+<div class="note" id="oil-funding-message">A verified receipt is required before any live balance can be credited.</div>
+<div class="actions">
+<button class="submit" type="submit">Submit proof of payment</button><button class="close" value="cancel">Close</button>
+</div>
+</form>
+</dialog>
+<script src="https://s3.tradingview.com/tv.js">
+</script>
+<script>const $=s=>document.querySelector(s);const walletAddresses=window.SYSTEM_WALLET_ADDRESSES||{BTC:'',ETH:'',USDT:''};const assetName=s=>s==='TVC:UKOIL'?'Brent Crude (UKOIL)':'WTI Crude (USOIL)';function loadChart(symbol){if(!window.TradingView)return;$('#tradingview_crude_oil').replaceChildren();new TradingView.widget({autosize:true,symbol,interval:'D',timezone:'Etc/UTC',theme:'dark',style:'1',locale:'en',toolbar_bg:'#0a1512',enable_publishing:false,allow_symbol_change:true,container_id:'tradingview_crude_oil'});}function renderOilWallet(){const address=walletAddresses[$('#oil-payment-method').value]||'';$('#oil-wallet-address').textContent=address||'No wallet address is configured for this method.';$('#oil-copy-wallet').disabled=!address;$('#oil-wallet-qr').src=address?`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(address)}`:'';}window.addEventListener('load',()=>loadChart($('#asset').value));$('#asset').onchange=e=>{$('#asset-label').textContent=`${assetName(e.target.value)} · USD / barrel`;loadChart(e.target.value)};document.querySelectorAll('[data-side]').forEach(b=>b.onclick=()=>{const amount=Number($('#order-amount').value)||0;$('#order-title').textContent=`${b.dataset.side} order request`;$('#order-asset').textContent=assetName($('#asset').value);$('#order-summary').textContent=amount.toLocaleString('en-US',{style:'currency',currency:'USD'});$('#lot-summary').textContent=$('#lot-size').value;$('#order').showModal()});$('#fund-account').onclick=()=>{renderOilWallet();$('#funding').showModal()};$('#oil-payment-method').onchange=renderOilWallet;$('#oil-copy-wallet').onclick=async()=>{const address=walletAddresses[$('#oil-payment-method').value];if(!address)return;await navigator.clipboard.writeText(address);$('#oil-funding-message').textContent='Wallet address copied.'};$('#funding form').onsubmit=e=>{e.preventDefault();const address=walletAddresses[$('#oil-payment-method').value];if(!address){$('#oil-funding-message').textContent='Choose a configured wallet address before submitting a receipt.';return;}if(!$('#oil-transaction-hash').value.trim()&&!$('#oil-proof-file').files.length){$('#oil-funding-message').textContent='Provide a transaction hash or proof screenshot.';return;}$('#oil-funding-message').textContent='Receipt collection is not configured in this static interface, so no proof was submitted.'};</script>
+</body>
+</html>

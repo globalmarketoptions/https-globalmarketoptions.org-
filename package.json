@@ -1,0 +1,11 @@
+{
+  "name": "globalmarketoptions-interface",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Standalone Global Market Options interface prototype",
+  "scripts": {
+    "postinstall": "prisma generate",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
+  }
+}
