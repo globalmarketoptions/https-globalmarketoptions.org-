@@ -857,6 +857,25 @@
       document.getElementById("current-year").textContent =
         new Date().getFullYear();
     })();
+<!-- Hero background video -->
+<div class="hero-video-background" aria-hidden="true">
+  <video
+    class="hero-background-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    poster="/images/hero-poster.jpg"
+  >
+    <source src="/videos/hero-motion.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="hero-video-overlay" aria-hidden="true"></div>
+
+<!-- Keep your existing hero heading, text and buttons below this point. -->
+
   </script>
 </body>
 </html>
