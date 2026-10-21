@@ -4,7 +4,7 @@
   "private": true,
   "description": "Standalone Global Market Options interface prototype",
   "scripts": {
-    "postinstall": "prisma generate",
+    "postinstall": "npx prisma generate"
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev"
   }
