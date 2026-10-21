@@ -876,7 +876,17 @@
 
 <!-- Keep your existing hero heading, text and buttons below this point. -->
 
-  </script>
+  </script>function formatUsd(cents) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(cents / 100);
+}
+
+const initialPracticeBalance = formatUsd(1000); // $10.00
+const initialLiveBalance = formatUsd(0);         // $0.00
 </body>
 </html>
 
