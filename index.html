@@ -1,84 +1,863 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Global Market Options wallet dashboard prototype.">
-  <title>Global Market Options | Wallet</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="Explore market information and trading tools with Global Market Options.">
+  <title>Global Market Options | Markets</title>
+
   <style>
-    :root { --bg:#07110f; --panel:#0e1d1a; --panel-2:#122722; --line:rgba(213,255,235,.13); --text:#effbf5; --muted:#9ab2a8; --brand:#54e7a5; --brand-dark:#062018; --danger:#ffb1a9; }
-    * { box-sizing:border-box } html { scroll-behavior:smooth } body { margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; color:var(--text); background:var(--bg); line-height:1.5 }
-    button,a { font:inherit } button { cursor:pointer } a { color:inherit; text-decoration:none }.wrap { width:min(1120px,calc(100% - 40px)); margin:auto }
-    .hero { position:relative; min-height:580px; display:grid; overflow:hidden; isolation:isolate; background:#07110f }.hero-video,.hero-fallback,.hero::after { position:absolute; inset:0; width:100%; height:100% }.hero-video { z-index:-3; object-fit:cover; opacity:.72 }.hero-fallback { z-index:-4; background:radial-gradient(circle at 72% 28%,#2e8568 0,transparent 22%),radial-gradient(circle at 24% 74%,#114e40 0,transparent 27%),linear-gradient(120deg,#06100e 17%,#173c31 55%,#07110f) }.hero::after { content:""; z-index:-2; background:linear-gradient(90deg,rgba(3,12,10,.9),rgba(3,12,10,.52)),rgba(0,0,0,.26) }
-    .nav { height:82px; display:flex; align-items:center; justify-content:space-between; gap:20px }.brand { font-size:1rem; font-weight:800; letter-spacing:.08em }.brand span { color:var(--brand) }.nav-actions,.actions { display:flex; gap:10px; align-items:center }.btn { border:1px solid var(--line); border-radius:8px; padding:11px 17px; background:transparent; color:var(--text); font-weight:750; letter-spacing:.02em }.btn:hover,.btn:focus-visible { border-color:var(--brand); outline:none }.btn.primary { border-color:var(--brand); background:var(--brand); color:#042018 }.btn.primary:hover { background:#8bf1c2 }.hero-content { padding:92px 0 115px; max-width:690px }.eyebrow { color:var(--brand); font-size:.8rem; font-weight:800; text-transform:uppercase; letter-spacing:.13em }.hero h1 { font-size:clamp(2.6rem,6vw,5rem); letter-spacing:-.055em; line-height:.98; margin:17px 0 }.hero p { max-width:590px; color:#d2e4dc; font-size:1.12rem }.notice { display:inline-flex; margin-top:22px; padding:9px 12px; border:1px solid var(--line); border-radius:99px; color:#d5e8df; font-size:.87rem }
-    main { padding:48px 0 76px }.mode-bar { display:flex; gap:16px; align-items:center; justify-content:space-between; border:1px solid var(--line); background:var(--panel); padding:14px 16px; border-radius:12px; margin-bottom:30px }.mode-copy strong { display:block }.mode-copy small { color:var(--muted) }.toggle { position:relative; display:inline-flex; gap:8px; padding:4px; background:#081512; border-radius:9px }.toggle button { border:0; padding:8px 11px; border-radius:6px; background:transparent; color:var(--muted); font-size:.85rem; font-weight:750 }.toggle button.active { color:var(--brand-dark); background:var(--brand) }
-    .dashboard-head { display:flex; justify-content:space-between; gap:20px; align-items:flex-end; margin-bottom:26px }.dashboard-head h2 { margin:0; font-size:clamp(1.55rem,3vw,2.3rem); letter-spacing:-.04em }.dashboard-head p { margin:6px 0 0; color:var(--muted) }.tabs { display:flex; gap:24px; border-bottom:1px solid var(--line); margin-bottom:24px }.tab { padding:12px 2px; border:0; background:transparent; color:var(--muted); border-bottom:2px solid transparent; font-weight:700 }.tab.active { color:var(--brand); border-color:var(--brand) }.tab-panel[hidden] { display:none }.wallet-grid { display:grid; grid-template-columns:1.5fr 1fr; gap:18px }.card { border:1px solid var(--line); background:linear-gradient(135deg,var(--panel-2),var(--panel)); border-radius:14px; padding:25px }.label { color:var(--muted); font-weight:650; font-size:.88rem }.balance { margin:7px 0 18px; font-size:clamp(2.6rem,6vw,4.6rem); line-height:1; letter-spacing:-.06em }.subrow { display:flex; align-items:center; justify-content:space-between; gap:16px; color:var(--muted); border-top:1px solid var(--line); padding-top:17px }.subrow strong { color:var(--text) }.summary h3,.section-title { margin:0 0 16px; font-size:1.05rem }.limit { padding:13px 0; border-top:1px solid var(--line); display:flex; justify-content:space-between; gap:10px }.limit:first-of-type { border-top:0 }.limit span { color:var(--muted) }.empty { text-align:center; padding:36px 20px; border:1px dashed var(--line); border-radius:12px; color:var(--muted) }.empty strong { display:block; color:var(--text); margin-bottom:5px }.market { margin-top:42px }.charts { display:grid; grid-template-columns:repeat(3,1fr); gap:16px }.chart { min-height:250px; overflow:hidden; padding:0; background:#0a1714 }.chart iframe { display:block; width:100%; height:250px; border:0 }.strategies { margin-top:42px }.strategy-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px }.strategy h3 { margin:0 0 6px }.strategy p { color:var(--muted); font-size:.92rem; min-height:44px }.strategy .btn { width:100%; margin-top:8px }.fine-print { color:var(--muted); font-size:.8rem; margin:12px 0 0 }
-    dialog { width:min(480px,calc(100% - 28px)); padding:0; color:var(--text); background:var(--panel); border:1px solid var(--line); border-radius:14px; box-shadow:0 28px 80px rgba(0,0,0,.6) } dialog::backdrop { background:rgba(0,0,0,.72); backdrop-filter:blur(3px) }.modal { padding:25px }.modal-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start }.modal h2 { margin:0; letter-spacing:-.03em }.icon-btn { border:0; background:none; color:var(--muted); font-size:1.45rem; line-height:1 }.modal p { color:var(--muted) }.form-note { padding:13px; border-radius:8px; background:#10241e; color:#ccebdd; font-size:.9rem }.form-row { display:grid; gap:7px; margin:18px 0 }.form-row input,.form-row select { padding:12px; border:1px solid var(--line); border-radius:8px; color:var(--text); background:#091512 }.wallet-address { word-break:break-all; padding:11px; border:1px solid var(--line); border-radius:8px; background:#091512; color:var(--muted) }.wallet-tools { display:flex; gap:12px; align-items:center; margin:12px 0 }.wallet-tools img { width:104px; height:104px; background:#fff; border-radius:7px }.message { min-height:24px; color:var(--danger); font-size:.9rem }.message.success { color:var(--brand) }
-    footer { border-top:1px solid var(--line); padding:26px 0; color:var(--muted); font-size:.86rem } @media (max-width:760px) { .nav-actions .btn:not(.primary) { display:none }.hero-content { padding-top:65px }.mode-bar,.dashboard-head { align-items:flex-start; flex-direction:column }.wallet-grid,.charts,.strategy-grid { grid-template-columns:1fr }.wallet-grid { gap:14px }.chart,.chart iframe { min-height:260px;height:260px } }
+    :root {
+      color-scheme: dark;
+      --bg: #0b1220;
+      --surface: #111b2d;
+      --surface-hover: #19263b;
+      --border: #25334a;
+      --text: #f3f6fc;
+      --muted: #9caec6;
+      --accent: #64e5b1;
+      --accent-text: #071a14;
+      --positive: #5de1ad;
+      --negative: #ff8585;
+      --container-width: 1200px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .container {
+      width: min(var(--container-width), calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    /* 1. Market ticker: cards are centered in the full-width bar. */
+    .ticker-bar {
+      width: 100%;
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 0;
+      overflow: hidden;
+      background: #0d1728;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ticker-container {
+      width: 100%;
+      max-width: var(--container-width);
+      margin-inline: auto;
+      padding-inline: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ticker-list {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: center;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .ticker-card {
+      min-width: 145px;
+      display: flex;
+      flex: 0 1 175px;
+      flex-direction: column;
+      gap: 3px;
+      padding: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .ticker-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .ticker-symbol {
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: 0.02em;
+    }
+
+    .ticker-name {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .ticker-price {
+      font-size: 14px;
+      font-weight: 650;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ticker-change {
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .positive {
+      color: var(--positive);
+    }
+
+    .negative {
+      color: var(--negative);
+    }
+
+    .ticker-disclaimer {
+      margin: 8px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 11px;
+    }
+
+    /* 2. Main navigation: no desktop sign-in or account buttons. */
+    .site-header {
+      position: relative;
+      z-index: 10;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-container {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: var(--accent);
+      color: var(--accent-text);
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      margin-left: auto;
+    }
+
+    .desktop-nav a {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 550;
+      transition: color 150ms ease;
+    }
+
+    .desktop-nav a:hover {
+      color: var(--text);
+    }
+
+    /* Mobile menu icon stays visible on small screens. */
+    .mobile-menu-button {
+      width: 44px;
+      height: 44px;
+      display: none;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      padding: 9px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .mobile-menu-button span {
+      width: 20px;
+      height: 2px;
+      display: block;
+      border-radius: 2px;
+      background: currentColor;
+      transition: transform 160ms ease, opacity 160ms ease;
+    }
+
+    .mobile-menu-button[aria-expanded="true"] span:first-child {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .mobile-menu-button[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-menu-button[aria-expanded="true"] span:last-child {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-nav {
+      display: none;
+      padding: 8px 20px 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .mobile-nav.open {
+      display: grid;
+      gap: 4px;
+    }
+
+    .mobile-nav a {
+      padding: 12px;
+      border-radius: 8px;
+      color: var(--muted);
+    }
+
+    .mobile-nav a:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+
+    /* Hero section */
+    .hero {
+      padding: 92px 0 74px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 0%, #15352f 0%, transparent 55%),
+        var(--bg);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 22px;
+      padding: 7px 12px;
+      border: 1px solid #285447;
+      border-radius: 999px;
+      background: #112820;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: clamp(36px, 6vw, 66px);
+      line-height: 1.08;
+      letter-spacing: -0.055em;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      margin: 24px auto 0;
+      color: var(--muted);
+      font-size: clamp(15px, 2vw, 18px);
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .button {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 22px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform 150ms ease, background 150ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button-primary {
+      background: var(--accent);
+      color: var(--accent-text);
+    }
+
+    .button-primary:hover {
+      background: #7ceabd;
+    }
+
+    .button-secondary {
+      border-color: var(--border);
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .button-secondary:hover {
+      background: var(--surface-hover);
+    }
+
+    /* 3. Practice Trading: no Demo environment badge. */
+    .practice-section {
+      padding: 12px 0 76px;
+    }
+
+    .practice-card {
+      padding: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(120deg, #15263a, #111b2d);
+    }
+
+    .practice-copy {
+      max-width: 650px;
+    }
+
+    .practice-copy h2 {
+      margin: 0;
+      font-size: clamp(22px, 3vw, 30px);
+      letter-spacing: -0.035em;
+    }
+
+    .practice-copy p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .practice-action {
+      flex-shrink: 0;
+    }
+
+    /* Feature cards */
+    .features {
+      padding: 20px 0 90px;
+    }
+
+    .section-heading {
+      max-width: 700px;
+      margin: 0 auto 36px;
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(27px, 4vw, 40px);
+      letter-spacing: -0.04em;
+    }
+
+    .section-heading p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .feature-card {
+      min-height: 205px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: #1e3542;
+      color: var(--accent);
+      font-size: 21px;
+    }
+
+    .feature-card h3 {
+      margin: 18px 0 8px;
+      font-size: 17px;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .risk-notice {
+      margin: 0 auto 38px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    footer {
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 900px) {
+      .ticker-list {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scrollbar-width: thin;
+      }
+
+      .ticker-card {
+        flex: 0 0 155px;
+      }
+
+      .desktop-nav {
+        gap: 18px;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .container {
+        width: calc(100% - 32px);
+      }
+
+      .ticker-bar {
+        min-height: 72px;
+      }
+
+      .ticker-container {
+        padding-inline: 12px;
+      }
+
+      .nav-container {
+        min-height: 70px;
+      }
+
+      .brand {
+        font-size: 16px;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+      }
+
+      .desktop-nav {
+        display: none;
+      }
+
+      .mobile-menu-button {
+        display: inline-flex;
+      }
+
+      .hero {
+        padding: 68px 0 58px;
+      }
+
+      .hero-copy {
+        font-size: 15px;
+      }
+
+      .practice-section {
+        padding-bottom: 55px;
+      }
+
+      .practice-card {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 24px;
+      }
+
+      .practice-action,
+      .practice-action .button {
+        width: 100%;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .features {
+        padding-bottom: 55px;
+      }
+
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <header class="hero" id="home">
-    <!-- Replace the source with a licensed MP4 served by your deployment. The fallback remains visible if playback is unavailable. -->
-    <video class="hero-video" autoplay muted loop playsinline aria-hidden="true" poster="" data-video-placeholder="assets/experience-motion.mp4">
-      <source src="assets/experience-motion.mp4" type="video/mp4">
-    </video>
-    <div class="hero-fallback" aria-hidden="true"></div>
-    <div class="wrap">
-      <nav class="nav" aria-label="Primary navigation"><a class="brand" href="#home">GLOBAL<span>MARKET</span>OPTIONS</a><div class="nav-actions"><button class="btn" data-open-login>LOGIN</button><button class="btn primary" data-scroll="wallet">GET STARTED</button></div></nav>
-      <section class="hero-content"><div class="eyebrow">Your investment workspace</div><h1>Experience The Difference.</h1><p>A clear wallet view, market context, and a separate Practice Account that never changes your live wallet.</p><div class="actions"><button class="btn primary" data-scroll="wallet">GET STARTED</button><button class="btn" data-practice>TRY PRACTICE ACCOUNT</button></div><div class="notice">Practice Account starts with $10.00 for learning and testing.</div></section>
+  <!-- Top ticker: centered cards, no TradingView logo. -->
+  <section class="ticker-bar" aria-label="Market watchlist">
+    <div class="ticker-container">
+      <ul class="ticker-list">
+        <li class="ticker-card">
+          <div class="ticker-top">
+            <span class="ticker-symbol">SOL</span>
+            <span class="ticker-name">Solana</span>
+          </div>
+          <span class="ticker-price">Market data unavailable</span>
+          <span class="ticker-change muted">Connect a verified feed</span>
+        </li>
+
+        <li class="ticker-card">
+          <div class="ticker-top">
+            <span class="ticker-symbol">AAPL</span>
+            <span class="ticker-name">Apple</span>
+          </div>
+          <span class="ticker-price">Market data unavailable</span>
+          <span class="ticker-change muted">Connect a verified feed</span>
+        </li>
+
+        <li class="ticker-card">
+          <div class="ticker-top">
+            <span class="ticker-symbol">NVDA</span>
+            <span class="ticker-name">NVIDIA</span>
+          </div>
+          <span class="ticker-price">Market data unavailable</span>
+          <span class="ticker-change muted">Connect a verified feed</span>
+        </li>
+
+        <li class="ticker-card">
+          <div class="ticker-top">
+            <span class="ticker-symbol">BTC</span>
+            <span class="ticker-name">Bitcoin</span>
+          </div>
+          <span class="ticker-price">Market data unavailable</span>
+          <span class="ticker-change muted">Connect a verified feed</span>
+        </li>
+
+        <li class="ticker-card">
+          <div class="ticker-top">
+            <span class="ticker-symbol">ETH</span>
+            <span class="ticker-name">Ethereum</span>
+          </div>
+          <span class="ticker-price">Market data unavailable</span>
+          <span class="ticker-change muted">Connect a verified feed</span>
+        </li>
+      </ul>
     </div>
+  </section>
+
+  <!-- Main navigation: logo, links and mobile menu only.
+       Desktop Sign In/Create Account buttons are intentionally absent. -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a class="brand" href="/" aria-label="Global Market Options home">
+        <span class="brand-mark" aria-hidden="true">G</span>
+        <span>Global Market Options</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#markets">Markets</a>
+        <a href="/crude-oil.html">Crude Oil</a>
+        <a href="/real-estate.html">Real Estate</a>
+        <a href="#features">Features</a>
+      </nav>
+
+      <button
+        class="mobile-menu-button"
+        id="mobile-menu-button"
+        type="button"
+        aria-label="Open navigation menu"
+        aria-controls="mobile-nav"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+      <a href="#markets">Markets</a>
+      <a href="/crude-oil.html">Crude Oil</a>
+      <a href="/real-estate.html">Real Estate</a>
+      <a href="#features">Features</a>
+    </nav>
   </header>
-  <main class="wrap" id="wallet">
-    <section class="mode-bar" aria-label="Account mode"><div class="mode-copy"><strong id="mode-title">Live Wallet</strong><small id="mode-description">Live wallet balances start at $0.00. Deposits require a connected payment backend.</small></div><div class="toggle" role="group" aria-label="Choose account mode"><button class="active" data-mode="live">Live</button><button data-mode="practice">Practice Account</button></div></section>
-    <section aria-labelledby="dashboard-title"><div class="dashboard-head"><div><h2 id="dashboard-title">You are logged in as <span id="account-name">your account</span></h2><p id="dashboard-caption">Manage your live wallet and review account activity.</p></div><button class="btn primary" data-topup>+ TOP UP</button></div>
-      <div class="tabs" role="tablist"><button class="tab active" id="liquidity-tab" role="tab" aria-controls="liquidity" aria-selected="true">Liquidity</button><button class="tab" id="history-tab" role="tab" aria-controls="history" aria-selected="false">Trade History</button></div>
-      <div class="tab-panel" id="liquidity" role="tabpanel" aria-labelledby="liquidity-tab"><div class="wallet-grid"><article class="card"><div class="label">Total Balance</div><div class="balance" id="total-balance">$0.00</div><div class="subrow"><span>Available to allocate</span><strong id="available-balance">$0.00</strong></div></article><article class="card summary"><h3 id="summary-title">Deposited Summary</h3><div class="limit"><span id="summary-balance-label">Deposited</span><strong id="deposited-balance">$0.00</strong></div><div class="limit"><span>Daily Percentage Limit</span><strong>Configured by your plan</strong></div><div class="limit"><span>Today’s allocation</span><strong id="today-allocation">$0.00</strong></div></article></div><article class="card strategy" id="practice-trade-panel" hidden><h3>Practice trading session</h3><p>Complete a practice trade to record a $100.00 practice win. This does not place a market order or affect your Live Wallet.</p><button class="btn primary" id="complete-practice-trade">Complete practice trade</button></article></div>
-      <div class="tab-panel" id="history" role="tabpanel" aria-labelledby="history-tab" hidden><div class="empty"><strong>No trade history yet</strong>Your activity will appear here after it is received from your connected account service.</div></div>
+
+  <main>
+    <section class="hero" id="markets">
+      <div class="container">
+        <p class="eyebrow">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          Market access and trading tools
+        </p>
+
+        <h1>Explore global markets with greater clarity.</h1>
+
+        <p class="hero-copy">
+          Access market information, explore asset categories, and review
+          trading tools from one place. Market prices and account activity
+          should be supplied by verified services.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="/login.html">
+            Access Your Account
+          </a>
+          <a class="button button-secondary" href="#features">
+            Explore Markets
+          </a>
+        </div>
+      </div>
     </section>
-    <section class="market" aria-labelledby="activity-title"><h2 class="section-title" id="activity-title">Account activity</h2><div class="empty"><strong>No verified deposit or withdrawal activity</strong>This feed is intentionally empty until a connected backend provides authenticated, real account events. This page does not generate activity notifications.</div></section>
-    <section class="market" aria-labelledby="market-title"><h2 class="section-title" id="market-title">Market overview</h2><div class="charts"><article class="card chart"><iframe title="BTCUSD mini chart" loading="lazy" src="https://s.tradingview.com/widgetembed/?frameElementId=tv-btc&symbol=BITSTAMP%3ABTCUSD&interval=60&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=%230a1714&studies=%5B%5D&theme=dark&style=1&timezone=Etc%2FUTC"></iframe></article><article class="card chart"><iframe title="EURUSD mini chart" loading="lazy" src="https://s.tradingview.com/widgetembed/?frameElementId=tv-eur&symbol=FX%3AEURUSD&interval=60&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=%230a1714&studies=%5B%5D&theme=dark&style=1&timezone=Etc%2FUTC"></iframe></article><article class="card chart"><iframe title="Gold mini chart" loading="lazy" src="https://s.tradingview.com/widgetembed/?frameElementId=tv-gold&symbol=TVC%3AGOLD&interval=60&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=%230a1714&studies=%5B%5D&theme=dark&style=1&timezone=Etc%2FUTC"></iframe></article></div></section>
-    <section class="strategies" aria-labelledby="strategy-title"><h2 class="section-title" id="strategy-title">Strategy allocation</h2><div class="strategy-grid"><article class="card strategy"><h3>Core Markets</h3><p>Broad-market allocation for an actively managed portfolio.</p><button class="btn primary" data-strategy="Core Markets">Allocate funds</button></article><article class="card strategy"><h3>Currency Focus</h3><p>Allocation focused on major foreign exchange pairs.</p><button class="btn primary" data-strategy="Currency Focus">Allocate funds</button></article><article class="card strategy"><h3>Digital Assets</h3><p>Allocation focused on eligible digital asset markets.</p><button class="btn primary" data-strategy="Digital Assets">Allocate funds</button></article></div><p class="fine-print">Strategy availability, eligibility, risks, fees, and performance reporting require review and a connected account backend.</p></section>
+
+    <!-- Practice Trading: the Demo environment badge is removed entirely. -->
+    <section class="practice-section">
+      <div class="container">
+        <div class="practice-card">
+          <div class="practice-copy">
+            <h2>Practice Trading</h2>
+            <p>
+              Explore the trading interface and learn how market orders work.
+              Confirm whether an account is simulated or live before placing
+              any order.
+            </p>
+          </div>
+
+          <div class="practice-action">
+            <a class="button button-primary" href="/login.html">
+              Practice Trading
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Explore the markets</h2>
+          <p>
+            Navigate market categories and available platform tools.
+            Prices and execution capabilities depend on configured providers.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">↗</div>
+            <h3>Market Overview</h3>
+            <p>
+              Review market instruments and connect a trusted data source
+              for current prices and price movements.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">◈</div>
+            <h3>Digital Assets</h3>
+            <p>
+              Explore digital-asset markets, including Bitcoin, Ethereum,
+              and other supported assets.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">⌁</div>
+            <h3>Commodity Markets</h3>
+            <p>
+              Visit the crude-oil market page for available commodity
+              information and trading tools.
+            </p>
+            <p><a href="/crude-oil.html">Explore crude oil →</a></p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">⌂</div>
+            <h3>Real Estate</h3>
+            <p>
+              Review available real-estate information, published plan
+              terms, and associated risks.
+            </p>
+            <p><a href="/real-estate.html">Explore real estate →</a></p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">◎</div>
+            <h3>Account Management</h3>
+            <p>
+              Access your account through the configured authentication
+              workflow and review available account services.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">✓</div>
+            <h3>Account Security</h3>
+            <p>
+              Use authenticated account workflows and server-side
+              authorization for protected operations.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="container risk-notice" aria-label="Risk disclosure">
+      Trading and investing involve risk, including possible loss of
+      principal. Digital assets, commodities, and other financial instruments
+      can be volatile. Prices, account features, and execution availability
+      depend on properly configured providers. No profit or return is
+      guaranteed.
+    </section>
   </main>
-  <footer><div class="wrap">© <span id="year"></span> Global Market Options. Interface prototype — no payment or trading action is processed by this file.</div></footer>
-  <dialog id="funding-modal" aria-labelledby="modal-title"><form class="modal" method="dialog"><div class="modal-head"><h2 id="modal-title">Fund wallet</h2><button class="icon-btn" value="cancel" aria-label="Close">×</button></div><p id="modal-context">Choose a payment method and send funds to the displayed wallet address.</p><div class="form-note" id="integration-note">Wallet addresses are loaded from protected system settings. A verified receipt is required before any live balance can be credited.</div><label class="form-row">Amount (USD)<input id="amount" name="amount" inputmode="decimal" placeholder="0.00" min="1" step="0.01" type="number"></label><label class="form-row">Payment method<select id="payment-method"><option value="BTC">Bitcoin</option><option value="ETH">Ethereum</option><option value="USDT">USDT</option></select></label><div class="wallet-address" id="wallet-address">No wallet address is configured for this method.</div><div class="wallet-tools"><img id="wallet-qr" alt="Wallet address QR code appears after a wallet is configured"><button class="btn" id="copy-wallet-address" type="button" disabled>Copy Wallet Address</button></div><label class="form-row">Transaction hash<input id="transaction-hash" placeholder="Transaction hash"></label><label class="form-row">Proof screenshot<input id="proof-file" accept="image/*,.pdf" type="file"></label><div class="message" id="modal-message" role="status"></div><button class="btn primary" type="submit">Submit proof of payment</button></form></dialog>
-  <dialog id="practice-win-modal" aria-labelledby="practice-win-title"><div class="modal"><div class="modal-head"><h2 id="practice-win-title">Practice reward unlocked</h2><button class="icon-btn" data-close-practice-win aria-label="Close">×</button></div><p>Congratulations! You won $100 in Practice Trading. To claim and merge this $100 bonus into your Live Account balance, please complete a wallet deposit.</p><div class="form-note">A verified deposit from an authenticated payment backend is required before a pending bonus can be credited. This prototype cannot verify deposits.</div><div class="actions"><button class="btn primary" id="claim-practice-bonus">Go to Live Wallet</button><button class="btn" data-close-practice-win>Keep practicing</button></div></div></dialog>
-  <dialog id="login-modal" aria-labelledby="login-title"><form class="modal" method="dialog"><div class="modal-head"><h2 id="login-title">Sign in</h2><button class="icon-btn" value="cancel" aria-label="Close">×</button></div><p>Authentication is an integration point in this standalone interface.</p><div class="form-note">Connect your identity provider or session service here. No credentials are collected by this prototype.</div><button class="btn primary" value="cancel">Close</button></form></dialog>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© <span id="current-year"></span> Global Market Options</span>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
   <script>
     (() => {
-      const state = { mode: 'live', live: { total: 0, deposited: 0 }, practice: { total: 10, winnings: 0, pendingBonus: 0 } };
-      // Inject verified, network-specific receiving addresses through protected deployment settings.
-      const walletAddresses = window.SYSTEM_WALLET_ADDRESSES || { BTC: '', ETH: '', USDT: '' };
-      const money = value => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
-      const $ = selector => document.querySelector(selector); const $$ = selector => [...document.querySelectorAll(selector)];
-      const liveMode = () => state.mode === 'live';
-      function render() { const account = state[state.mode]; $('#mode-title').textContent = liveMode() ? 'Live Wallet' : 'Practice Account'; $('#mode-description').textContent = liveMode() ? 'Live wallet balances start at $0.00. Deposits require a connected payment backend.' : 'Practice Account begins at $10.00 and stays separate from your Live Wallet.'; $('#dashboard-caption').textContent = liveMode() ? 'Manage your live wallet and review account activity.' : 'Complete practice sessions without changing your Live Wallet.'; $('#summary-title').textContent = liveMode() ? 'Deposited Summary' : 'Practice Summary'; $('#summary-balance-label').textContent = liveMode() ? 'Deposited' : 'Practice winnings'; $('#total-balance').textContent = money(account.total); $('#available-balance').textContent = money(account.total); $('#deposited-balance').textContent = liveMode() ? money(account.deposited) : money(account.winnings); $('#today-allocation').textContent = money(0); $('#practice-trade-panel').hidden = liveMode(); $$('[data-mode]').forEach(button => button.classList.toggle('active', button.dataset.mode === state.mode)); }
-      function renderWalletAddress() { const method = $('#payment-method').value; const address = walletAddresses[method] || ''; $('#wallet-address').textContent = address || 'No wallet address is configured for this method.'; $('#copy-wallet-address').disabled = !address; $('#wallet-qr').src = address ? `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(address)}` : ''; }
-      function openFunding(strategy = '') { state.mode = 'live'; render(); $('#modal-title').textContent = strategy ? `Fund before allocating to ${strategy}` : 'Fund wallet'; $('#modal-context').textContent = strategy ? `Fund your Live Wallet before allocating to ${strategy}.` : 'Choose a payment method and submit a transaction receipt.'; $('#integration-note').textContent = state.practice.pendingBonus ? `A ${money(state.practice.pendingBonus)} Practice Account bonus is pending. It can be credited after an authenticated receipt review.` : 'A verified receipt is required before any live balance can be credited.'; $('#modal-message').textContent = ''; $('#amount').value = ''; $('#transaction-hash').value = ''; $('#proof-file').value = ''; renderWalletAddress(); $('#funding-modal').showModal(); }
-      $$('[data-mode]').forEach(button => button.addEventListener('click', () => { state.mode = button.dataset.mode; render(); }));
-      $$('[data-practice]').forEach(button => button.addEventListener('click', () => { state.mode = 'practice'; render(); $('#wallet').scrollIntoView({ behavior: 'smooth' }); }));
-      $$('[data-scroll]').forEach(button => button.addEventListener('click', () => document.getElementById(button.dataset.scroll).scrollIntoView({ behavior: 'smooth' })));
-      $('[data-topup]').addEventListener('click', () => openFunding()); $$('[data-strategy]').forEach(button => button.addEventListener('click', () => openFunding(button.dataset.strategy)));
-      $('[data-open-login]').addEventListener('click', () => $('#login-modal').showModal());
-      $$('.tab').forEach(tab => tab.addEventListener('click', () => { $$('.tab').forEach(item => { const selected = item === tab; item.classList.toggle('active', selected); item.setAttribute('aria-selected', selected); document.getElementById(item.getAttribute('aria-controls')).hidden = !selected; }); }));
-      $('#complete-practice-trade').addEventListener('click', () => { state.practice.total += 100; state.practice.winnings += 100; state.practice.pendingBonus = 100; render(); $('#practice-win-modal').showModal(); });
-      $$('[data-close-practice-win]').forEach(button => button.addEventListener('click', () => $('#practice-win-modal').close()));
-      $('#claim-practice-bonus').addEventListener('click', () => { $('#practice-win-modal').close(); openFunding(); });
-      $('#payment-method').addEventListener('change', renderWalletAddress);
-      $('#copy-wallet-address').addEventListener('click', async () => { const address = walletAddresses[$('#payment-method').value]; if (!address) return; await navigator.clipboard.writeText(address); $('#modal-message').className = 'message success'; $('#modal-message').textContent = 'Wallet address copied.'; });
-      $('#funding-modal form').addEventListener('submit', event => { event.preventDefault(); const amount = Number($('#amount').value); const message = $('#modal-message'); if (!amount || amount <= 0) { message.className = 'message'; message.textContent = 'Enter an amount greater than $0.00.'; return; } if (!walletAddresses[$('#payment-method').value]) { message.className = 'message'; message.textContent = 'Choose a configured wallet address before submitting a receipt.'; return; } if (!$('#transaction-hash').value.trim() && !$('#proof-file').files.length) { message.className = 'message'; message.textContent = 'Provide a transaction hash or proof screenshot.'; return; } message.className = 'message'; message.textContent = 'Receipt collection is not configured in this static interface, so no proof was submitted.'; });
-      // Backend integration: call only after an authenticated server confirms the payment.
-      // Do not expose this to arbitrary browser events or treat a client callback as verification.
-      const applyVerifiedLiveDeposit = ({ amount, verificationId } = {}) => { if (!verificationId || !Number.isFinite(Number(amount)) || Number(amount) <= 0) return false; state.live.total += Number(amount); state.live.deposited += Number(amount); if (state.practice.pendingBonus > 0) { state.live.total += state.practice.pendingBonus; state.practice.pendingBonus = 0; } render(); return true; };
-      $('#year').textContent = new Date().getFullYear(); render();
-    })();const navBar = document.createElement('div');
-  navBar.style.cssText = 'position:fixed;top:15px;right:15px;background:#1a1a1a;padding:10px 15px;border-radius:8px;z-index:99999;display:flex;gap:15px;border:1px solid #333;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
-  navBar.innerHTML = `
-    <a href="crude-oil.html" style="color:#00ffcc;text-decoration:none;font-weight:bold;font-size:14px;">Crude Oil</a>
-    <a href="real-estate.html" style="color:#00ffcc;text-decoration:none;font-weight:bold;font-size:14px;">Real Estate</a>
-    <a href="admin.html" style="color:#ffcc00;text-decoration:none;font-weight:bold;font-size:14px;">Admin Portal</a>
-  `;
-  document.body.appendChild(navBar);
+      const menuButton = document.getElementById("mobile-menu-button");
+      const mobileNav = document.getElementById("mobile-nav");
+
+      menuButton.addEventListener("click", () => {
+        const isExpanded =
+          menuButton.getAttribute("aria-expanded") === "true";
+
+        menuButton.setAttribute("aria-expanded", String(!isExpanded));
+        menuButton.setAttribute(
+          "aria-label",
+          isExpanded ? "Open navigation menu" : "Close navigation menu"
+        );
+
+        mobileNav.classList.toggle("open", !isExpanded);
+      });
+
+      mobileNav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          menuButton.setAttribute("aria-expanded", "false");
+          menuButton.setAttribute("aria-label", "Open navigation menu");
+          mobileNav.classList.remove("open");
+        });
+      });
+
+      document.getElementById("current-year").textContent =
+        new Date().getFullYear();
+    })();
   </script>
 </body>
 </html>
+
