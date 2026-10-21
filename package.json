@@ -10,9 +10,11 @@
     "@prisma/client": "^5.0.0"
   },
   "devDependencies": {
-    "prisma": "^5.0.0"
+    "prisma": "^5.0.0",
+    "vite": "^5.0.0"
   },
   "scripts": {
+    "build": "vite build",
     "postinstall": "npx prisma generate"
   }
 }
