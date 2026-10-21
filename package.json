@@ -1,6 +1,7 @@
 {
   "name": "globalmarketoptions-interface",
   "version": "1.0.0",
+  "private": true,
   "description": "Standalone Global Market Options interface",
   "engines": {
     "node": "24.x"
