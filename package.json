@@ -1,21 +1,13 @@
 {
   "name": "globalmarketoptions-interface",
   "version": "1.0.0",
-  "private": true,
-  "description": "Standalone Global Market Options interface prototype",
-  "scripts": {
-    "postinstall": "npx prisma generate"
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
-  }
-}
-{
-  "name": "globalmarketoptions-interface",
-  "version": "1.0.0",
+  "description": "Standalone Global Market Options interface",
   "engines": {
     "node": "24.x"
   },
   "scripts": {
-    "postinstall": "npx prisma generate"
+    "postinstall": "npx prisma generate",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
   }
 }
