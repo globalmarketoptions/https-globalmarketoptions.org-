@@ -9,3 +9,13 @@
     "prisma:migrate": "prisma migrate dev"
   }
 }
+{
+  "name": "globalmarketoptions-interface",
+  "version": "1.0.0",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "postinstall": "npx prisma generate"
+  }
+}
