@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Global Market Options</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --sidebar-bg: #1e293b;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-color: #3b82f6;
+            --border-color: #334155;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+        .brand {
+            padding: 24px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .brand span {
+            display: block;
+            color: var(--text-color);
+            font-size: 18px;
+            margin-top: 4px;
+        }
+        .nav-label {
+            padding: 16px 24px 8px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .nav-link {
+            padding: 12px 24px;
+            color: var(--text-muted);
+            text-decoration: none;
+            display: block;
+            transition: all 0.2s;
+        }
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--accent-color);
+            border-left: 4px solid var(--accent-color);
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        .container {
+            padding: 32px;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        th {
+            color: var(--text-muted);
+        }
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .info-note {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            GLOBAL MARKET OPTIONS
+            <span>ADMINISTRATION</span>
+        </div>
+        
+        <div class="nav-label">Workspace</div>
+        <a href="admin.html" class="nav-link active">User Management</a>
+        <a href="index.html" class="nav-link">Main Website</a>
+    </aside>
+
+    <div class="main-content">
+        <header>
+            <h1>Admin Dashboard</h1>
+            <div style="font-size: 14px; color: #10b981;">● Connected</div>
+        </header>
+
+        <div class="container">
+            <div class="info-note">
+                <strong>Administrative Control Panel:</strong> Financial actions, user management, top-up requests, and withdrawal approvals are managed from this portal[span_3](start_span)[span_3](end_span).
+            </div>
+
+            <div class="card">
+                <h2>Registered Users & Financial Requests</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Account Email</th>
+                            <th>Request Type</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#1042</td>
+                            <td>user_demo@example.com</td>
+                            <td>Top-Up Request</td>
+                            <td>3.0 BTC</td>
+                            <td><button class="btn" onclick="alert('Top-up request approved successfully.')">Approve Top-Up</button></td>
+                        </tr>
+                        <tr>
+                            <td>#1043</td>
+                            <td>trader_pro@example.com</td>
+                            <td>Withdrawal Review</td>
+                            <td>$5,000</td>
+                            <td><button class="btn" onclick="alert('Withdrawal review submitted successfully.')">Approve Withdrawal</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
