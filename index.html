@@ -71,7 +71,14 @@
       // Do not expose this to arbitrary browser events or treat a client callback as verification.
       const applyVerifiedLiveDeposit = ({ amount, verificationId } = {}) => { if (!verificationId || !Number.isFinite(Number(amount)) || Number(amount) <= 0) return false; state.live.total += Number(amount); state.live.deposited += Number(amount); if (state.practice.pendingBonus > 0) { state.live.total += state.practice.pendingBonus; state.practice.pendingBonus = 0; } render(); return true; };
       $('#year').textContent = new Date().getFullYear(); render();
-    })();
+    })();const navBar = document.createElement('div');
+  navBar.style.cssText = 'position:fixed;top:15px;right:15px;background:#1a1a1a;padding:10px 15px;border-radius:8px;z-index:99999;display:flex;gap:15px;border:1px solid #333;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
+  navBar.innerHTML = `
+    <a href="crude-oil.html" style="color:#00ffcc;text-decoration:none;font-weight:bold;font-size:14px;">Crude Oil</a>
+    <a href="real-estate.html" style="color:#00ffcc;text-decoration:none;font-weight:bold;font-size:14px;">Real Estate</a>
+    <a href="admin.html" style="color:#ffcc00;text-decoration:none;font-weight:bold;font-size:14px;">Admin Portal</a>
+  `;
+  document.body.appendChild(navBar);
   </script>
 </body>
 </html>
