@@ -6,9 +6,13 @@
   "engines": {
     "node": "24.x"
   },
+  "dependencies": {
+    "@prisma/client": "^5.0.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.0.0"
+  },
   "scripts": {
-    "postinstall": "npx prisma generate",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "postinstall": "npx prisma generate"
   }
 }
