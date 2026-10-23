@@ -24,6 +24,7 @@ module.exports=async function kycUploadComplete(req,res) {
   const expected=path.endsWith(".pdf")?"application/pdf":path.endsWith(".jpg")?"image/jpeg":"image/png";
   if(!validContent(expected,bytes)) {
    await db.storage.from("kyc-private").remove([path]);
+   if(record.prior_document_path) await db.storage.from("kyc-private").remove([record.prior_document_path]);
    await db.from("kyc_records").delete().eq("user_id",user.id).eq("status","UPLOAD_PENDING");
    return send(res,400,{error:"The file content did not match the allowed document type. Please upload a valid PDF, JPEG, or PNG."});
   }
