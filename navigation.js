@@ -9,6 +9,22 @@
     const year = document.getElementById("current-year");
 
     if (year) year.textContent = String(new Date().getFullYear());
+
+    // Normalize legacy extensionless routes to static HTML pages.
+    const aliases = {
+      "/register": "/register.html",
+      "/login": "/login.html",
+      "/practice-trading": "/dashboard.html",
+      "/dashboard": "/dashboard.html"
+    };
+    document.querySelectorAll("a[href]").forEach((anchor) => {
+      try {
+        const url = new URL(anchor.getAttribute("href"), window.location.origin);
+        if (url.origin !== window.location.origin || !aliases[url.pathname]) return;
+        anchor.setAttribute("href", aliases[url.pathname] + url.search + url.hash);
+      } catch (_) {}
+    });
+
     if (!drawer || !backdrop || !menuButton) return;
 
     const isOpen = () => drawer.classList.contains("open");
