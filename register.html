@@ -7,6 +7,13 @@
   <meta name="theme-color" content="#0b1220">
   <title>Create Account | Global Market Options</title>
   <link rel="stylesheet" href="/styles.css">
+  <style>
+    .password-field{position:relative;display:flex;align-items:center;width:100%}
+    .password-field input{width:100%;padding-right:3.25rem}
+    .password-toggle{position:absolute;right:.5rem;top:50%;transform:translateY(-50%);display:inline-flex;align-items:center;justify-content:center;width:2.25rem;height:2.25rem;margin:0;padding:.4rem;border:1px solid #334155;border-radius:.5rem;background:#111b2d;color:#cbd5e1;cursor:pointer}
+    .password-toggle:hover,.password-toggle:focus-visible{background:#1e293b;color:#fff;outline:2px solid #64e5b1;outline-offset:2px}
+    .password-toggle svg{width:1.2rem;height:1.2rem;display:block}
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/supabase-config.js"></script>
 </head>
@@ -78,16 +85,22 @@
         </label>
 
         <label>Password
-          <input id="password" name="password" type="password"
-                 autocomplete="new-password" required minlength="10"
-                 maxlength="128">
+          <span class="password-field">
+            <input id="password" name="password" type="password" autocomplete="new-password" required minlength="10" maxlength="128">
+            <button class="password-toggle" type="button" data-password-toggle="password" aria-label="Show password" aria-pressed="false" title="Show password">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </span>
           <small>Use at least 10 characters.</small>
         </label>
 
         <label>Confirm password
-          <input id="confirm-password" name="confirm_password" type="password"
-                 autocomplete="new-password" required minlength="10"
-                 maxlength="128">
+          <span class="password-field">
+            <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" required minlength="10" maxlength="128">
+            <button class="password-toggle" type="button" data-password-toggle="confirm-password" aria-label="Show confirmation password" aria-pressed="false" title="Show confirmation password">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </span>
         </label>
       </div>
 
@@ -264,18 +277,18 @@
           submitButton.textContent = "Create account";
         }
       });
-    })();<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const registerForm = document.querySelector('form');
-    if (registerForm) {
-      registerForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        localStorage.setItem('userLoggedIn', 'true');
-        window.location.href = '/dashboard';
+      document.querySelectorAll("[data-password-toggle]").forEach(toggle => {
+        toggle.addEventListener("click", () => {
+          const input = document.getElementById(toggle.dataset.passwordToggle);
+          if (!input) return;
+          const showing = input.type === "password";
+          input.type = showing ? "text" : "password";
+          toggle.setAttribute("aria-pressed", String(showing));
+          const label = toggle.dataset.passwordToggle === "confirm-password" ? "confirmation password" : "password";
+          toggle.setAttribute("aria-label", (showing ? "Hide " : "Show ") + label);
+          toggle.setAttribute("title", (showing ? "Hide " : "Show ") + label);
+        });
       });
-    }
-  });
-</script>
-  </script>
+    })();
 </body>
 </html>
