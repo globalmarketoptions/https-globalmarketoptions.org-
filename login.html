@@ -32,6 +32,6 @@ button{width:100%;margin-top:12px;padding:13px;border:0;border-radius:9px;backgr
  if(!ready){status.textContent="Supabase is not configured yet. Add your project URL and public anon key in supabase-config.js to enable sign-in.";google.disabled=true;form.querySelector("button").disabled=true;}
  google.addEventListener("click",async()=>{if(!client)return;google.disabled=true;status.textContent="Redirecting to Google…";const result=await client.auth.signInWithOAuth({provider:"google",options:{redirectTo:window.location.origin+"/login.html"}});if(result.error){status.textContent=result.error.message;google.disabled=false;}});
  form.addEventListener("submit",async event=>{event.preventDefault();if(!client)return;const email=document.getElementById("email").value.trim(),button=form.querySelector("button");button.disabled=true;status.textContent="Sending sign-in link…";const result=await client.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.origin+"/login.html"}});status.textContent=result.error?result.error.message:"If this email is registered and your Supabase email settings allow it, a sign-in link will arrive shortly.";button.disabled=false;});
- if(client)client.auth.onAuthStateChange((_event,session)=>{if(session)status.textContent="You are signed in. A protected account dashboard route still needs to be configured.";});
+ if(client)client.auth.onAuthStateChange((_event,session)=>{if(session){status.textContent="Signed in. Opening your dashboard…";window.location.replace("/dashboard.html");}});
 })();
 </script></body></html>
