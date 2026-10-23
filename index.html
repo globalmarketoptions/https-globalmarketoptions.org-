@@ -882,7 +882,7 @@
         </details>
       </nav>
 
-      <div class="header-actions">
+      <div class="header-actions"><select id="header-language" aria-label="Select language" class="header-language"><option value="en" selected>English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="ar">العربية</option><option value="it">Italiano</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="zh">中文</option></select>
         <a class="header-action login-btn" href="/login.html" onclick="window.location.href=\'/login.html\'; return false;">Sign In</a>
         <a class="header-action header-action-primary register-btn" href="/register.html" onclick="window.location.href=\'/register.html\'; return false;">Create Account -&gt;</a>
       </div>
@@ -909,9 +909,7 @@
         <button class="drawer-close" id="mobile-drawer-close" type="button" aria-label="Close navigation menu">×</button>
       </div>
       <label class="language-label" for="drawer-language">Language</label>
-      <select class="drawer-language" id="drawer-language" aria-label="Select language">
-        <option value="en" selected>English</option>
-      </select>
+      <select class="drawer-language" id="drawer-language" aria-label="Select language"><option value="en" selected>English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="ar">العربية</option><option value="it">Italiano</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="zh">中文</option></select>
       <div class="drawer-group">
         <p class="drawer-group-title">Main menu</p>
         <a href="#markets"><span class="drawer-icon" aria-hidden="true">⌂</span>Home</a>
@@ -1335,5 +1333,8 @@
     };
   </script>
   <script src="/navigation.js" defer></script>
+<a class="gmo-floating-support gmo-floating-whatsapp" href="https://wa.me/" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp support">WhatsApp</a>
+<a class="gmo-floating-support gmo-floating-chat" href="/contact.html" aria-label="Live chat support">Live Chat</a>
+<script>(()=>{const ss=[document.getElementById("header-language"),document.getElementById("drawer-language")].filter(Boolean);ss.forEach(s=>s.addEventListener("change",()=>{ss.forEach(x=>x.value=s.value);document.documentElement.lang=s.value;try{localStorage.setItem("gmo-language",s.value)}catch(e){}}));try{const v=localStorage.getItem("gmo-language");if(v)ss.forEach(s=>s.value=v)}catch(e){}})();</script>
 </body>
 </html>
