@@ -1,13 +1,15 @@
 /* Global Market Options landing-page enhancements.
    Scoped to the landing page so account, deposit and authentication forms keep their own styles. */
 :root {
-  --gmo-bg: #0b1220;
-  --gmo-surface: #111b2d;
-  --gmo-surface-hover: #19263b;
-  --gmo-border: #25334a;
-  --gmo-text: #f3f6fc;
-  --gmo-muted: #9caec6;
-  --gmo-accent: #64e5b1;
+  --gmo-bg: #0B0F17;
+  --gmo-surface: #111923;
+  --gmo-surface-hover: #1b2935;
+  --gmo-border: #293744;
+  --gmo-text: #f3f8f7;
+  --gmo-muted: #9cacae;
+  --gmo-accent: #10B981;
+  --gmo-gold: #F59E0B;
+  --gmo-blue: #3B82F6;
 }
 body.gmo-page {
   padding: 0;
