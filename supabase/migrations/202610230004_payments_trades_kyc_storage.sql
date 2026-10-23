@@ -1,5 +1,9 @@
 begin;
 
+alter table public.kyc_records drop constraint if exists kyc_records_status_check;
+alter table public.kyc_records add constraint kyc_records_status_check
+ check (status in ('UPLOAD_PENDING','PENDING','UNDER_REVIEW','APPROVED','REJECTED'));
+
 create table if not exists public.payment_instructions (
   id uuid primary key default gen_random_uuid(),
   code text not null unique,
@@ -65,11 +69,6 @@ drop policy if exists "KYC users can read only their own documents" on storage.o
 create policy "KYC users can read only their own documents" on storage.objects
  for select to authenticated
  using (bucket_id = 'kyc-private' and (storage.foldername(name))[1] = (select auth.uid())::text);
-drop policy if exists "KYC users can update only their own documents" on storage.objects;
-create policy "KYC users can update only their own documents" on storage.objects
- for update to authenticated
- using (bucket_id = 'kyc-private' and (storage.foldername(name))[1] = (select auth.uid())::text)
- with check (bucket_id = 'kyc-private' and (storage.foldername(name))[1] = (select auth.uid())::text);
 
 create or replace function public.admin_update_trade_intent(
  p_intent_id uuid, p_status text, p_admin_notes text, p_admin_user_id uuid
