@@ -19,6 +19,7 @@
       open ? "Close navigation menu" : "Open navigation menu"
     );
     mobileNav.setAttribute("aria-hidden", String(!open));
+    mobileNav.inert = !open;
     mobileNav.classList.toggle("open", open);
     backdrop.hidden = !open;
     document.body.classList.toggle("drawer-open", open);
@@ -67,7 +68,7 @@
     }
   });
 
-  const mobileQuery = window.matchMedia("(min-width: 681px)");
+  const mobileQuery = window.matchMedia("(min-width: 1200px)");
   const closeOnDesktop = (event) => {
     if (event.matches && menuButton.getAttribute("aria-expanded") === "true") {
       setDrawerOpen(false);
