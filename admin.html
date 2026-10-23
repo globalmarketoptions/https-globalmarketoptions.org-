@@ -61,7 +61,7 @@ button{font:inherit;cursor:pointer;border:0;border-radius:7px;padding:8px 11px;b
  }
  async function updateTradeIntent(button){
   const nextStatus=button.dataset.status;
-  if(nextStatus==="APPROVED_FOR_EXECUTION"&&!confirm("Record internal approval? This does not execute a trade."))return;
+  if(nextStatus==="APPROVED"&&!confirm("Record internal approval? This does not execute a trade."))return;
   if(nextStatus==="REJECTED"&&!confirm("Reject this trade request?"))return;
   button.disabled=true;
   try{await api("/api/admin/trade-intents",{method:"PATCH",body:JSON.stringify({id:button.dataset.tradeId,status:nextStatus,notes:"Reviewed in admin panel."})});await load();status.textContent="Trade request review saved. No live order was executed.";}
