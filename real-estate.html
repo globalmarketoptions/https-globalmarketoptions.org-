@@ -40,7 +40,8 @@ $('.filter').forEach(b=>b.addEventListener('click',()=>{b.setAttribute('aria-pre
 const maxRange=$('#price'),priceLabel=$('#price-label'),maxPrice=$('#max-price');
 function applyFilters(){
  const location=$('#location').value.trim().toLowerCase();
- const type=$('#property-type').value.toLowerCase();
+ const rawType=$('#property-type').value.toLowerCase();
+ const type=({'villas':'villa','apartments':'apartment','houses':'house','chalets':'chalet'})[rawType]||rawType;
  const bedrooms=$('#bedrooms').value;
  const ceiling=Math.min(Number(maxRange.value)||Infinity,Number(maxPrice.value)||Infinity);
  const selectedType=$('.filter[aria-pressed="true"][data-filter-group="type"]').map(b=>b.dataset.filter);
