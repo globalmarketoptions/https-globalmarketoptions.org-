@@ -12,10 +12,10 @@
 
     // Normalize legacy extensionless routes to static HTML pages.
     const aliases = {
-      "/register": "/register.html",
-      "/login": "/login.html",
-      "/practice-trading": "/dashboard.html",
-      "/dashboard": "/dashboard.html"
+      "/register": "/register",
+      "/login": "/login",
+      "/practice-trading": "/dashboard",
+      "/dashboard": "/dashboard"
     };
     document.querySelectorAll("a[href]").forEach((anchor) => {
       try {
