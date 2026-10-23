@@ -89,4 +89,5 @@ $("wire-form").addEventListener("submit",async event=>{event.preventDefault();co
 (async()=>{if(!ready){$("auth-status").textContent="Authentication is not configured. Deposit requests cannot be submitted.";return;}try{const result=await client.auth.getSession();session=result.data.session;if(!session){$("auth-status").textContent="Please sign in to submit a deposit request.";const link=document.createElement("a");link.href="/login";link.textContent=" Sign in";$("auth-status").append(link);$("crypto-submit").disabled=true;$("wire-submit").disabled=true;return;}$("auth-status").textContent="Signed in. Deposit requests are submitted for manual review.";const payments=await api("/api/payment-instructions");methods=payments.methods||[];renderBank();}catch(error){$("auth-status").textContent=error.message||"Unable to load deposit settings.";}})();
 })();
 </script>
+<script src="/tawk-chat.js" defer></script>
 </body></html>
