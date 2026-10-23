@@ -1,5 +1,5 @@
-const { requireUser } = require("./_lib/supabase");
-const { send, methodNotAllowed, fail } = require("./_lib/http");
+const { requireUser } = require("../lib/supabase-server");
+const { send, methodNotAllowed, fail } = require("../lib/api-http");
 
 const TYPES = new Set(["DEPOSIT", "WITHDRAWAL"]);
 const CURRENCIES = new Set(["USD", "EUR", "BTC", "ETH", "USDT"]);
