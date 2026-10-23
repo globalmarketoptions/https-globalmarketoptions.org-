@@ -19,6 +19,8 @@ button{font:inherit;cursor:pointer;border:0;border-radius:7px;padding:8px 11px;b
 <section class="card"><h2>Registered users</h2><div class="table-wrap"><table><thead><tr><th>User ID</th><th>Email</th><th>Display name</th><th>Created</th></tr></thead><tbody id="users-body"><tr><td colspan="4">Loading…</td></tr></tbody></table></div></section>
 <section class="card" style="margin-top:18px"><h2>Pending transaction requests</h2><p class="notice">Changing a request status only records a review decision. It does not send, receive, release, or transfer funds. Verify payment independently before recording completion.</p><div class="table-wrap"><table><thead><tr><th>Request ID</th><th>User</th><th>Type</th><th>Amount</th><th>Reference</th><th>Created</th><th>Review action</th></tr></thead><tbody id="requests-body"><tr><td colspan="7">Loading…</td></tr></tbody></table></div></section>
 <section class="card" style="margin-top:18px"><h2>Identity verification reviews</h2><p class="notice">This table contains review status only. Identity document uploads and secure document storage must be configured separately.</p><div class="table-wrap"><table><thead><tr><th>Record ID</th><th>User</th><th>Status</th><th>Submitted</th><th>Review action</th></tr></thead><tbody id="kyc-body"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></section>
+<section class="card" style="margin-top:18px"><h2>Payment instructions</h2><p class="notice">Configure verified business-owned wallet addresses and bank details. These are instructions only; activation does not process payments. Double-check network and beneficiary details before enabling.</p><form id="payment-form"><div class="form-row"><div><label for="payment-code">Unique code</label><input id="payment-code" required maxlength="40" placeholder="BTC_MAIN"></div><div><label for="payment-label">Display label</label><input id="payment-label" required maxlength="120" placeholder="Bitcoin wallet"></div></div><div class="form-row"><div><label for="payment-kind">Method</label><select id="payment-kind"><option value="CRYPTO">Cryptocurrency</option><option value="BANK">Bank transfer</option></select></div><div><label for="payment-currency">Currency</label><select id="payment-currency"><option>BTC</option><option>ETH</option><option>USDT</option><option>USD</option><option>EUR</option></select></div></div><div class="form-row"><div><label for="payment-network">Network (required for USDT)</label><input id="payment-network" maxlength="80" placeholder="Exact network, e.g. ERC-20"></div><div><label for="payment-address">Crypto wallet address</label><input id="payment-address" maxlength="500" placeholder="Public receiving address"></div></div><div class="form-row"><div><label for="payment-bank">Bank name</label><input id="payment-bank" maxlength="500"></div><div><label for="payment-account-name">Beneficiary / account name</label><input id="payment-account-name" maxlength="500"></div></div><div class="form-row"><div><label for="payment-iban">IBAN</label><input id="payment-iban" maxlength="500"></div><div><label for="payment-account-number">Account number</label><input id="payment-account-number" maxlength="500"></div></div><div class="form-row"><div><label for="payment-swift">SWIFT / BIC</label><input id="payment-swift" maxlength="500"></div><div><label for="payment-reference">Payment reference</label><input id="payment-reference" maxlength="500"></div></div><div><label for="payment-extra">Additional instructions</label><input id="payment-extra" maxlength="500"></div><label><input id="payment-active" type="checkbox" style="width:auto"> Make instructions visible to signed-in users</label><button id="payment-save" type="submit">Save payment instructions</button></form><div id="payment-methods-admin" class="notice">Loading methods…</div></section>
+<section class="card" style="margin-top:18px"><h2>Trade requests awaiting review</h2><p class="notice">Approval here is an internal workflow decision only. No live broker/exchange order is sent because no provider integration is configured.</p><div class="table-wrap"><table><thead><tr><th>Request</th><th>User</th><th>Market</th><th>Action</th><th>Amount</th><th>Created</th><th>Review</th></tr></thead><tbody id="trade-intents-body"><tr><td colspan="7">Loading…</td></tr></tbody></table></div></section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/supabase-config.js"></script>
 <script>
@@ -35,17 +37,50 @@ button{font:inherit;cursor:pointer;border:0;border-radius:7px;padding:8px 11px;b
   if(!response.ok)throw new Error(payload.error||"Request failed.");return payload;
  }
  async function load(){
-  const [usersResult,requestsResult,kycResult]=await Promise.all([api("/api/admin/users"),api("/api/admin/transactions"),api("/api/admin/kyc")]);
-  const users=usersResult.users||[],requests=requestsResult.transactions||[],kyc=kycResult.records||[],emails=new Map(users.map(u=>[u.id,u.email||u.id]));
+  const [usersResult,requestsResult,kycResult,paymentResult,tradeResult]=await Promise.all([api("/api/admin/users"),api("/api/admin/transactions"),api("/api/admin/kyc"),api("/api/payment-instructions"),api("/api/admin/trade-intents")]);
+  const users=usersResult.users||[],requests=requestsResult.transactions||[],kyc=kycResult.records||[],payments=paymentResult.methods||[],tradeIntents=tradeResult.intents||[],emails=new Map(users.map(u=>[u.id,u.email||u.id]));
   $("admin-email").textContent=client.auth.getUser?((await client.auth.getUser()).data.user?.email||"Administrator"):"Administrator";
   $("user-count").textContent=users.length;$("request-count").textContent=requests.length;$("kyc-count").textContent=kyc.length;
   $("users-body").innerHTML=users.length?users.map(u=>"<tr><td><code>"+esc(u.id)+"</code></td><td>"+esc(u.email||"—")+"</td><td>"+esc(u.display_name||"—")+"</td><td>"+esc(date(u.created_at))+"</td></tr>").join(""):"<tr><td colspan='4'>No user profiles found.</td></tr>";
   $("requests-body").innerHTML=requests.length?requests.map(t=>"<tr><td><code>"+esc(t.id)+"</code></td><td>"+esc(emails.get(t.user_id)||t.user_id)+"</td><td>"+esc(t.type)+"</td><td>"+esc(t.amount)+" "+esc(t.currency)+"</td><td>"+esc(t.reference||"—")+"</td><td>"+esc(date(t.created_at))+"</td><td><div class='actions'><button data-id='"+esc(t.id)+"' data-status='UNDER_REVIEW' class='secondary'>Review</button><button data-id='"+esc(t.id)+"' data-status='COMPLETED'>Mark completed</button><button data-id='"+esc(t.id)+"' data-status='REJECTED' class='danger'>Reject</button></div></td></tr>").join(""):"<tr><td colspan='7'>No pending requests.</td></tr>";
   $("requests-body").querySelectorAll("button[data-id]").forEach(button=>button.addEventListener("click",()=>updateRequest(button)));
-  $("kyc-body").innerHTML=kyc.length?kyc.map(k=>"<tr><td><code>"+esc(k.id)+"</code></td><td>"+esc(emails.get(k.user_id)||k.user_id)+"</td><td><span class='pill'>"+esc(k.status)+"</span></td><td>"+esc(date(k.created_at))+"</td><td><div class='actions'><button data-kyc-id='"+esc(k.id)+"' data-status='UNDER_REVIEW' class='secondary'>Review</button><button data-kyc-id='"+esc(k.id)+"' data-status='APPROVED'>Approve KYC</button><button data-kyc-id='"+esc(k.id)+"' data-status='REJECTED' class='danger'>Reject</button></div></td></tr>").join(""):"<tr><td colspan='5'>No pending KYC reviews.</td></tr>";
+  $("kyc-body").innerHTML=kyc.length?kyc.map(k=>"<tr><td><code>"+esc(k.id)+"</code></td><td>"+esc(emails.get(k.user_id)||k.user_id)+"</td><td><span class='pill'>"+esc(k.status)+"</span></td><td>"+esc(date(k.created_at))+"</td><td><div class='actions'><button data-doc-id='"+esc(k.id)+"' class='secondary'>View document</button><button data-kyc-id='"+esc(k.id)+"' data-status='UNDER_REVIEW' class='secondary'>Review</button><button data-kyc-id='"+esc(k.id)+"' data-status='APPROVED'>Approve KYC</button><button data-kyc-id='"+esc(k.id)+"' data-status='REJECTED' class='danger'>Reject</button></div></td></tr>").join(""):"<tr><td colspan='5'>No pending KYC reviews.</td></tr>";
   $("kyc-body").querySelectorAll("button[data-kyc-id]").forEach(button=>button.addEventListener("click",()=>updateKyc(button)));
+  $("kyc-body").querySelectorAll("button[data-doc-id]").forEach(button=>button.addEventListener("click",()=>viewKycDocument(button)));
+  $("payment-methods-admin").innerHTML=payments.length?payments.map(p=>"<div style='border-bottom:1px solid var(--line);padding:8px 0'><strong>"+esc(p.label)+"</strong> · "+esc(p.kind)+" · "+esc(p.currency)+(p.network?" · "+esc(p.network):"")+" <span class='pill'>ACTIVE</span></div>").join(""):"No active payment methods.";
+  $("trade-intents-body").innerHTML=tradeIntents.length?tradeIntents.map(t=>"<tr><td><code>"+esc(t.id)+"</code></td><td>"+esc(emails.get(t.user_id)||t.user_id)+"</td><td>"+esc(t.market)+"</td><td>"+esc(t.side)+"</td><td>"+esc(t.amount)+" "+esc(t.currency)+"</td><td>"+esc(date(t.created_at))+"</td><td><div class='actions'><button data-trade-id='"+esc(t.id)+"' data-status='APPROVED_FOR_EXECUTION'>Approve request</button><button data-trade-id='"+esc(t.id)+"' data-status='REJECTED' class='danger'>Reject</button></div></td></tr>").join(""):"<tr><td colspan='7'>No trade requests awaiting review.</td></tr>";
+  $("trade-intents-body").querySelectorAll("button[data-trade-id]").forEach(button=>button.addEventListener("click",()=>updateTradeIntent(button)));
   status.textContent="Administrator verified. Data loaded from the protected server API.";
  }
+ async function viewKycDocument(button){
+  button.disabled=true;
+  try{const result=await api("/api/admin/kyc-document?id="+encodeURIComponent(button.dataset.docId));window.open(result.url,"_blank","noopener,noreferrer");}
+  catch(error){status.textContent=error.message;}
+  finally{button.disabled=false;}
+ }
+ async function updateTradeIntent(button){
+  const nextStatus=button.dataset.status;
+  if(nextStatus==="APPROVED_FOR_EXECUTION"&&!confirm("Record internal approval? This does not execute a trade."))return;
+  if(nextStatus==="REJECTED"&&!confirm("Reject this trade request?"))return;
+  button.disabled=true;
+  try{await api("/api/admin/trade-intents",{method:"PATCH",body:JSON.stringify({id:button.dataset.tradeId,status:nextStatus,notes:"Reviewed in admin panel."})});await load();status.textContent="Trade request review saved. No live order was executed.";}
+  catch(error){status.textContent=error.message;button.disabled=false;}
+ }
+ $("payment-form").addEventListener("submit",async event=>{
+  event.preventDefault();const button=$("payment-save");button.disabled=true;status.textContent="Saving payment instructions…";
+  const kind=$("payment-kind").value;
+  const instructions={
+   address:$("payment-address").value.trim(),bankName:$("payment-bank").value.trim(),
+   accountName:$("payment-account-name").value.trim(),iban:$("payment-iban").value.trim(),
+   accountNumber:$("payment-account-number").value.trim(),swiftBic:$("payment-swift").value.trim(),
+   reference:$("payment-reference").value.trim(),additionalInfo:$("payment-extra").value.trim()
+  };
+  try{
+   const result=await api("/api/payment-instructions",{method:"POST",body:JSON.stringify({code:$("payment-code").value,kind,currency:$("payment-currency").value,network:$("payment-network").value,label:$("payment-label").value,instructions,is_active:$("payment-active").checked})});
+   $("payment-form").reset();await load();status.textContent="Payment instructions saved. Verify the details before enabling them.";
+  }catch(error){status.textContent=error.message;}
+  finally{button.disabled=false;}
+ });
  async function updateKyc(button){
   const id=button.dataset.kycId,nextStatus=button.dataset.status;
   if(nextStatus==="APPROVED"&&!confirm("Approve this KYC status? Confirm that identity checks were completed using your approved process."))return;
