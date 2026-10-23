@@ -455,8 +455,16 @@
           toggle.setAttribute("title", (showing ? "Hide " : "Show ") + label);
         });
       });
-    })();<script>
+   <script>
+  function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    if (input) {
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
+    // Force Form Submit Redirect
     const registerForm = document.querySelector('form');
     if (registerForm) {
       registerForm.addEventListener('submit', (e) => {
@@ -465,8 +473,15 @@
         window.location.href = '/dashboard';
       });
     }
+
+    // Force Submit Button Click Redirect
+    const submitBtn = document.querySelector('button[type="submit"], button.primary');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.setItem('userLoggedIn', 'true');
+        window.location.href = '/dashboard';
+      });
+    }
   });
 </script>
-  </script>
-</body>
-</html>
