@@ -883,8 +883,8 @@
       </nav>
 
       <div class="header-actions">
-        <a class="header-action" href="/login.html" onclick="window.location.href=\'/login.html\'; return false;">Sign In</a>
-        <a class="header-action header-action-primary" href="/login.html?mode=signup" onclick="window.location.href=\'/login.html?mode=signup\'; return false;">Create Account -&gt;</a>
+        <a class="header-action login-btn" href="/login.html" onclick="window.location.href=\'/login.html\'; return false;">Sign In</a>
+        <a class="header-action header-action-primary register-btn" href="/register.html" onclick="window.location.href=\'/register.html\'; return false;">Create Account -&gt;</a>
       </div>
 
       <button
@@ -990,13 +990,13 @@
         </p>
 
         <div class="hero-actions">
-          <a class="button button-register" href="/login.html?mode=signup">
+          <a class="button button-register register-btn" href="/register.html" onclick="window.location.href=\'/register.html\'; return false;">
             REGISTER ACCOUNT -&gt;
           </a>
           <a class="button button-secondary" href="/login.html">
             LOGIN
           </a>
-          <a class="button button-secondary" href="/paper-trading.html">
+          <a class="button button-secondary practice-btn" href="/dashboard.html" onclick="window.location.href=\'/dashboard.html\'; return false;">
             PRACTICE TRADING
           </a>
         </div>
@@ -1314,6 +1314,26 @@
     })();
   </script>
 
+  <script>
+    window.toggleMobileDrawer = function (event, forceOpen) {
+      if (event && event.preventDefault) event.preventDefault();
+      const drawer = document.getElementById("mobile-nav");
+      const backdrop = document.getElementById("mobile-drawer-backdrop");
+      const button = document.getElementById("mobile-menu-button");
+      if (!drawer || !backdrop || !button) return false;
+      const open = typeof forceOpen === "boolean" ? forceOpen : !drawer.classList.contains("open");
+      drawer.classList.toggle("open", open);
+      drawer.style.display = open ? "flex" : "";
+      backdrop.hidden = !open;
+      backdrop.classList.toggle("is-visible", open);
+      drawer.setAttribute("aria-hidden", String(!open));
+      drawer.inert = !open;
+      button.setAttribute("aria-expanded", String(open));
+      button.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
+      document.body.classList.toggle("drawer-open", open);
+      return false;
+    };
+  </script>
   <script src="/navigation.js" defer></script>
 </body>
 </html>
