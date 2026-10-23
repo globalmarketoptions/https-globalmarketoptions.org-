@@ -34,7 +34,7 @@ create table if not exists public.trade_intents (
  currency text not null check (currency in ('USD','EUR','BTC','ETH','USDT')),
  notes text,
  status text not null default 'PENDING_REVIEW'
-  check (status in ('PENDING_REVIEW','APPROVED_FOR_EXECUTION','REJECTED','CANCELLED','EXECUTED','FAILED')),
+  check (status in ('PENDING_REVIEW','APPROVED','REJECTED','CANCELLED','EXECUTED','FAILED')),
  provider_order_id text,
  execution_message text,
  created_at timestamptz not null default now(),
@@ -77,7 +77,7 @@ create or replace function public.admin_update_trade_intent(
 ) returns jsonb language plpgsql security definer set search_path=public as $$
 declare current_row public.trade_intents%rowtype; updated_row public.trade_intents%rowtype;
 begin
- if p_status not in ('APPROVED_FOR_EXECUTION','REJECTED','CANCELLED') then
+ if p_status not in ('APPROVED','REJECTED','CANCELLED') then
   raise exception 'Invalid trade intent status';
  end if;
  if not exists(select 1 from public.admin_users where user_id=p_admin_user_id and is_active=true) then
