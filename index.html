@@ -297,6 +297,59 @@
       color: var(--text);
     }
 
+    .nav-dropdown {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .nav-dropdown > summary {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 550;
+      cursor: pointer;
+      list-style: none;
+      white-space: nowrap;
+    }
+
+    .nav-dropdown > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .nav-dropdown > summary::after {
+      content: "⌄";
+      margin-left: 5px;
+      color: var(--muted);
+    }
+
+    .nav-dropdown[open] > summary {
+      color: var(--text);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      z-index: 30;
+      top: calc(100% + 12px);
+      left: 0;
+      display: grid;
+      gap: 2px;
+      min-width: 210px;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      box-shadow: 0 18px 45px #0006;
+    }
+
+    .nav-dropdown-menu a {
+      padding: 9px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .nav-dropdown-menu a:hover {
+      background: var(--surface-hover);
+    }
+
     /* Mobile menu icon stays visible on small screens. */
     .mobile-menu-button {
       width: 44px;
@@ -795,20 +848,35 @@
 
       <nav class="desktop-nav" aria-label="Main navigation">
         <a href="#markets">Home</a>
-        <a href="/about.html">About Us</a>
-        <a href="/contact.html">Contact</a>
-        <a href="/faqs.html">FAQs</a>
-        <a href="/crypto-trading.html">Crypto Trading</a>
-        <a href="/forex-trading.html">Forex Trading</a>
-        <a href="/stocks-etfs.html">Stocks &amp; ETFs</a>
-        <a href="/copy-trading.html">Copy Trading</a>
-        <a href="/smart-portfolios.html">Smart Portfolios</a>
+        <details class="nav-dropdown">
+          <summary>Company</summary>
+          <div class="nav-dropdown-menu">
+            <a href="/about.html">About Us</a>
+            <a href="/contact.html">Contact</a>
+            <a href="/faqs.html">FAQs</a>
+          </div>
+        </details>
+        <details class="nav-dropdown">
+          <summary>Trading</summary>
+          <div class="nav-dropdown-menu">
+            <a href="/crypto-trading.html">Crypto Trading</a>
+            <a href="/forex-trading.html">Forex Trading</a>
+            <a href="/stocks-etfs.html">Stocks &amp; ETFs</a>
+            <a href="/copy-trading.html">Copy Trading</a>
+            <a href="/smart-portfolios.html">Smart Portfolios</a>
+          </div>
+        </details>
         <a href="/crude-oil.html">Crude Oil</a>
         <a href="/real-estate.html">Real Estate</a>
         <a href="/fees.html">Fees</a>
-        <a href="/privacy.html">Privacy Policy</a>
-        <a href="/terms.html">Terms of Service</a>
-        <a href="/risk-disclosure.html">Risk Disclosure</a>
+        <details class="nav-dropdown">
+          <summary>Legal</summary>
+          <div class="nav-dropdown-menu">
+            <a href="/privacy.html">Privacy Policy</a>
+            <a href="/terms.html">Terms of Service</a>
+            <a href="/risk-disclosure.html">Risk Disclosure</a>
+          </div>
+        </details>
       </nav>
 
       <div class="header-actions">
