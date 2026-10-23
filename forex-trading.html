@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0b1220"><meta name="description" content="Forex Trading | Global Market Options"><title>Forex Trading | Global Market Options</title><link rel="stylesheet" href="/styles.css"></head>
+<body class="gmo-page"><div class="gmo-ticker" aria-label="Live foreign exchange market ticker"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>{"symbols":[{"proName":"FX:EURUSD","title":"EUR/USD"},{"proName":"FX:GBPUSD","title":"GBP/USD"}],"showSymbolLogo":false,"isTransparent":true,"displayMode":"adaptive","colorTheme":"dark","locale":"en"}</script></div></div>
+ <div class="gmo-network"><div class="gmo-container gmo-network-inner"><span class="gmo-dot" aria-hidden="true"></span><strong>Ethereum Mainnet</strong><span>•</span><span>Gas price</span><strong id="gmo-gas-price">Loading…</strong><a href="https://etherscan.io/gastracker" target="_blank" rel="noopener noreferrer">Live gas tracker ↗</a></div></div>
+ <header class="gmo-header"><div class="gmo-container gmo-header-inner"><a class="gmo-brand" href="/index.html"><span class="gmo-brand-mark" aria-hidden="true">GMO</span><span>GLOBAL MARKET OPTIONS COMPANY</span></a><nav class="gmo-nav" aria-label="Public navigation"><a href="/index.html">Home</a>
+      <a href="/about.html">About Us</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/faqs.html">FAQs</a>
+      <a href="/crypto-trading.html">Crypto Trading</a>
+      <a href="/forex-trading.html" aria-current="page">Forex Trading</a>
+      <a href="/stocks-etfs.html">Stocks & ETFs</a>
+      <a href="/copy-trading.html">Copy Trading</a>
+      <a href="/smart-portfolios.html">Smart Portfolios</a>
+      <a href="/crude-oil.html">Crude Oil</a>
+      <a href="/real-estate.html">Real Estate</a>
+      <a href="/fees.html">Fees</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms of Service</a>
+      <a href="/risk-disclosure.html">Risk Disclosure</a></nav><div class="gmo-header-actions"><a class="gmo-btn" href="/login.html">Sign In</a><a class="gmo-btn gmo-btn-primary" href="/login.html">Create Account →</a></div></div></header><section class="gmo-hero"><div class="gmo-container"><p class="gmo-eyebrow">Markets / Foreign exchange</p><h1>Follow global currency markets</h1><p class="gmo-lead">Explore currency-pair information, including EUR/USD and GBP/USD, and understand the risks of foreign exchange.</p><div class="gmo-actions"><a class="gmo-btn gmo-btn-primary" href="/login.html">Sign In / Create Account →</a><a class="gmo-btn" href="/dashboard.html">Open Customer Portal</a></div></div></section>
+<main class="gmo-main"><div class="gmo-container"><div class="gmo-grid"><article class="gmo-card"><span class="gmo-pill">01</span><h2>Currency pairs</h2><p>FX prices can move rapidly in response to economic data, central-bank decisions, and geopolitical developments.</p></article>
+<article class="gmo-card"><span class="gmo-pill">02</span><h2>Leverage risk</h2><p>Leverage magnifies both gains and losses and may result in losses exceeding initial expectations, depending on product terms.</p></article>
+<article class="gmo-card"><span class="gmo-pill">03</span><h2>Before you trade</h2><p>Review costs, execution details, and the risk disclosure. Demo trading is not evidence of future live results.</p></article></div><div class="gmo-notice"><strong>Risk reminder:</strong> Market activity involves risk and may result in losses. This website content is general information, not a guarantee of performance or personalized investment advice.</div></div></main><footer class="gmo-footer"><div class="gmo-container gmo-footer-inner"><div>© 2026 Global Market Options Company. Market information is provided for general purposes only.</div><nav class="gmo-footer-links" aria-label="Legal links"><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Service</a><a href="/risk-disclosure.html">Risk Disclosure</a><a href="/contact.html">Contact</a></nav></div></footer><script>
+(()=>{const out=document.getElementById("gmo-gas-price");if(!out)return;async function refresh(){try{const r=await fetch("https://ethereum-rpc.publicnode.com",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_gasPrice",params:[]})});if(!r.ok)throw 0;const j=await r.json();if(!j.result||!/^0x[0-9a-f]+$/i.test(j.result))throw 0;out.textContent=(Number(BigInt(j.result))/1e9).toFixed(2)+" Gwei"}catch(_){out.textContent="See live tracker"}}refresh();setInterval(refresh,30000)})();
+</script></body></html>
