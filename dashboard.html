@@ -28,6 +28,9 @@ main{padding:28px 0 52px}h1{margin:0;font-size:clamp(1.8rem,4vw,2.5rem);letter-s
 <button id="submit-request" type="submit">Submit for review</button></form>
 <p class="notice">Never submit passwords, private keys, seed phrases, or secret wallet credentials.</p></section>
 </div>
+<section class="card" style="margin-top:18px"><h2>Deposit payment instructions</h2><p class="notice">Use only the exact active instructions shown below. Confirm the asset and network carefully; sending crypto on the wrong network can permanently lose funds. This page does not itself receive or verify payments.</p><div id="payment-methods" class="notice">Loading available methods…</div></section>
+<section class="card" style="margin-top:18px"><h2>Identity verification</h2><p class="notice">Upload only your own identity document. Files are stored in a private bucket and are accessible to authorized reviewers through short-lived links. Maximum size 5 MB; PDF, JPEG, or PNG only.</p><form id="kyc-form"><div><label for="kyc-document">Identity document</label><input id="kyc-document" type="file" accept="application/pdf,image/jpeg,image/png" required></div><button id="kyc-submit" type="submit">Upload securely</button></form><p class="notice" id="kyc-message" role="status"></p></section>
+<section class="card" style="margin-top:18px"><h2>Trade request</h2><p class="notice">This submits an intent for review only. Live execution is disabled until a broker/exchange provider, credentials, order validation, and reconciliation are configured.</p><form id="trade-form"><div class="form-row"><div><label for="trade-market">Market</label><select id="trade-market"><option value="CRUDE_OIL">Crude oil</option><option value="REAL_ESTATE">Real estate</option><option value="BTC">BTC</option><option value="ETH">ETH</option><option value="USDT">USDT</option><option value="OTHER">Other</option></select></div><div><label for="trade-side">Action</label><select id="trade-side"><option value="BUY">Buy</option><option value="SELL">Sell</option><option value="SUBSCRIBE">Subscribe</option><option value="REDEEM">Redeem</option></select></div></div><div class="form-row"><div><label for="trade-amount">Amount</label><input id="trade-amount" type="number" min="0.00000001" max="1000000000" step="0.00000001" required></div><div><label for="trade-currency">Currency</label><select id="trade-currency"><option>USD</option><option>EUR</option><option>BTC</option><option>ETH</option><option>USDT</option></select></div></div><div><label for="trade-notes">Notes (optional)</label><input id="trade-notes" maxlength="500" placeholder="Additional context"></div><button id="trade-submit" type="submit">Submit trade request</button></form><div class="table-wrap"><table><thead><tr><th>Submitted</th><th>Market</th><th>Action</th><th>Amount</th><th>Status</th></tr></thead><tbody id="trade-intents-body"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/supabase-config.js"></script>
 <script>
@@ -46,15 +49,45 @@ main{padding:28px 0 52px}h1{margin:0;font-size:clamp(1.8rem,4vw,2.5rem);letter-s
  }
  function fmtDate(value){return value?new Date(value).toLocaleString():"—"}
  async function load(){
-  const data=await api("/api/dashboard");
+  const [data,payments,intents]=await Promise.all([api("/api/dashboard"),api("/api/payment-instructions"),api("/api/trade-intents")]);
   $("signed-in-email").textContent=data.user.email||"Signed in";
   $("transaction-count").textContent=data.transactions.length;
   $("trade-count").textContent=data.trades.filter(t=>t.status==="IN_PROGRESS").length;
   $("kyc-status").textContent=data.kyc?data.kyc.status:"NOT SUBMITTED";
   $("transactions-body").innerHTML=data.transactions.length?data.transactions.map(t=>"<tr><td>"+escapeHtml(fmtDate(t.created_at))+"</td><td>"+escapeHtml(t.type)+"</td><td>"+escapeHtml(t.amount)+" "+escapeHtml(t.currency)+"</td><td><span class='pill'>"+escapeHtml(t.status)+"</span></td></tr>").join(""):"<tr><td colspan='4'>No transactions yet.</td></tr>";
   $("trades-body").innerHTML=data.trades.length?data.trades.map(t=>"<tr><td>"+escapeHtml(t.title)+"</td><td>"+escapeHtml(t.amount)+"</td><td>"+escapeHtml(t.progress)+"%</td><td>"+escapeHtml(t.status)+"</td></tr>").join(""):"<tr><td colspan='4'>No trading activity is available.</td></tr>";
+  const methods=payments.methods||[];
+  $("payment-methods").innerHTML=methods.length?methods.map(m=>{
+   const entries=Object.entries(m.instructions||{}).filter(([k,v])=>v);
+   return "<article style='border:1px solid var(--line);border-radius:10px;padding:13px;margin:10px 0'><strong>"+escapeHtml(m.label)+"</strong><div class='muted'>"+escapeHtml(m.kind)+" · "+escapeHtml(m.currency)+(m.network?" · Network: "+escapeHtml(m.network):"")+"</div>"+entries.map(([k,v])=>"<div><strong>"+escapeHtml(k.replace(/([A-Z])/g," $1"))+":</strong> "+escapeHtml(v)+"</div>").join("")+"</article>";
+  }).join(""):"No payment methods are configured yet. Contact support before sending any funds.";
+  const intentsList=intents.intents||[];
+  $("trade-intents-body").innerHTML=intentsList.length?intentsList.map(t=>"<tr><td>"+escapeHtml(fmtDate(t.created_at))+"</td><td>"+escapeHtml(t.market)+"</td><td>"+escapeHtml(t.side)+"</td><td>"+escapeHtml(t.amount)+" "+escapeHtml(t.currency)+"</td><td>"+escapeHtml(t.status)+"</td></tr>").join(""):"<tr><td colspan='5'>No trade requests yet.</td></tr>";
   status.textContent="Your account data loaded securely.";
  }
+ $("kyc-form").addEventListener("submit",async event=>{
+  event.preventDefault();const file=$("kyc-document").files[0],button=$("kyc-submit"),message=$("kyc-message");
+  if(!file)return;
+  if(file.size>5*1024*1024){message.textContent="The file must be 5 MB or smaller.";return;}
+  if(!["application/pdf","image/jpeg","image/png"].includes(file.type)){message.textContent="Choose a PDF, JPEG, or PNG file.";return;}
+  button.disabled=true;message.textContent="Preparing secure upload…";
+  try{
+   const signed=await api("/api/kyc-upload",{method:"POST",body:JSON.stringify({contentType:file.type,size:file.size})});
+   const {error}=await client.storage.from(signed.bucket).uploadToSignedUrl(signed.path,signed.token,file,{contentType:file.type,upsert:false});
+   if(error)throw error;
+   message.textContent="Document uploaded to private storage and submitted for review.";
+   $("kyc-form").reset();await load();
+  }catch(error){message.textContent=error.message||"Upload failed. Please try again.";}
+  finally{button.disabled=false;}
+ });
+ $("trade-form").addEventListener("submit",async event=>{
+  event.preventDefault();const button=$("trade-submit");button.disabled=true;status.textContent="Submitting trade request…";
+  try{
+   const result=await api("/api/trade-intents",{method:"POST",body:JSON.stringify({market:$("trade-market").value,side:$("trade-side").value,amount:$("trade-amount").value,currency:$("trade-currency").value,notes:$("trade-notes").value})});
+   $("trade-form").reset();await load();status.textContent=result.notice||"Trade request submitted for review; no live order was placed.";
+  }catch(error){status.textContent=error.message;}
+  finally{button.disabled=false;}
+ });
  $("sign-out").addEventListener("click",async()=>{if(client)await client.auth.signOut();location.assign("/login.html");});
  $("request-form").addEventListener("submit",async event=>{
   event.preventDefault();if(!client)return;
