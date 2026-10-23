@@ -233,11 +233,11 @@
             }
           }
 
-          form.reset();
           message.textContent = result.session
-            ? "Account created successfully. You can now sign in."
-            : "Registration received. Check your email for a confirmation link.";
+            ? "Account created successfully. Redirecting to sign in..."
+            : "Registration received. Check your email for a confirmation link. Redirecting to sign in...";
           message.classList.add("success");
+          window.setTimeout(() => window.location.assign("/login"), 1200);
         } catch (error) {
           // Do not expose raw provider errors or internal configuration.
           console.error("Registration failed:", error?.message || "Unknown error");
