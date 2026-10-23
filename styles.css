@@ -511,3 +511,10 @@ body.gmo-page {
   .gmo-page .bitcoin-process-grid { grid-template-columns: minmax(0, 1fr); }
   .gmo-page .bitcoin-process-card, .gmo-page .bitcoin-process-card:last-child { grid-column: auto; }
 }
+
+
+/* Minimal Bitcoin network diagram */
+.gmo-page .bitcoin-diagram-panel { padding: clamp(18px, 3vw, 32px); }
+.gmo-page .bitcoin-diagram-panel .bitcoin-education-heading { margin-bottom: 20px; }
+.gmo-page .bitcoin-network-image-wrap { width: 100%; max-width: 48rem; margin: 0 auto; }
+.gmo-page .bitcoin-network-image { display: block; width: 100%; max-width: 48rem; height: auto; margin: 0 auto; padding: 8px; border: 1px solid rgba(234,179,8,.2); border-radius: 12px; background: #fff; object-fit: contain; box-shadow: 0 24px 48px rgba(0,0,0,.32); }
