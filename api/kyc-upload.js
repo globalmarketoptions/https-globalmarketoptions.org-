@@ -25,14 +25,11 @@ module.exports = async function kycUpload(req,res) {
   const path=user.id+"/"+crypto.randomUUID()+"."+extension;
   const {data:upload,error:uploadError}=await db.storage.from("kyc-private").createSignedUploadUrl(path,{upsert:false});
   if(uploadError) throw uploadError;
-  const record={user_id:user.id,status:"UPLOAD_PENDING",document_path:path,updated_at:new Date().toISOString()};
+  const record={user_id:user.id,status:"UPLOAD_PENDING",document_path:path,prior_document_path:existing&&existing.document_path!==path?existing.document_path:null,updated_at:new Date().toISOString()};
   const {error:recordError}=await db.from("kyc_records").upsert(record,{onConflict:"user_id"});
   if(recordError) {
     await db.storage.from("kyc-private").remove([path]);
     throw recordError;
-  }
-  if(existing && existing.document_path && existing.document_path!==path) {
-    await db.storage.from("kyc-private").remove([existing.document_path]);
   }
   return send(res,200,{path,token:upload.token, signedUrl:upload.signedUrl, bucket:"kyc-private", expiresInSeconds:7200});
  } catch(error) { return fail(res,error); }
