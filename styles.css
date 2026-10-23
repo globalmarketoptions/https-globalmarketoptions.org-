@@ -148,3 +148,17 @@
 .gmo-page .plan-risk-notice strong{color:#fff0bd}
 @media(max-width:900px){.gmo-page .bitcoin-comparison{grid-template-columns:1fr}.gmo-page .plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.gmo-page .plan-card:last-child{grid-column:1/-1}}
 @media(max-width:650px){.gmo-page .certificate-card{grid-template-columns:1fr;padding:20px;gap:16px}.gmo-page .certificate-emblem{width:70px;height:70px;font-size:18px}.gmo-page .company-details{grid-template-columns:1fr}.gmo-page .bitcoin-flow-card{padding:19px}.gmo-page .flow-steps{gap:5px}.gmo-page .plan-grid{grid-template-columns:1fr}.gmo-page .plan-card:last-child{grid-column:auto}.gmo-page .plan-card{padding:20px}}
+
+/* Drawer interaction and accessibility refinements */
+.gmo-page .mobile-menu-button{position:relative;z-index:1003;display:inline-flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;min-width:44px;min-height:44px;padding:10px;cursor:pointer;pointer-events:auto;touch-action:manipulation}
+.gmo-page .mobile-menu-button span{display:block;width:22px;height:2px;border-radius:2px;background:currentColor;pointer-events:none}
+.gmo-page .mobile-menu-button:focus-visible,.gmo-page .drawer-close:focus-visible,.gmo-page .mobile-nav a:focus-visible{outline:2px solid #8bdce2;outline-offset:3px}
+.gmo-page .mobile-drawer-backdrop{cursor:pointer}
+.gmo-page .mobile-nav{pointer-events:none}
+.gmo-page .mobile-nav.open{pointer-events:auto}
+.gmo-page .drawer-status-active{display:inline-flex;align-items:center;margin-left:auto;padding:3px 7px;border:1px solid #286b5b;border-radius:999px;background:#12372f;color:#a1f2d2;font-size:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.gmo-page .mobile-nav .drawer-group-title{text-transform:uppercase;letter-spacing:.09em}
+.gmo-page .drawer-quick-actions{position:sticky;bottom:-1px;margin-top:auto;padding:18px 0 8px;background:linear-gradient(180deg,#0c162700,#0c1627 20%);z-index:1}
+.gmo-page body.drawer-open{overflow:hidden}
+@media(min-width:651px){.gmo-page .mobile-menu-button{display:inline-flex}.gmo-page .mobile-nav{width:min(430px,85vw)}}
+@media(prefers-reduced-motion:reduce){.gmo-page .mobile-nav{transition:none}}
