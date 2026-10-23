@@ -1,5 +1,5 @@
-const { requireUser } = require("./_lib/supabase");
-const { send, methodNotAllowed, fail } = require("./_lib/http");
+const { requireUser } = require("../lib/supabase-server");
+const { send, methodNotAllowed, fail } = require("../lib/api-http");
 
 module.exports = async function dashboard(req, res) {
   if (req.method !== "GET") return methodNotAllowed(res, ["GET"]);
