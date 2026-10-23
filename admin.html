@@ -1,203 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Global Market Options</title>
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --sidebar-bg: #1e293b;
-            --card-bg: #1e293b;
-            --text-color: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent-color: #3b82f6;
-            --border-color: #334155;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            min-height: 100vh;
-            overflow: auto;
-        }
-        .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-        }
-        .brand {
-            padding: 24px;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .brand span {
-            display: block;
-            color: var(--text-color);
-            font-size: 18px;
-            margin-top: 4px;
-        }
-        .nav-label {
-            padding: 16px 24px 8px;
-            font-size: 12px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-        .nav-link {
-            padding: 12px 24px;
-            color: var(--text-muted);
-            text-decoration: none;
-            display: block;
-            transition: all 0.2s;
-        }
-        .nav-link:hover, .nav-link.active {
-            background-color: rgba(59, 130, 246, 0.1);
-            color: var(--accent-color);
-            border-left: 4px solid var(--accent-color);
-        }
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-        header {
-            padding: 24px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        h1 {
-            font-size: 24px;
-        }
-        .container {
-            padding: 32px;
-        }
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 24px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 16px;
-        }
-        th, td {
-            text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 14px;
-        }
-        th {
-            color: var(--text-muted);
-        }
-        .btn {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .btn:hover {
-            opacity: 0.9;
-        }
-        @media (max-width: 850px) {
- body { display:block; height:auto; overflow:auto; }
- .sidebar { width:100%; border-right:0; border-bottom:1px solid var(--border-color); }
- .main-content { overflow:visible; }
- .container { padding:18px; }
- .card { overflow-x:auto; }
- table { min-width:720px; }
- header { padding:18px; gap:12px; flex-wrap:wrap; }
-}
-.info-note {
-            background: rgba(59, 130, 246, 0.1);
-            border-left: 4px solid var(--accent-color);
-            padding: 16px;
-            border-radius: 4px;
-            margin-bottom: 24px;
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-    </style>
-</head>
-<body>
-
-    <aside class="sidebar">
-        <div class="brand">
-            GLOBAL MARKET OPTIONS
-            <span>ADMINISTRATION</span>
-        </div>
-        
-        <div class="nav-label">Workspace</div>
-        <a href="/admin.html" class="nav-link active">User Management</a>
-        <a href="/index.html" class="nav-link">Main Website</a>
-        <a href="/crude-oil.html" class="nav-link">Crude Oil</a>
-        <a href="/real-estate.html" class="nav-link">Real Estate</a>
-        <a href="/login.html" class="nav-link">Access Account</a>
-    </aside>
-
-    <div class="main-content">
-        <header>
-            <h1>Admin Dashboard</h1>
-            <div style="font-size: 14px; color: #fbbf24;">● Backend not connected</div>
-        </header>
-
-        <div class="container">
-            <div class="info-note">
-                <strong>Administrative Control Panel:</strong> This static admin page is not connected to a trusted backend yet. The rows below are sample data only; do not use this page to approve real financial transactions.
-            </div>
-
-            <div class="card">
-                <h2>Sample Users & Financial Requests</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>User ID</th>
-                            <th>Account Email</th>
-                            <th>Request Type</th>
-                            <th>Amount</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#1042</td>
-                            <td>user_demo@example.com</td>
-                            <td>Top-Up Request</td>
-                            <td>3.0 BTC</td>
-                            <td><button class="btn" type="button" disabled title="Backend integration required">Unavailable</button></td>
-                        </tr>
-                        <tr>
-                            <td>#1043</td>
-                            <td>trader_pro@example.com</td>
-                            <td>Withdrawal Review</td>
-                            <td>$5,000</td>
-                            <td><button class="btn" type="button" disabled title="Backend integration required">Unavailable</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-</body>
-</html>
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1220">
+<title>Admin Dashboard | Global Market Options</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#111b2d;--line:#25334a;--text:#f3f6fc;--muted:#9caec6;--accent:#64e5b1;--warn:#fbbf24;--danger:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,sans-serif}a{color:inherit}.wrap{width:min(1250px,calc(100% - 32px));margin:auto}
+header{border-bottom:1px solid var(--line)}.nav{min-height:72px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.brand{font-weight:900;text-decoration:none}.nav-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+main{padding:26px 0 50px}h1{font-size:clamp(1.8rem,4vw,2.4rem);margin:0;letter-spacing:-.04em}h2{font-size:1.15rem;margin:0 0 14px}.muted{color:var(--muted)}.status{margin:16px 0;padding:12px 14px;border:1px solid var(--line);border-radius:9px;color:var(--muted);overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0}.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:18px;min-width:0}.metric{font-size:1.6rem;font-weight:850}
+button{font:inherit;cursor:pointer;border:0;border-radius:7px;padding:8px 11px;background:var(--accent);color:#071a14;font-weight:800}button.secondary{background:#19263b;color:var(--text);border:1px solid var(--line)}button.danger{background:#48252d;color:#ffe1e1;border:1px solid #75404a}button:disabled{opacity:.45;cursor:not-allowed}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;vertical-align:top;padding:11px 9px;border-bottom:1px solid var(--line);font-size:.85rem}th{color:var(--muted);font-weight:700}td .actions{display:flex;gap:6px;flex-wrap:wrap}.notice{color:var(--muted);font-size:.84rem;margin:0 0 14px}.pill{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:2px 8px;white-space:nowrap;font-size:.75rem}.empty{color:var(--muted);padding:16px 0}
+@media(max-width:780px){.grid{grid-template-columns:1fr}.card{padding:14px}}
+</style></head><body>
+<header><div class="wrap nav"><a class="brand" href="/index.html">GLOBAL MARKET OPTIONS · ADMIN</a><div class="nav-right"><span id="admin-email" class="muted"></span><a href="/dashboard.html">User dashboard</a><button class="secondary" id="sign-out" type="button">Sign out</button></div></div></header>
+<main class="wrap">
+<h1>Admin dashboard</h1><p class="muted">Authorized account and request review.</p>
+<p class="status" id="admin-status" role="status" aria-live="polite">Checking your administrator access…</p>
+<div class="grid"><section class="card"><div class="muted">Registered profiles (latest 100)</div><div class="metric" id="user-count">—</div></section><section class="card"><div class="muted">Requests awaiting review</div><div class="metric" id="request-count">—</div></section><section class="card"><div class="muted">Access control</div><div class="metric" style="font-size:1.1rem">Server-verified admin</div></section></div>
+<section class="card"><h2>Registered users</h2><div class="table-wrap"><table><thead><tr><th>User ID</th><th>Email</th><th>Display name</th><th>Created</th></tr></thead><tbody id="users-body"><tr><td colspan="4">Loading…</td></tr></tbody></table></div></section>
+<section class="card" style="margin-top:18px"><h2>Pending transaction requests</h2><p class="notice">Changing a request status only records a review decision. It does not send, receive, release, or transfer funds. Verify payment independently before recording completion.</p><div class="table-wrap"><table><thead><tr><th>Request ID</th><th>User</th><th>Type</th><th>Amount</th><th>Reference</th><th>Created</th><th>Review action</th></tr></thead><tbody id="requests-body"><tr><td colspan="7">Loading…</td></tr></tbody></table></div></section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/supabase-config.js"></script>
+<script>
+(() => {
+ const $=id=>document.getElementById(id),status=$("admin-status"),config=window.SUPABASE_CONFIG||{};
+ const ready=Boolean(window.supabase&&config.url&&config.anonKey&&!config.url.includes("YOUR_")&&!config.anonKey.includes("YOUR_"));
+ const client=ready?window.supabase.createClient(config.url,config.anonKey):null;
+ const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const date=v=>v?new Date(v).toLocaleString():"—";
+ async function api(path,options={}){
+  const {data:{session}}=await client.auth.getSession();if(!session)throw new Error("Session expired. Sign in again.");
+  const response=await fetch(path,{...options,headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token,...(options.headers||{})}});
+  const payload=await response.json().catch(()=>({error:"Unexpected server response."}));
+  if(!response.ok)throw new Error(payload.error||"Request failed.");return payload;
+ }
+ async function load(){
+  const [usersResult,requestsResult]=await Promise.all([api("/api/admin/users"),api("/api/admin/transactions")]);
+  const users=usersResult.users||[],requests=requestsResult.transactions||[],emails=new Map(users.map(u=>[u.id,u.email||u.id]));
+  $("admin-email").textContent=client.auth.getUser?((await client.auth.getUser()).data.user?.email||"Administrator"):"Administrator";
+  $("user-count").textContent=users.length;$("request-count").textContent=requests.length;
+  $("users-body").innerHTML=users.length?users.map(u=>"<tr><td><code>"+esc(u.id)+"</code></td><td>"+esc(u.email||"—")+"</td><td>"+esc(u.display_name||"—")+"</td><td>"+esc(date(u.created_at))+"</td></tr>").join(""):"<tr><td colspan='4'>No user profiles found.</td></tr>";
+  $("requests-body").innerHTML=requests.length?requests.map(t=>"<tr><td><code>"+esc(t.id)+"</code></td><td>"+esc(emails.get(t.user_id)||t.user_id)+"</td><td>"+esc(t.type)+"</td><td>"+esc(t.amount)+" "+esc(t.currency)+"</td><td>"+esc(t.reference||"—")+"</td><td>"+esc(date(t.created_at))+"</td><td><div class='actions'><button data-id='"+esc(t.id)+"' data-status='UNDER_REVIEW' class='secondary'>Review</button><button data-id='"+esc(t.id)+"' data-status='COMPLETED'>Mark completed</button><button data-id='"+esc(t.id)+"' data-status='REJECTED' class='danger'>Reject</button></div></td></tr>").join(""):"<tr><td colspan='7'>No pending requests.</td></tr>";
+  $("requests-body").querySelectorAll("button[data-id]").forEach(button=>button.addEventListener("click",()=>updateRequest(button)));
+  status.textContent="Administrator verified. Data loaded from the protected server API.";
+ }
+ async function updateRequest(button){
+  const id=button.dataset.id,nextStatus=button.dataset.status;
+  let notes="";
+  if(nextStatus==="COMPLETED"&&!confirm("Record this request as completed? This only changes the review status; it does not transfer funds."))return;
+  if(nextStatus==="REJECTED"&&!confirm("Reject this request?"))return;
+  if(nextStatus==="UNDER_REVIEW")notes="Moved to manual review.";
+  button.disabled=true;status.textContent="Saving review decision…";
+  try{await api("/api/admin/transactions",{method:"PATCH",body:JSON.stringify({id,status:nextStatus,notes})});await load();status.textContent="Review decision saved. No funds were transferred.";}
+  catch(error){status.textContent=error.message;button.disabled=false;}
+ }
+ $("sign-out").addEventListener("click",async()=>{if(client)await client.auth.signOut();location.assign("/login.html");});
+ (async()=>{
+  if(!ready){status.textContent="Supabase is not configured. Add the public URL and anon key to supabase-config.js.";return;}
+  const {data:{session}}=await client.auth.getSession();if(!session){location.replace("/login.html");return;}
+  try{await load();}catch(error){status.textContent=error.message;$("users-body").innerHTML="<tr><td colspan='4'>Admin data unavailable.</td></tr>";$("requests-body").innerHTML="<tr><td colspan='7'>Admin data unavailable.</td></tr>";}
+  client.auth.onAuthStateChange((_event,session)=>{if(!session)location.replace("/login.html");});
+ })();
+})();
+</script></body></html>
