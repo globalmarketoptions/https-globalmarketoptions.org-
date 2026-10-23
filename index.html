@@ -1246,41 +1246,7 @@
     })();
   </script>
 
-  <script>
-    (() => {
-      const menuButton = document.getElementById("mobile-menu-button");
-      const mobileNav = document.getElementById("mobile-nav");
-      const backdrop = document.getElementById("mobile-drawer-backdrop");
-      const closeButton = document.getElementById("mobile-drawer-close");
-      if (!menuButton || !mobileNav || !backdrop) return;
-
-      const setDrawerOpen = (open) => {
-        menuButton.setAttribute("aria-expanded", String(open));
-        menuButton.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
-        mobileNav.setAttribute("aria-hidden", String(!open));
-        mobileNav.classList.toggle("open", open);
-        backdrop.hidden = !open;
-        document.body.classList.toggle("drawer-open", open);
-        if (open) closeButton?.focus();
-        else menuButton.focus();
-      };
-
-      menuButton.addEventListener("click", () => {
-        setDrawerOpen(menuButton.getAttribute("aria-expanded") !== "true");
-      });
-      closeButton?.addEventListener("click", () => setDrawerOpen(false));
-      backdrop.addEventListener("click", () => setDrawerOpen(false));
-      mobileNav.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => setDrawerOpen(false));
-      });
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
-          setDrawerOpen(false);
-        }
-      });
-      document.getElementById("current-year").textContent = new Date().getFullYear();
-    })();
-  </script>
+  <script src="/navigation.js" defer></script>t>
 </body>
 </html>
 
