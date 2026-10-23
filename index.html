@@ -1240,33 +1240,43 @@
 
     <section class="bitcoin-education section-shell" id="crypto-knowledge">
       <div class="container">
-        <div class="section-heading">
-          <span class="eyebrow">Crypto Knowledge Hub · Beginners Guide</span>
-          <h2>How the Bitcoin Network Works</h2>
-          <p>Bitcoin uses a shared, proof-of-work blockchain to help network participants agree on transaction history and make double-spending substantially harder.</p>
+        <div class="bitcoin-education-panel">
+          <header class="bitcoin-education-heading">
+            <span class="eyebrow">Crypto Knowledge Hub · Beginners Guide</span>
+            <h2>How the Bitcoin Network Works</h2>
+            <p>Bitcoin uses a shared, proof-of-work blockchain to help network participants agree on transaction history and make double-spending substantially harder.</p>
+          </header>
+          <div class="bitcoin-comparison bitcoin-comparison-modern">
+            <article class="bitcoin-flow-card legacy-flow bitcoin-comparison-before">
+              <div class="bitcoin-comparison-label"><span class="bitcoin-comparison-icon" aria-hidden="true">↔</span><span>BEFORE BITCOIN</span></div>
+              <h3>Before Bitcoin: Separate records</h3>
+              <p>In a system without a shared ordering authority, separate nodes or copies of a transaction file can receive conflicting updates. Without a common way to agree on the order of spends, records may disagree about which payment happened first.</p>
+              <div class="flow-steps" aria-label="Legacy transaction flow">
+                <span>Node A</span><span class="flow-arrow" aria-hidden="true">↔</span><span>Node B</span><span class="flow-arrow" aria-hidden="true">↔</span><span>Conflicting copies</span>
+              </div>
+            </article>
+            <article class="bitcoin-flow-card bitcoin-flow bitcoin-comparison-after">
+              <div class="bitcoin-comparison-label"><span class="bitcoin-comparison-icon" aria-hidden="true">₿</span><span>WITH BITCOIN</span></div>
+              <h3>With Bitcoin: Shared transaction history</h3>
+              <p>Transactions are relayed and checked by network nodes, then may be included in blocks that extend a shared proof-of-work history.</p>
+            </article>
+          </div>
+          <div class="bitcoin-process-heading">
+            <span class="bitcoin-process-kicker">THE TRANSACTION JOURNEY</span>
+            <h3>From broadcast to confirmation</h3>
+          </div>
+          <ol class="bitcoin-process-grid">
+            <li class="bitcoin-process-card"><span class="bitcoin-step-number" aria-hidden="true">1</span><div><h4>Broadcast</h4><p>Wallets broadcast signed transactions to peers across the network.</p></div></li>
+            <li class="bitcoin-process-card"><span class="bitcoin-step-number" aria-hidden="true">2</span><div><h4>Memory pool</h4><p>Nodes validate transactions and may hold eligible transactions in a local mempool.</p></div></li>
+            <li class="bitcoin-process-card"><span class="bitcoin-step-number" aria-hidden="true">3</span><div><h4>Build and hash a block</h4><p>Miners select transactions and perform proof-of-work to propose a block referencing the previous block.</p></div></li>
+            <li class="bitcoin-process-card"><span class="bitcoin-step-number" aria-hidden="true">4</span><div><h4>Broadcast and verify</h4><p>Nodes check the proposed block and independently validate its transactions before accepting it.</p></div></li>
+            <li class="bitcoin-process-card"><span class="bitcoin-step-number" aria-hidden="true">5</span><div><h4>Confirm over time</h4><p>Additional accumulated proof-of-work makes reversal increasingly difficult. Conflicting spends cannot both be valid in the same accepted transaction history.</p></div></li>
+          </ol>
+          <aside class="education-note bitcoin-important-note">
+            <strong>Important nuance</strong>
+            <p>Bitcoin does not guarantee that every transaction is final immediately or that conflicts never appear in the network. Miners can produce competing blocks, and confirmations reduce—but do not mathematically eliminate—reorganisation risk.</p>
+          </aside>
         </div>
-        <div class="bitcoin-comparison">
-          <article class="bitcoin-flow-card legacy-flow">
-            <div class="education-card-icon" aria-hidden="true">↔</div>
-            <h3>Before Bitcoin: Separate records</h3>
-            <p>In a legacy system without a shared ordering authority, separate nodes or copies of a transaction file can receive conflicting updates. Without a common way to agree on the order of spends, two records may disagree about which payment happened first.</p>
-            <div class="flow-steps" aria-label="Legacy transaction flow">
-              <span>Node A</span><span class="flow-arrow">↔</span><span>Node B</span><span class="flow-arrow">↔</span><span>Conflicting copies</span>
-            </div>
-          </article>
-          <article class="bitcoin-flow-card bitcoin-flow">
-            <div class="education-card-icon" aria-hidden="true">₿</div>
-            <h3>With Bitcoin: Shared transaction history</h3>
-            <ol class="bitcoin-steps">
-              <li><span>1</span><div><strong>Broadcast</strong><p>Wallets broadcast signed transactions to peers.</p></div></li>
-              <li><span>2</span><div><strong>Memory pool</strong><p>Nodes validate transactions and may hold eligible transactions in a local mempool.</p></div></li>
-              <li><span>3</span><div><strong>Build and hash a block</strong><p>Miners select transactions and perform proof-of-work to propose a block that references the prior block.</p></div></li>
-              <li><span>4</span><div><strong>Broadcast and verify</strong><p>Nodes check the proposed block and independently validate its transactions before accepting it.</p></div></li>
-              <li><span>5</span><div><strong>Confirm over time</strong><p>More accumulated proof-of-work makes reversal increasingly difficult; conflicting spends are not both valid in the same accepted transaction history.</p></div></li>
-            </ol>
-          </article>
-        </div>
-        <p class="education-note">Important nuance: Bitcoin does not guarantee that every transaction is final immediately or that conflicts never appear in the network. Miners can produce competing blocks, and confirmations reduce—but do not mathematically eliminate—reorganisation risk.</p>
       </div>
     </section>
 
