@@ -16,10 +16,11 @@ module.exports = async function kycUpload(req,res) {
   const size=Number(body.size);
   if(!TYPES.has(mime)) return send(res,400,{error:"Upload a PDF, JPEG, or PNG document."});
   if(!Number.isInteger(size)||size<1||size>MAX_BYTES) return send(res,400,{error:"Document must be 1 byte to 5 MB."});
-  const {data:existing,error:existingError}=await db.from("kyc_records").select("id,status").eq("user_id",user.id).maybeSingle();
+  const {data:existing,error:existingError}=await db.from("kyc_records").select("id,status,document_path").eq("user_id",user.id).maybeSingle();
   if(existingError) throw existingError;
   if(existing && existing.status==="APPROVED") return send(res,409,{error:"Your identity verification is already approved. Contact support if you need to replace it."});
   if(existing && existing.status==="UNDER_REVIEW") return send(res,409,{error:"Your document is already under review."});
+  if(existing && existing.status==="PENDING") return send(res,409,{error:"Your document is already submitted for review. Wait for the review decision before replacing it."});
   const extension=TYPES.get(mime);
   const path=user.id+"/"+crypto.randomUUID()+"."+extension;
   const {data:upload,error:uploadError}=await db.storage.from("kyc-private").createSignedUploadUrl(path,{upsert:false});
@@ -29,6 +30,9 @@ module.exports = async function kycUpload(req,res) {
   if(recordError) {
     await db.storage.from("kyc-private").remove([path]);
     throw recordError;
+  }
+  if(existing && existing.document_path && existing.document_path!==path) {
+    await db.storage.from("kyc-private").remove([existing.document_path]);
   }
   return send(res,200,{path,token:upload.token, signedUrl:upload.signedUrl, bucket:"kyc-private", expiresInSeconds:7200});
  } catch(error) { return fail(res,error); }
