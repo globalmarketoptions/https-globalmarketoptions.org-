@@ -15,7 +15,7 @@ module.exports=async function kycUploadComplete(req,res) {
   const body=typeof req.body==="string"?JSON.parse(req.body||"{}"):(req.body||{});
   const path=String(body.path||"");
   if(!path.startsWith(user.id+"/")||path.includes("..")||path.length>200) return send(res,400,{error:"Invalid document path."});
-  const {data:record,error:recordError}=await db.from("kyc_records").select("id,status,document_path").eq("user_id",user.id).maybeSingle();
+  const {data:record,error:recordError}=await db.from("kyc_records").select("id,status,document_path,prior_document_path").eq("user_id",user.id).maybeSingle();
   if(recordError) throw recordError;
   if(!record||record.status!=="UPLOAD_PENDING"||record.document_path!==path) return send(res,409,{error:"No matching upload is awaiting validation."});
   const {data:file,error:downloadError}=await db.storage.from("kyc-private").download(path);
@@ -27,8 +27,9 @@ module.exports=async function kycUploadComplete(req,res) {
    await db.from("kyc_records").delete().eq("user_id",user.id).eq("status","UPLOAD_PENDING");
    return send(res,400,{error:"The file content did not match the allowed document type. Please upload a valid PDF, JPEG, or PNG."});
   }
-  const {data,error}=await db.from("kyc_records").update({status:"PENDING",updated_at:new Date().toISOString()}).eq("user_id",user.id).eq("status","UPLOAD_PENDING").select("id,status,updated_at").single();
+  const {data,error}=await db.from("kyc_records").update({status:"PENDING",prior_document_path:null,updated_at:new Date().toISOString()}).eq("user_id",user.id).eq("status","UPLOAD_PENDING").select("id,status,updated_at").single();
   if(error) throw error;
+  if(record.prior_document_path) await db.storage.from("kyc-private").remove([record.prior_document_path]);
   return send(res,200,{kyc:data,message:"Document validated and submitted for review."});
  } catch(error) { return fail(res,error); }
 };
