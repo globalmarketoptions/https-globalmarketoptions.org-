@@ -15,9 +15,10 @@ button{font:inherit;cursor:pointer;border:0;border-radius:7px;padding:8px 11px;b
 <main class="wrap">
 <h1>Admin dashboard</h1><p class="muted">Authorized account and request review.</p>
 <p class="status" id="admin-status" role="status" aria-live="polite">Checking your administrator access…</p>
-<div class="grid"><section class="card"><div class="muted">Registered profiles (latest 100)</div><div class="metric" id="user-count">—</div></section><section class="card"><div class="muted">Requests awaiting review</div><div class="metric" id="request-count">—</div></section><section class="card"><div class="muted">Access control</div><div class="metric" style="font-size:1.1rem">Server-verified admin</div></section></div>
+<div class="grid"><section class="card"><div class="muted">Registered profiles (latest 100)</div><div class="metric" id="user-count">—</div></section><section class="card"><div class="muted">Requests awaiting review</div><div class="metric" id="request-count">—</div></section><section class="card"><div class="muted">KYC awaiting review</div><div class="metric" id="kyc-count">—</div></section></div>
 <section class="card"><h2>Registered users</h2><div class="table-wrap"><table><thead><tr><th>User ID</th><th>Email</th><th>Display name</th><th>Created</th></tr></thead><tbody id="users-body"><tr><td colspan="4">Loading…</td></tr></tbody></table></div></section>
 <section class="card" style="margin-top:18px"><h2>Pending transaction requests</h2><p class="notice">Changing a request status only records a review decision. It does not send, receive, release, or transfer funds. Verify payment independently before recording completion.</p><div class="table-wrap"><table><thead><tr><th>Request ID</th><th>User</th><th>Type</th><th>Amount</th><th>Reference</th><th>Created</th><th>Review action</th></tr></thead><tbody id="requests-body"><tr><td colspan="7">Loading…</td></tr></tbody></table></div></section>
+<section class="card" style="margin-top:18px"><h2>Identity verification reviews</h2><p class="notice">This table contains review status only. Identity document uploads and secure document storage must be configured separately.</p><div class="table-wrap"><table><thead><tr><th>Record ID</th><th>User</th><th>Status</th><th>Submitted</th><th>Review action</th></tr></thead><tbody id="kyc-body"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/supabase-config.js"></script>
 <script>
@@ -34,14 +35,24 @@ button{font:inherit;cursor:pointer;border:0;border-radius:7px;padding:8px 11px;b
   if(!response.ok)throw new Error(payload.error||"Request failed.");return payload;
  }
  async function load(){
-  const [usersResult,requestsResult]=await Promise.all([api("/api/admin/users"),api("/api/admin/transactions")]);
-  const users=usersResult.users||[],requests=requestsResult.transactions||[],emails=new Map(users.map(u=>[u.id,u.email||u.id]));
+  const [usersResult,requestsResult,kycResult]=await Promise.all([api("/api/admin/users"),api("/api/admin/transactions"),api("/api/admin/kyc")]);
+  const users=usersResult.users||[],requests=requestsResult.transactions||[],kyc=kycResult.records||[],emails=new Map(users.map(u=>[u.id,u.email||u.id]));
   $("admin-email").textContent=client.auth.getUser?((await client.auth.getUser()).data.user?.email||"Administrator"):"Administrator";
-  $("user-count").textContent=users.length;$("request-count").textContent=requests.length;
+  $("user-count").textContent=users.length;$("request-count").textContent=requests.length;$("kyc-count").textContent=kyc.length;
   $("users-body").innerHTML=users.length?users.map(u=>"<tr><td><code>"+esc(u.id)+"</code></td><td>"+esc(u.email||"—")+"</td><td>"+esc(u.display_name||"—")+"</td><td>"+esc(date(u.created_at))+"</td></tr>").join(""):"<tr><td colspan='4'>No user profiles found.</td></tr>";
   $("requests-body").innerHTML=requests.length?requests.map(t=>"<tr><td><code>"+esc(t.id)+"</code></td><td>"+esc(emails.get(t.user_id)||t.user_id)+"</td><td>"+esc(t.type)+"</td><td>"+esc(t.amount)+" "+esc(t.currency)+"</td><td>"+esc(t.reference||"—")+"</td><td>"+esc(date(t.created_at))+"</td><td><div class='actions'><button data-id='"+esc(t.id)+"' data-status='UNDER_REVIEW' class='secondary'>Review</button><button data-id='"+esc(t.id)+"' data-status='COMPLETED'>Mark completed</button><button data-id='"+esc(t.id)+"' data-status='REJECTED' class='danger'>Reject</button></div></td></tr>").join(""):"<tr><td colspan='7'>No pending requests.</td></tr>";
   $("requests-body").querySelectorAll("button[data-id]").forEach(button=>button.addEventListener("click",()=>updateRequest(button)));
+  $("kyc-body").innerHTML=kyc.length?kyc.map(k=>"<tr><td><code>"+esc(k.id)+"</code></td><td>"+esc(emails.get(k.user_id)||k.user_id)+"</td><td><span class='pill'>"+esc(k.status)+"</span></td><td>"+esc(date(k.created_at))+"</td><td><div class='actions'><button data-kyc-id='"+esc(k.id)+"' data-status='UNDER_REVIEW' class='secondary'>Review</button><button data-kyc-id='"+esc(k.id)+"' data-status='APPROVED'>Approve KYC</button><button data-kyc-id='"+esc(k.id)+"' data-status='REJECTED' class='danger'>Reject</button></div></td></tr>").join(""):"<tr><td colspan='5'>No pending KYC reviews.</td></tr>";
+  $("kyc-body").querySelectorAll("button[data-kyc-id]").forEach(button=>button.addEventListener("click",()=>updateKyc(button)));
   status.textContent="Administrator verified. Data loaded from the protected server API.";
+ }
+ async function updateKyc(button){
+  const id=button.dataset.kycId,nextStatus=button.dataset.status;
+  if(nextStatus==="APPROVED"&&!confirm("Approve this KYC status? Confirm that identity checks were completed using your approved process."))return;
+  if(nextStatus==="REJECTED"&&!confirm("Reject this KYC record?"))return;
+  button.disabled=true;status.textContent="Saving KYC review…";
+  try{await api("/api/admin/kyc",{method:"PATCH",body:JSON.stringify({id,status:nextStatus,notes:""})});await load();status.textContent="KYC status updated and audit logged.";}
+  catch(error){status.textContent=error.message;button.disabled=false;}
  }
  async function updateRequest(button){
   const id=button.dataset.id,nextStatus=button.dataset.status;
