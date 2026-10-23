@@ -22,6 +22,7 @@
     <a class="brand" href="/">Global Market Options</a>
     <h1>Create your account</h1>
     <p>Enter your details to register.</p>
+    <section id="registration-success" class="auth-card" hidden role="status" aria-live="polite"><h2>Congratulation! Your registration was successful</h2><p>Your account registration has been received.</p><a href="/login" style="display:block;text-align:center;text-decoration:none;margin-top:18px">CLICK HERE TO LOGIN</a></section>
 
     <form id="register-form">
       <div class="form-grid">
@@ -318,6 +319,7 @@
       const form = document.getElementById("register-form");
       const message = document.getElementById("register-message");
       const countrySelect = document.getElementById("country");
+      function showRegistrationSuccess(){form.hidden=true;document.getElementById("registration-success").hidden=false;}
 
       function getSupabaseClient() {
         if (window.supabaseClient) return window.supabaseClient;
@@ -413,16 +415,16 @@
           }
 
           if (result.session && result.user) {
-            message.textContent = "Account created successfully. Opening your dashboard…";
+            message.textContent = "Account created successfully.";
             message.classList.add("success");
-            window.location.assign("/dashboard");
+            showRegistrationSuccess();
             return;
           }
 
           message.textContent =
             "Registration received. Check your email for a confirmation link, then sign in.";
           message.classList.add("success");
-          window.setTimeout(() => window.location.assign("/login"), 1200);
+          showRegistrationSuccess();
         } catch (error) {
           // Do not expose raw provider errors or internal configuration.
           console.error("Registration failed:", error?.message || "Unknown error");
