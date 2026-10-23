@@ -665,6 +665,10 @@
         <a href="/crude-oil.html">Crude Oil</a>
         <a href="/real-estate.html">Real Estate</a>
         <a href="#features">Features</a>
+      <a href="/login.html">Access Account</a>
+      <a href="/admin.html">Admin</a>
+        <a href="/login.html">Access Account</a>
+        <a href="/admin.html">Admin</a>
       </nav>
 
       <button
@@ -709,7 +713,7 @@
           <a class="button button-primary" href="/login.html">
             Access Your Account
           </a>
-          <a class="button button-secondary" href="#features">
+          <a class="button button-secondary" href="/crude-oil.html">
             Explore Markets
           </a>
         </div>
@@ -821,9 +825,10 @@
     <div class="container footer-inner">
       <span>© <span id="current-year"></span> Global Market Options</span>
       <nav class="footer-links" aria-label="Footer navigation">
-        <a href="/privacy.html">Privacy</a>
-        <a href="/terms.html">Terms</a>
-        <a href="/contact.html">Contact</a>
+        <a href="/login.html">Access Account</a>
+        <a href="/admin.html">Admin</a>
+        <a href="/crude-oil.html">Crude Oil</a>
+        <a href="/real-estate.html">Real Estate</a>
       </nav>
     </div>
   </footer>
@@ -832,61 +837,22 @@
     (() => {
       const menuButton = document.getElementById("mobile-menu-button");
       const mobileNav = document.getElementById("mobile-nav");
-
+      const year = document.getElementById("current-year");
+      if (year) year.textContent = new Date().getFullYear();
+      if (!menuButton || !mobileNav) return;
       menuButton.addEventListener("click", () => {
-        const isExpanded =
-          menuButton.getAttribute("aria-expanded") === "true";
-
-        menuButton.setAttribute("aria-expanded", String(!isExpanded));
-        menuButton.setAttribute(
-          "aria-label",
-          isExpanded ? "Open navigation menu" : "Close navigation menu"
-        );
-
-        mobileNav.classList.toggle("open", !isExpanded);
+        const expanded = menuButton.getAttribute("aria-expanded") === "true";
+        menuButton.setAttribute("aria-expanded", String(!expanded));
+        menuButton.setAttribute("aria-label", expanded ? "Open navigation menu" : "Close navigation menu");
+        mobileNav.classList.toggle("open", !expanded);
       });
-
-      mobileNav.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => {
-          menuButton.setAttribute("aria-expanded", "false");
-          menuButton.setAttribute("aria-label", "Open navigation menu");
-          mobileNav.classList.remove("open");
-        });
-      });
-
-      document.getElementById("current-year").textContent =
-        new Date().getFullYear();
+      mobileNav.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Open navigation menu");
+        mobileNav.classList.remove("open");
+      }));
     })();
-<!-- Hero background video -->
-<div class="hero-video-background" aria-hidden="true">
-  <video
-    class="hero-background-video"
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="auto"
-    poster="/images/hero-poster.jpg"
-  >
-    <source src="/videos/hero-motion.mp4" type="video/mp4">
-  </video>
-</div>
-
-<div class="hero-video-overlay" aria-hidden="true"></div>
-
-<!-- Keep your existing hero heading, text and buttons below this point. -->
-
-  </script>function formatUsd(cents) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(cents / 100);
-}
-
-const initialPracticeBalance = formatUsd(1000); // $10.00
-const initialLiveBalance = formatUsd(0);         // $0.00
+  </script>
 </body>
 </html>
 
