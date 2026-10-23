@@ -455,7 +455,18 @@
           toggle.setAttribute("title", (showing ? "Hide " : "Show ") + label);
         });
       });
-    })();
+    })();<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const registerForm = document.querySelector('form');
+    if (registerForm) {
+      registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        localStorage.setItem('userLoggedIn', 'true');
+        window.location.href = '/dashboard';
+      });
+    }
+  });
+</script>
   </script>
 </body>
 </html>

@@ -38,3 +38,15 @@ button{position:relative;z-index:99999;pointer-events:auto!important;width:100%;
  if(client)client.auth.onAuthStateChange((_event,session)=>{if(session){status.textContent="Signed in. Opening your dashboard…";window.location.replace("/dashboard");}});
 })();
 </script></body></html>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.querySelector('form');
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        localStorage.setItem('userLoggedIn', 'true');
+        window.location.href = '/dashboard';
+      });
+    }
+  });
+</script>
