@@ -1,5 +1,5 @@
-const { requireAdmin } = require("../_lib/supabase");
-const { send, methodNotAllowed, fail } = require("../_lib/http");
+const { requireAdmin } = require("../../lib/supabase-server");
+const { send, methodNotAllowed, fail } = require("../../lib/api-http");
 
 module.exports = async function adminUsers(req, res) {
   if (req.method !== "GET") return methodNotAllowed(res, ["GET"]);
