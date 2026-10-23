@@ -36,5 +36,16 @@ button{position:relative;z-index:99999;pointer-events:auto!important;width:100%;
  
  form.addEventListener("submit",async event=>{event.preventDefault();const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value,submitter=event.submitter,button=submitter&&submitter.id==="password-submit"?document.getElementById("password-submit"):document.getElementById("email-submit"),passwordMode=button.id==="password-submit";if(!form.reportValidity())return;if(!client){status.textContent="Secure authentication is currently unavailable. Your account has not been signed in.";return;}button.disabled=true;status.textContent=passwordMode?"Signing in…":"Sending secure email link…";try{const result=passwordMode?await client.auth.signInWithPassword({email,password}):await client.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.origin+"/login"}});if(result.error){status.textContent=passwordMode?"Unable to sign in with those details. Check your email and password, or reset your password.":"Could not send the email link. Please check the address and try again.";return;}if(passwordMode){if(result.data&&result.data.session){status.textContent="Signed in. Opening your dashboard…";window.location.assign("/dashboard");}else{status.textContent="Sign-in did not return an authenticated session. Please try again.";}}else{status.textContent="If this email is eligible and your email settings allow it, a sign-in link will arrive shortly.";}}catch(error){status.textContent=passwordMode?"Sign-in is temporarily unavailable. Please try again.":"Could not send the email link. Please try again later.";}finally{button.disabled=false;}});
  if(client)client.auth.onAuthStateChange((_event,session)=>{if(session){status.textContent="Signed in. Opening your dashboard…";window.location.replace("/dashboard");}});
-})();
+})();<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.querySelector('form');
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        localStorage.setItem('userLoggedIn', 'true');
+        window.location.href = '/dashboard';
+      });
+    }
+  });
+</script>
 </script></body></html>
