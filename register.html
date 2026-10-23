@@ -97,22 +97,12 @@
           and have read the <a href="/privacy.html">Privacy Policy</a>.</span>
       </label>
 
-      <label class="checkbox-row security-check">
-        <input type="checkbox" name="security_confirmation" required>
-        <span>I confirm this registration is being completed by me and not an automated script.</span>
-      </label>
-
-      <p class="form-notice">
-        Trading and investment products can involve significant financial risk.
-        Review the applicable product terms before making financial decisions.
-      </p>
-
       <div id="register-message" class="form-message" role="status"
            aria-live="polite"></div>
       <button class="primary-button" type="submit">Create account</button>
     </form>
 
-    <p class="auth-switch">Already have an account? <a href="/login.html">Login</a></p>
+    <p class="auth-switch">Already have an account? <a href="/login">Login</a></p>
   </main>
 
   <script>
@@ -185,7 +175,7 @@
         const client = getSupabaseClient();
         if (!client) {
           message.textContent =
-            "Registration is not configured. Please contact site support.";
+            "We cannot create your account right now. Please try again later.";
           message.classList.add("error");
           return;
         }
@@ -217,7 +207,7 @@
                 gender: profile.gender || null,
                 phone: profile.phone || null
               },
-              emailRedirectTo: window.location.origin + "/login.html"
+              emailRedirectTo: window.location.origin + "/login"
             }
           });
 
