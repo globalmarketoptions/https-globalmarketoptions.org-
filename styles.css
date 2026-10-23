@@ -387,3 +387,67 @@ body.gmo-page {
   .gmo-page .rendered-certificate-bottom { gap: 5px; margin-top: 20px; }
   .gmo-page .rendered-certificate-ornament { font-size: 14px; }
 }
+
+
+/* Direct public certificate image card */
+.gmo-page .certificate-verified-seal {
+  border-color: #c8a85a;
+  background: radial-gradient(circle, #1c6647, #103b2b);
+  color: #e8f5c9;
+  box-shadow: inset 0 0 0 4px #103b2b, inset 0 0 0 5px #c8a85a, 0 3px 14px rgba(0,0,0,.2);
+}
+.gmo-page .certificate-status-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  padding: 7px 11px;
+  border: 1px solid #3c9467;
+  border-radius: 999px;
+  background: rgba(20, 111, 66, .2);
+  color: #a6efbd;
+  font-size: 11px;
+  font-weight: 800;
+}
+.gmo-page .certificate-status-active span { color: #4ee08a; font-size: 9px; }
+.gmo-page .certificate-real-image {
+  width: 100%;
+  max-width: 1080px;
+  margin: 20px auto;
+  padding: clamp(8px, 1.5vw, 16px);
+  border: 1px solid rgba(207, 173, 82, .72);
+  border-radius: 14px;
+  background: #fffdf5;
+  box-shadow: 0 16px 44px rgba(0,0,0,.22);
+}
+.gmo-page .certificate-real-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  margin: 0 auto;
+  border: 1px solid rgba(207, 173, 82, .3);
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(53, 36, 14, .16);
+}
+.gmo-page .certificate-verification-centered { justify-content: center; }
+.gmo-page .certificate-verification-centered .certificate-verify-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 48px;
+  padding: 13px 24px;
+  border: 1px solid #e5ce86;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #e4c66c, #b88731);
+  color: #21170c;
+  font-weight: 850;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,.2);
+}
+@media (max-width: 560px) {
+  .gmo-page .certificate-real-image { padding: 6px; border-radius: 10px; }
+  .gmo-page .certificate-card-topline { gap: 12px; }
+  .gmo-page .certificate-verification-centered .certificate-verify-button { width: 100%; }
+}
