@@ -162,3 +162,12 @@
 .gmo-page body.drawer-open{overflow:hidden}
 @media(min-width:651px){.gmo-page .mobile-menu-button{display:inline-flex}.gmo-page .mobile-nav{width:min(430px,85vw)}}
 @media(prefers-reduced-motion:reduce){.gmo-page .mobile-nav{transition:none}}
+
+/* Ensure navigation drawer and backdrop sit above ticker/header layers */
+.gmo-page .mobile-drawer-backdrop{position:fixed!important;inset:0!important;z-index:9998!important;isolation:isolate}
+.gmo-page .mobile-nav{position:fixed!important;z-index:9999!important;top:0!important;right:0!important;bottom:0!important;max-height:100dvh;overscroll-behavior:contain}
+.gmo-page .mobile-nav.open{visibility:visible!important;transform:translateX(0)!important;pointer-events:auto!important}
+.gmo-page .mobile-menu-button{position:relative;z-index:10000;pointer-events:auto;touch-action:manipulation}
+.gmo-page .mobile-menu-button span{pointer-events:none}
+.gmo-page .mobile-nav[aria-hidden="true"]{pointer-events:none}
+.gmo-page .mobile-nav[aria-hidden="false"]{pointer-events:auto}
