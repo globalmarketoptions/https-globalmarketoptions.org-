@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
   <title>Create Account | Global Market Options</title>
   <link rel="stylesheet" href="/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -41,6 +42,9 @@
           <select name="currency" required>
             <option value="">Choose currency</option>
             <option value="USD">USD — US Dollar</option>
+            <option value="PHP">PHP — Philippine Peso</option>
+            <option value="BTC">BTC — Bitcoin</option>
+            <option value="USDT">USDT — Tether</option>
             <option value="EUR">EUR — Euro</option>
             <option value="GBP">GBP — Pound Sterling</option>
             <option value="RON">RON — Romanian Leu</option>
@@ -61,10 +65,10 @@
         <label>Gender (optional)
           <select name="gender">
             <option value="">Prefer not to say</option>
-            <option value="female">Female</option>
             <option value="male">Male</option>
-            <option value="non_binary">Non-binary</option>
-            <option value="self_described">Self-described</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+            <option value="prefer_not_to_say">Prefer not to say</option>
           </select>
         </label>
 
@@ -93,6 +97,11 @@
           and have read the <a href="/privacy.html">Privacy Policy</a>.</span>
       </label>
 
+      <label class="checkbox-row security-check">
+        <input type="checkbox" name="security_confirmation" required>
+        <span>I confirm this registration is being completed by me and not an automated script.</span>
+      </label>
+
       <p class="form-notice">
         Trading and investment products can involve significant financial risk.
         Review the applicable product terms before making financial decisions.
@@ -103,7 +112,7 @@
       <button class="primary-button" type="submit">Create account</button>
     </form>
 
-    <p class="auth-switch">Already registered? <a href="/login.html">Sign in</a></p>
+    <p class="auth-switch">Already have an account? <a href="/login.html">Login</a></p>
   </main>
 
   <script>
