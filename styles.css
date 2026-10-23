@@ -1,0 +1,34 @@
+/* Shared Global Market Options public-page system. Scoped to .gmo-page to avoid changing legacy trading views. */
+.gmo-page{margin:0;background:#0b1220;color:#f3f6fc;font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:dark}
+.gmo-page *{box-sizing:border-box}.gmo-page a{color:inherit;text-decoration:none}.gmo-page a:hover{color:#76d9e8}
+.gmo-page .gmo-container{width:min(1180px,calc(100% - 36px));margin-inline:auto}
+.gmo-page .gmo-ticker{min-height:46px;background:#07101d;border-bottom:1px solid #24334a;overflow:hidden}
+.gmo-page .tradingview-widget-container,.gmo-page .tradingview-widget-container__widget{width:100%;min-height:44px}
+.gmo-page .gmo-network{background:#0e1929;border-bottom:1px solid #24334a;color:#9caec6;font-size:12px}
+.gmo-page .gmo-network-inner{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;padding:8px 0}
+.gmo-page .gmo-dot{width:7px;height:7px;border-radius:50%;background:#5de1ad;box-shadow:0 0 0 3px #5de1ad22}
+.gmo-page .gmo-network strong{color:#f3f6fc}.gmo-page .gmo-header{background:#0b1220ee;border-bottom:1px solid #25334a}
+.gmo-page .gmo-header-inner{display:flex;align-items:center;gap:18px;min-height:82px;flex-wrap:wrap;padding:12px 0}
+.gmo-page .gmo-brand{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:850;letter-spacing:.07em;line-height:1.25;max-width:245px}
+.gmo-page .gmo-brand-mark{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:linear-gradient(145deg,#2f80ed,#39c5c8);color:#fff;font-size:13px;letter-spacing:0;box-shadow:0 8px 24px #2f80ed30}
+.gmo-page .gmo-nav{display:flex;align-items:center;justify-content:flex-end;gap:5px;flex:1;flex-wrap:wrap}
+.gmo-page .gmo-nav a{padding:7px 9px;border-radius:7px;color:#c5d1e2;font-size:12px;font-weight:650}
+.gmo-page .gmo-nav a:hover,.gmo-page .gmo-nav a[aria-current=page]{background:#16253a;color:#7ee0e8}
+.gmo-page .gmo-header-actions{display:flex;gap:8px;align-items:center}
+.gmo-page .gmo-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:10px 16px;border:1px solid #30445f;border-radius:8px;background:#142239;color:#f3f6fc;font-weight:750;font-size:12px;letter-spacing:.025em}
+.gmo-page .gmo-btn:hover{border-color:#53bfc9}.gmo-page .gmo-btn-primary{background:#2f80ed;border-color:#2f80ed;color:white}.gmo-page .gmo-btn-primary:hover{background:#246bd0;color:white}
+.gmo-page .gmo-hero{padding:72px 0 60px;background:radial-gradient(ellipse at 50% 0%,#153e4a 0,transparent 58%),linear-gradient(180deg,#0c1727,#0b1220);border-bottom:1px solid #25334a}
+.gmo-page .gmo-eyebrow{color:#78dbe5;text-transform:uppercase;letter-spacing:.13em;font-size:11px;font-weight:800}
+.gmo-page .gmo-hero h1{max-width:880px;margin:10px 0 16px;font-size:clamp(34px,5vw,58px);line-height:1.08;letter-spacing:-.045em}
+.gmo-page .gmo-lead{max-width:760px;color:#b2c2d7;font-size:17px}
+.gmo-page .gmo-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.gmo-page .gmo-main{padding:38px 0 68px}.gmo-page .gmo-section-title{font-size:25px;line-height:1.2;margin:0 0 12px;letter-spacing:-.025em}
+.gmo-page .gmo-muted{color:#9caec6}.gmo-page .gmo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0}
+.gmo-page .gmo-card{padding:22px;border:1px solid #25364f;border-radius:14px;background:linear-gradient(145deg,#111d30,#0e1929);box-shadow:0 14px 40px #03091520}
+.gmo-page .gmo-card h2,.gmo-page .gmo-card h3{margin:0 0 9px;font-size:17px}.gmo-page .gmo-card p{margin:0;color:#aebfd3}
+.gmo-page .gmo-pill{display:inline-flex;border:1px solid #2e5568;border-radius:999px;padding:4px 9px;color:#8be0e5;font-size:11px;font-weight:750}
+.gmo-page .gmo-footer{border-top:1px solid #25334a;background:#080f1b;padding:26px 0;color:#9caec6;font-size:12px}
+.gmo-page .gmo-footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.gmo-page .gmo-footer-links{display:flex;gap:14px;flex-wrap:wrap}
+.gmo-page .gmo-notice{padding:14px 16px;border:1px solid #665a2c;background:#282515;border-radius:10px;color:#f4dfa0;font-size:13px;margin-top:20px}
+@media(max-width:1050px){.gmo-page .gmo-header-inner{gap:12px}.gmo-page .gmo-nav{justify-content:flex-start;order:3;flex-basis:100%;border-top:1px solid #25334a;padding-top:9px}.gmo-page .gmo-nav a{padding:6px 8px}.gmo-page .gmo-header-actions{margin-left:auto}}
+@media(max-width:650px){.gmo-page .gmo-container{width:min(100% - 24px,1180px)}.gmo-page .gmo-brand{max-width:205px;font-size:10px}.gmo-page .gmo-brand-mark{width:36px;height:36px}.gmo-page .gmo-header-inner{min-height:auto;padding:12px 0}.gmo-page .gmo-header-actions{width:100%;margin:0}.gmo-page .gmo-header-actions .gmo-btn{flex:1}.gmo-page .gmo-nav{gap:2px}.gmo-page .gmo-nav a{font-size:11px;padding:6px}.gmo-page .gmo-hero{padding:48px 0 40px}.gmo-page .gmo-lead{font-size:15px}.gmo-page .gmo-grid{grid-template-columns:1fr}.gmo-page .gmo-main{padding:28px 0 48px}}
