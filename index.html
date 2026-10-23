@@ -1455,6 +1455,6 @@
     });
   </script>
 
-</body>
+<script>document.addEventListener("DOMContentLoaded", function() { document.querySelectorAll("a, button").forEach(el => { el.style.pointerEvents = "auto"; const txt = el.innerText.trim().toLowerCase(); if (txt.includes("register") || txt.includes("sign up")) { el.onclick = (e) => { e.preventDefault(); window.location.href = "register.html"; }; } else if (txt.includes("login") || txt.includes("sign in")) { el.onclick = (e) => { e.preventDefault(); window.location.href = "login.html"; }; } else if (txt.includes("paper trading") || txt.includes("practice trading")) { el.onclick = (e) => { e.preventDefault(); window.location.href = "paper-trading.html"; }; } }); const backdrop = document.getElementById("mobile-drawer-backdrop"); if (backdrop) backdrop.style.pointerEvents = "none"; });</script></body>
 </html>
 
