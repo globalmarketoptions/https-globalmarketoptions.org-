@@ -68,4 +68,18 @@
   } else {
     initNavigation();
   }
+
+  // Load the shared live-chat widget once per page; the loader is idempotent.
+  const loadLiveChat = () => {
+    if (document.querySelector('script[src="/tawk-chat.js"]')) return;
+    const chatLoader = document.createElement("script");
+    chatLoader.src = "/tawk-chat.js";
+    chatLoader.async = true;
+    document.body.appendChild(chatLoader);
+  };
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", loadLiveChat, { once: true });
+  } else {
+    loadLiveChat();
+  }
 })();
