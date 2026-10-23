@@ -1,6 +1,3 @@
-// Public browser configuration only. Replace these placeholders with your Supabase project URL and anon/publishable key.
-// Never put a Supabase service-role key or other secret in this file.
-window.SUPABASE_CONFIG = {
-  url: "YOUR_SUPABASE_PROJECT_URL",
-  anonKey: "YOUR_SUPABASE_ANON_KEY"
-};
+// Generated at build time from SUPABASE_URL and SUPABASE_ANON_KEY.
+// Do not put SUPABASE_SERVICE_ROLE_KEY in this public browser file.
+window.SUPABASE_CONFIG = { url: "", anonKey: "" };
