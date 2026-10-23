@@ -40,7 +40,7 @@ button{position:relative;z-index:1;pointer-events:auto;width:100%;margin-top:12p
  const ready=Boolean(window.supabase&&config.url&&config.anonKey&&!config.url.includes("YOUR_")&&!config.anonKey.includes("YOUR_"));
  const client=ready?window.supabase.createClient(config.url,config.anonKey):null;
  google.addEventListener("click",async()=>{
-   if(!client){status.textContent="Secure sign-in is currently unavailable. Please try again later.";return;}
+   if(!client){status.textContent="Please check your connection and try again.";return;}
    google.disabled=true;status.textContent="Connecting to Google…";
    try{
      const result=await client.auth.signInWithOAuth({provider:"google",options:{redirectTo:window.location.origin+"/login"}});
@@ -53,7 +53,7 @@ button{position:relative;z-index:1;pointer-events:auto;width:100%;margin-top:12p
    const email=document.getElementById("email").value.trim();
    const password=passwordInput.value;
    const button=document.getElementById("password-submit");
-   if(!client){status.textContent="Secure authentication is currently unavailable. Please try again later.";return;}
+   if(!client){status.textContent="Please check your connection and try again.";return;}
    button.disabled=true;status.textContent="Signing in…";
    try{
      const result=await client.auth.signInWithPassword({email,password});
