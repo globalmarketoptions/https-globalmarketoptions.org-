@@ -1,6 +1,6 @@
 const { requireAdmin } = require("../../lib/supabase-server");
 const { send, methodNotAllowed, fail } = require("../../lib/api-http");
-const ALLOWED=new Set(["APPROVED_FOR_EXECUTION","REJECTED","CANCELLED"]);
+const ALLOWED=new Set(["APPROVED","REJECTED","CANCELLED"]);
 
 module.exports=async function adminTradeIntents(req,res) {
  try {
