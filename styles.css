@@ -541,3 +541,23 @@ body.gmo-page {
 .gmo-page .mobile-nav { z-index: 111; }
 .gmo-page .mobile-nav.open { pointer-events: auto; }
 .gmo-page .site-header a, .gmo-page .site-header button { cursor: pointer; }
+
+
+/* Premium authentication forms and floating support actions */
+.auth-page { min-height:100vh; padding:32px 16px; background:radial-gradient(ellipse at 15% 0%,rgba(14,116,144,.18),transparent 38%),radial-gradient(ellipse at 85% 10%,rgba(202,138,4,.13),transparent 34%),#0b1220; color:#f3f6fc; font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; }
+.auth-page .auth-card { width:min(760px,100%); margin:24px auto; padding:clamp(22px,4vw,40px); border:1px solid rgba(234,179,8,.28); border-radius:22px; background:rgba(17,27,45,.96); box-shadow:0 24px 70px rgba(0,0,0,.36); }
+.auth-page .form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.auth-page input:not([type=checkbox]), .auth-page select { display:block; width:100%; min-height:46px; margin-top:7px; padding:11px 12px; border:1px solid #33435c; border-radius:10px; background:#0b1220; color:#f8fafc; font:inherit; position:relative; z-index:99999; pointer-events:auto!important; }
+.auth-page label { color:#dce4f0; font-size:13px; font-weight:700; }
+.auth-page .checkbox-row { display:flex; align-items:flex-start; gap:10px; margin:18px 0; line-height:1.6; font-weight:500; }
+.auth-page .checkbox-row input { margin-top:5px; accent-color:#d4a72c; }
+.auth-page .checkbox-row a, .auth-page .auth-switch a, .auth-page .auth-inline-link { color:#f3cc67; text-decoration:underline; text-underline-offset:3px; }
+.auth-page .primary-button, .auth-page button { position:relative; z-index:99999; pointer-events:auto!important; cursor:pointer; width:100%; min-height:48px; margin-top:10px; padding:12px 18px; border:1px solid #f0cf72; border-radius:10px; background:linear-gradient(135deg,#f0d37d,#c28b2e); color:#1b1609; font:inherit; font-weight:850; }
+.auth-page .form-notice { padding:12px 14px; border-left:3px solid #d4a72c; background:rgba(234,179,8,.08); font-size:12px; line-height:1.7; }
+.auth-page .auth-switch { text-align:center; margin-top:24px; }
+.auth-page a, .auth-page button, .auth-page input, .auth-page select { pointer-events:auto!important; }
+.header-language { max-width:110px; padding:8px; border:1px solid #33435c; border-radius:8px; background:#111b2d; color:#f8fafc; }
+.gmo-floating-support { position:fixed; right:20px; z-index:999999; display:flex; align-items:center; justify-content:center; min-width:52px; height:52px; padding:0 15px; border-radius:999px; box-shadow:0 10px 28px rgba(0,0,0,.3); font-weight:800; text-decoration:none; }
+.gmo-floating-whatsapp { bottom:80px; background:#25d366; color:#062b16; }
+.gmo-floating-chat { bottom:20px; background:linear-gradient(135deg,#f0d37d,#c28b2e); color:#211807; }
+@media(max-width:620px){.auth-page .form-grid{grid-template-columns:1fr}.gmo-floating-support{right:14px;min-width:48px;height:48px}}
