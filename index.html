@@ -898,25 +898,46 @@
       </button>
     </div>
 
-    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
-      <a href="#markets">Home</a>
-      <a href="/about.html">About Us</a>
-      <a href="/contact.html">Contact</a>
-      <a href="/faqs.html">FAQs</a>
-      <a href="/crypto-trading.html">Crypto Trading</a>
-      <a href="/forex-trading.html">Forex Trading</a>
-      <a href="/stocks-etfs.html">Stocks &amp; ETFs</a>
-      <a href="/copy-trading.html">Copy Trading</a>
-      <a href="/smart-portfolios.html">Smart Portfolios</a>
-      <a href="/crude-oil.html">Crude Oil</a>
-      <a href="/real-estate.html">Real Estate</a>
-      <a href="/fees.html">Fees</a>
-      <a href="/privacy.html">Privacy Policy</a>
-      <a href="/terms.html">Terms of Service</a>
-      <a href="/risk-disclosure.html">Risk Disclosure</a>
-      <a href="/paper-trading.html">Practice Trading</a>
-      <a href="/login.html">Sign In</a>
-      <a href="/login.html?mode=signup">Create Account -&gt;</a>
+    <div class="mobile-drawer-backdrop" id="mobile-drawer-backdrop" hidden></div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" aria-hidden="true">
+      <div class="drawer-heading">
+        <span class="drawer-title">Explore Global Market Options</span>
+        <button class="drawer-close" id="mobile-drawer-close" type="button" aria-label="Close navigation menu">×</button>
+      </div>
+      <label class="language-label" for="drawer-language">Language</label>
+      <select class="drawer-language" id="drawer-language" aria-label="Select language">
+        <option value="en" selected>English</option>
+      </select>
+      <div class="drawer-group">
+        <p class="drawer-group-title">Main menu</p>
+        <a href="#markets"><span class="drawer-icon" aria-hidden="true">⌂</span>Home</a>
+        <a href="/faqs.html"><span class="drawer-icon" aria-hidden="true">?</span>FAQs</a>
+        <a href="/login.html"><span class="drawer-icon" aria-hidden="true">↪</span>Sign In</a>
+        <a href="/login.html?mode=signup"><span class="drawer-icon" aria-hidden="true">＋</span>Sign Up</a>
+        <a href="/contact.html"><span class="drawer-icon" aria-hidden="true">✉</span>Contact</a>
+        <a href="/about.html"><span class="drawer-icon" aria-hidden="true">ⓘ</span>About Us</a>
+      </div>
+      <div class="drawer-group">
+        <p class="drawer-group-title">Trading</p>
+        <a href="/forex-trading.html"><span class="drawer-icon" aria-hidden="true">⇄</span>Forex Trading</a>
+        <a href="/crypto-trading.html"><span class="drawer-icon" aria-hidden="true">₿</span>Crypto Trading</a>
+        <a href="/stocks-etfs.html"><span class="drawer-icon" aria-hidden="true">▥</span>Stocks Trading</a>
+        <a href="/copy-trading.html"><span class="drawer-icon" aria-hidden="true">⧉</span>Copy Trading</a>
+        <a href="/crude-oil.html"><span class="drawer-icon" aria-hidden="true">◉</span>Crude Oil</a>
+        <a href="/real-estate.html"><span class="drawer-icon" aria-hidden="true">⌂</span>Real Estate</a>
+        <a href="/crypto-mining.html"><span class="drawer-icon" aria-hidden="true">⛏</span>Crypto Mining</a>
+      </div>
+      <div class="drawer-group">
+        <p class="drawer-group-title">Legal policies</p>
+        <a href="/privacy.html"><span class="drawer-icon" aria-hidden="true">▤</span>Privacy Policy</a>
+        <a href="/cookie-policy.html"><span class="drawer-icon" aria-hidden="true">◌</span>Cookie Policy</a>
+        <a href="/terms.html"><span class="drawer-icon" aria-hidden="true">§</span>Terms of Service</a>
+        <a href="/risk-disclosure.html"><span class="drawer-icon" aria-hidden="true">△</span>General Risk Disclosure</a>
+      </div>
+      <div class="drawer-quick-actions">
+        <a class="button button-register" href="/login.html?mode=signup">Create Account →</a>
+        <a class="button button-secondary" href="/paper-trading.html">Practice Trading</a>
+      </div>
     </nav>
   </header>
 
@@ -1055,6 +1076,121 @@
       </div>
     </section>
 
+    <section class="asset-categories section-shell" id="assets">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Stocks, ETFs and Beyond</h2>
+          <p>Discover hundreds of assets across multiple categories</p>
+        </div>
+        <div class="asset-badge-grid" aria-label="Available asset categories">
+          <div class="asset-badge"><span class="asset-logo logo-chart">↗</span><span>Trading</span></div>
+          <div class="asset-badge"><span class="asset-logo logo-ms">▦</span><span>Microsoft</span></div>
+          <div class="asset-badge"><span class="asset-logo logo-tesla">T</span><span>Tesla</span></div>
+          <div class="asset-badge"><span class="asset-logo logo-disney">D</span><span>Disney</span></div>
+          <div class="asset-badge"><span class="asset-logo logo-btc">₿</span><span>Bitcoin <small>BTC</small></span></div>
+          <div class="asset-badge"><span class="asset-logo logo-eth">◆</span><span>Ethereum <small>ETH</small></span></div>
+          <div class="asset-badge"><span class="asset-logo logo-bnb">◆</span><span>BNB</span></div>
+          <div class="asset-badge"><span class="asset-logo logo-shib">犬</span><span>Shiba Inu <small>SHIB</small></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trusted-banner">
+      <div class="container trusted-content">
+        <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Global community</span>
+        <h2>Trusted worldwide</h2>
+        <p>Discover why millions of investors from over 100 countries joined Global Market Options</p>
+        <div class="trusted-stats" aria-label="Platform highlights">
+          <div><strong>100+</strong><span>Countries represented</span></div>
+          <div><strong>Global</strong><span>Markets and insights</span></div>
+          <div><strong>24/7</strong><span>Online account access</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="copy-trading-section section-shell" id="copy-trading">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Copy top investors</h2>
+          <p>Explore investor profiles and learn about different approaches to the markets. Past performance does not predict future results.</p>
+        </div>
+        <div class="investor-grid">
+          <article class="investor-card">
+            <div class="investor-avatar avatar-violet" aria-hidden="true">MM</div>
+            <div class="investor-name">Mila Moreau</div>
+            <span class="investor-tag">Balanced strategy</span>
+            <div class="investor-return">35.71% <small>Return shown in sample profile</small></div>
+            <p>Focuses on a diversified approach and disciplined risk awareness.</p>
+            <a class="button button-primary" href="/copy-trading.html">Start Copying</a>
+          </article>
+          <article class="investor-card">
+            <div class="investor-avatar avatar-blue" aria-hidden="true">JL</div>
+            <div class="investor-name">Julian Laurent</div>
+            <span class="investor-tag">Market momentum</span>
+            <div class="investor-return">Profile <small>Illustrative profile</small></div>
+            <p>Studies market trends and reviews potential opportunities across asset classes.</p>
+            <a class="button button-secondary" href="/copy-trading.html">View Profile</a>
+          </article>
+          <article class="investor-card">
+            <div class="investor-avatar avatar-green" aria-hidden="true">SK</div>
+            <div class="investor-name">Sofia Kim</div>
+            <span class="investor-tag">Long-term themes</span>
+            <div class="investor-return">Profile <small>Illustrative profile</small></div>
+            <p>Explores longer-term themes while highlighting the importance of diversification.</p>
+            <a class="button button-secondary" href="/copy-trading.html">View Profile</a>
+          </article>
+        </div>
+        <p class="section-footnote">Trader cards are illustrative design examples, not verified performance records or an offer to copy trades.</p>
+      </div>
+    </section>
+
+    <section class="smart-portfolio-section section-shell" id="smart-portfolios">
+      <div class="container portfolio-layout">
+        <div>
+          <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Thematic strategies</span>
+          <h2>Smart Portfolios</h2>
+          <p>Explore thematic investment ideas grouped around broad market trends and sectors. Review each portfolio's composition, fees, and risks before making an investment decision.</p>
+          <a class="button button-primary" href="/smart-portfolios.html">Explore Portfolios</a>
+        </div>
+        <div class="portfolio-visual" aria-label="Illustrative diversified portfolio">
+          <div class="portfolio-orbit orbit-one"></div><div class="portfolio-orbit orbit-two"></div>
+          <div class="portfolio-center">GMO<span>PORTFOLIOS</span></div>
+          <span class="portfolio-node node-one">Tech</span><span class="portfolio-node node-two">Global</span><span class="portfolio-node node-three">Energy</span><span class="portfolio-node node-four">Digital</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="community-section section-shell" id="community">
+      <div class="container community-layout">
+        <div class="community-copy">
+          <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Learn together</span>
+          <h2>Join the Community</h2>
+          <p>Exchange perspectives, ask thoughtful questions, and learn from different market viewpoints.</p>
+          <h3>Building connections leads to building confidence.</h3>
+          <a class="button button-secondary" href="/contact.html">Connect with us</a>
+        </div>
+        <div class="chat-preview" aria-label="Illustrative investor discussion">
+          <div class="chat-bubble"><span class="chat-avatar">J</span><p><strong>John</strong><br>What do you think is next for the markets?</p></div>
+          <div class="chat-bubble chat-bubble-reply"><span class="chat-avatar chat-avatar-pink">A</span><p><strong>Amy</strong><br>I'd wait for the earnings release before deciding.</p></div>
+          <p class="chat-disclaimer">Illustrative conversation for demonstration only.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-section section-shell" id="why-us">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Built around trust</h2>
+          <p>Clear information, thoughtful security, and a global perspective.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card trust-card"><div class="feature-icon" aria-hidden="true">✓</div><h3>Reliable</h3><p>Regulatory requirements vary by jurisdiction. Review our published disclosures and verify any applicable authorisation independently.</p></article>
+          <article class="feature-card trust-card"><div class="feature-icon" aria-hidden="true">◇</div><h3>Secured</h3><p>We aim to use top-tier security practices. Protect your credentials and use only official sign-in channels.</p></article>
+          <article class="feature-card trust-card"><div class="feature-icon" aria-hidden="true">◎</div><h3>Global</h3><p>Providing services around the world, subject to local eligibility and applicable restrictions.</p></article>
+        </div>
+      </div>
+    </section>
+
     <section class="container risk-notice" aria-label="Risk disclosure">
       Trading and investing involve risk, including possible loss of
       principal. Digital assets, commodities, and other financial instruments
@@ -1064,19 +1200,18 @@
     </section>
   </main>
 
-  <footer>
-    <div class="container footer-inner">
-      <span>© <span id="current-year"></span> Global Market Options</span>
-      <nav class="footer-links" aria-label="Footer navigation">
-        <a href="/about.html">About Us</a>
-        <a href="/contact.html">Contact</a>
-        <a href="/faqs.html">FAQs</a>
-        <a href="/fees.html">Fees</a>
-        <a href="/privacy.html">Privacy Policy</a>
-        <a href="/terms.html">Terms of Service</a>
-        <a href="/risk-disclosure.html">Risk Disclosure</a>
-      </nav>
+  <footer class="site-footer">
+    <div class="container footer-columns">
+      <div class="footer-brand-column">
+        <a class="brand footer-brand" href="/" aria-label="Global Market Options home"><span class="brand-mark" aria-hidden="true">GMO</span><span class="brand-label">Global Market Options</span></a>
+        <p>Market information and trading tools for a global audience.</p>
+        <a href="mailto:support@globalmarketoptions.org">support@globalmarketoptions.org</a>
+      </div>
+      <div class="footer-column"><h3>Top Instruments</h3><a href="/stocks-etfs.html">Tesla</a><a href="/stocks-etfs.html">Apple</a><a href="/stocks-etfs.html">Nvidia</a><a href="/stocks-etfs.html">Microsoft</a></div>
+      <div class="footer-column"><h3>Learn More</h3><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a><a href="/faqs.html">What is Leverage?</a><a href="/copy-trading.html">How Copy Trading Works</a></div>
+      <div class="footer-column"><h3>Privacy &amp; Legal</h3><a href="/cookie-policy.html">Cookie Policy</a><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms &amp; Conditions</a><a href="/risk-disclosure.html">General Risk Disclosure</a></div>
     </div>
+    <div class="container footer-bottom"><span>© <span id="current-year"></span> Global Market Options</span><span>Trading involves risk. No return is guaranteed.</span></div>
   </footer>
 
   <script>
@@ -1115,30 +1250,35 @@
     (() => {
       const menuButton = document.getElementById("mobile-menu-button");
       const mobileNav = document.getElementById("mobile-nav");
+      const backdrop = document.getElementById("mobile-drawer-backdrop");
+      const closeButton = document.getElementById("mobile-drawer-close");
+      if (!menuButton || !mobileNav || !backdrop) return;
+
+      const setDrawerOpen = (open) => {
+        menuButton.setAttribute("aria-expanded", String(open));
+        menuButton.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
+        mobileNav.setAttribute("aria-hidden", String(!open));
+        mobileNav.classList.toggle("open", open);
+        backdrop.hidden = !open;
+        document.body.classList.toggle("drawer-open", open);
+        if (open) closeButton?.focus();
+        else menuButton.focus();
+      };
 
       menuButton.addEventListener("click", () => {
-        const isExpanded =
-          menuButton.getAttribute("aria-expanded") === "true";
-
-        menuButton.setAttribute("aria-expanded", String(!isExpanded));
-        menuButton.setAttribute(
-          "aria-label",
-          isExpanded ? "Open navigation menu" : "Close navigation menu"
-        );
-
-        mobileNav.classList.toggle("open", !isExpanded);
+        setDrawerOpen(menuButton.getAttribute("aria-expanded") !== "true");
       });
-
+      closeButton?.addEventListener("click", () => setDrawerOpen(false));
+      backdrop.addEventListener("click", () => setDrawerOpen(false));
       mobileNav.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => {
-          menuButton.setAttribute("aria-expanded", "false");
-          menuButton.setAttribute("aria-label", "Open navigation menu");
-          mobileNav.classList.remove("open");
-        });
+        link.addEventListener("click", () => setDrawerOpen(false));
       });
-
-      document.getElementById("current-year").textContent =
-        new Date().getFullYear();
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
+          setDrawerOpen(false);
+        }
+      });
+      document.getElementById("current-year").textContent = new Date().getFullYear();
     })();
   </script>
 </body>
