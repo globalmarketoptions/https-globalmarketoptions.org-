@@ -3,6 +3,7 @@ begin;
 alter table public.kyc_records drop constraint if exists kyc_records_status_check;
 alter table public.kyc_records add constraint kyc_records_status_check
  check (status in ('UPLOAD_PENDING','PENDING','UNDER_REVIEW','APPROVED','REJECTED'));
+alter table public.kyc_records add column if not exists prior_document_path text;
 
 create table if not exists public.payment_instructions (
   id uuid primary key default gen_random_uuid(),
