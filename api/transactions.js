@@ -13,20 +13,29 @@ module.exports = async function transactions(req, res) {
     const currency = String(body.currency || "").toUpperCase();
     const amount = Number(body.amount);
     const reference = typeof body.reference === "string" ? body.reference.trim().slice(0, 160) : "";
+    const paymentMethodCode = typeof body.paymentMethodCode === "string" ? body.paymentMethodCode.trim().toUpperCase() : "";
     if (!TYPES.has(type)) return send(res, 400, { error: "Choose DEPOSIT or WITHDRAWAL." });
     if (!CURRENCIES.has(currency)) return send(res, 400, { error: "Unsupported currency." });
     if (!Number.isFinite(amount) || amount <= 0 || amount > 1000000000 || !/^\d+(\.\d{1,8})?$/.test(String(body.amount).trim())) {
       return send(res, 400, { error: "Enter a positive amount with no more than 8 decimal places." });
     }
     if (reference.length > 160) return send(res, 400, { error: "Reference is too long." });
+    if (type === "DEPOSIT") {
+      if (!paymentMethodCode) return send(res, 400, { error: "Choose one of the configured payment methods." });
+      const { data: method, error: methodError } = await db.from("payment_instructions")
+        .select("code,currency,is_active").eq("code", paymentMethodCode).eq("is_active", true).maybeSingle();
+      if (methodError) throw methodError;
+      if (!method || method.currency !== currency) return send(res, 400, { error: "That payment method is inactive or does not match the selected currency." });
+    }
     const { data, error } = await db.from("transactions").insert({
       user_id: user.id,
       type,
       amount,
       currency,
+      payment_method_code: paymentMethodCode || null,
       status: "PENDING",
       reference: reference || null
-    }).select("id,type,amount,currency,status,reference,created_at").single();
+    }).select("id,type,amount,currency,payment_method_code,status,reference,created_at").single();
     if (error) throw error;
     return send(res, 201, { transaction: data });
   } catch (error) {
