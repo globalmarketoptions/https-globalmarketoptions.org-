@@ -2,7 +2,7 @@ const { requireUser } = require("../lib/supabase-server");
 const { send, methodNotAllowed, fail } = require("../lib/api-http");
 
 const TYPES = new Set(["DEPOSIT", "WITHDRAWAL"]);
-const CURRENCIES = new Set(["USD", "EUR", "BTC", "ETH", "USDT"]);
+const CURRENCIES = new Set(["USD", "EUR", "GBP", "CHF", "SGD", "BTC", "ETH", "TRX", "USDT"]);
 
 module.exports = async function transactions(req, res) {
   if (req.method !== "POST") return methodNotAllowed(res, ["POST"]);
@@ -25,7 +25,7 @@ module.exports = async function transactions(req, res) {
       const { data: method, error: methodError } = await db.from("payment_instructions")
         .select("code,kind,currency,is_active").eq("code", paymentMethodCode).eq("is_active", true).maybeSingle();
       if (methodError) throw methodError;
-      const expectedKind = ["BTC", "ETH", "USDT"].includes(currency) ? "CRYPTO" : "BANK";
+      const expectedKind = ["BTC", "ETH", "TRX", "USDT"].includes(currency) ? "CRYPTO" : "BANK";
       if (!method || method.currency !== currency || method.kind !== expectedKind) return send(res, 400, { error: "That payment method is inactive or does not match the selected currency and payment type." });
     }
     const { data, error } = await db.from("transactions").insert({
