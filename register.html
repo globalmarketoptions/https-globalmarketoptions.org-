@@ -175,7 +175,7 @@
         const client = getSupabaseClient();
         if (!client) {
           message.textContent =
-            "We cannot create your account right now. Please try again later.";
+            "Secure registration is currently unavailable. No account has been created; please try again later.";
           message.classList.add("error");
           return;
         }
@@ -233,9 +233,15 @@
             }
           }
 
-          message.textContent = result.session
-            ? "Account created successfully. Redirecting to sign in..."
-            : "Registration received. Check your email for a confirmation link. Redirecting to sign in...";
+          if (result.session && result.user) {
+            message.textContent = "Account created successfully. Opening your dashboard…";
+            message.classList.add("success");
+            window.location.assign("/dashboard");
+            return;
+          }
+
+          message.textContent =
+            "Registration received. Check your email for a confirmation link, then sign in.";
           message.classList.add("success");
           window.setTimeout(() => window.location.assign("/login"), 1200);
         } catch (error) {
