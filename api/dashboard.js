@@ -7,7 +7,7 @@ module.exports = async function dashboard(req, res) {
     const { user, db } = await requireUser(req);
     const [profileResult, transactionsResult, tradesResult, kycResult] = await Promise.all([
       db.from("profiles").select("id,email,display_name,created_at").eq("id", user.id).maybeSingle(),
-      db.from("transactions").select("id,type,amount,currency,status,reference,created_at,updated_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(50),
+      db.from("transactions").select("id,type,amount,currency,payment_method_code,status,reference,created_at,updated_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(50),
       db.from("trades").select("id,title,amount,status,progress,created_at,updated_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(50),
       db.from("kyc_records").select("id,status,created_at,updated_at").eq("user_id", user.id).maybeSingle()
     ]);
