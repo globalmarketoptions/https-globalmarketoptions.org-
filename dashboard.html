@@ -169,6 +169,19 @@ main{padding:28px 0 52px}h1{margin:0;font-size:clamp(1.8rem,4vw,2.5rem);letter-s
   if(!session){location.replace("/login.html");return;}
   try{await load();}catch(error){status.textContent=error.message;}
   client.auth.onAuthStateChange((_event,session)=>{if(!session)location.replace("/login.html");});
+  // Re-fetch the authoritative server balance when returning from the deposit page.
+  // Client-side deposit simulations are never treated as confirmed account funds.
+  let balanceRefreshInFlight=false;
+  const refreshAccountAfterDeposit=async()=>{
+    if(document.visibilityState==="hidden"||balanceRefreshInFlight)return;
+    balanceRefreshInFlight=true;
+    try{await load();}catch(error){status.textContent=error.message||"Unable to refresh account data.";}
+    finally{balanceRefreshInFlight=false;}
+  };
+  window.addEventListener("focus",refreshAccountAfterDeposit);
+  document.addEventListener("visibilitychange",refreshAccountAfterDeposit);
+  window.addEventListener("storage",event=>{if(event.key==="gmo-deposit-status"||event.key==="gmo-deposit-updated")refreshAccountAfterDeposit();});
+
  })();
 })();
 </script><script src="/tawk-chat.js" defer></script>
