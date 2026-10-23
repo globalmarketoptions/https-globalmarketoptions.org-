@@ -24,8 +24,8 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             display: flex;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow: auto;
         }
         .sidebar {
             width: 260px;
@@ -119,7 +119,16 @@
         .btn:hover {
             opacity: 0.9;
         }
-        .info-note {
+        @media (max-width: 850px) {
+ body { display:block; height:auto; overflow:auto; }
+ .sidebar { width:100%; border-right:0; border-bottom:1px solid var(--border-color); }
+ .main-content { overflow:visible; }
+ .container { padding:18px; }
+ .card { overflow-x:auto; }
+ table { min-width:720px; }
+ header { padding:18px; gap:12px; flex-wrap:wrap; }
+}
+.info-note {
             background: rgba(59, 130, 246, 0.1);
             border-left: 4px solid var(--accent-color);
             padding: 16px;
@@ -139,23 +148,26 @@
         </div>
         
         <div class="nav-label">Workspace</div>
-        <a href="admin.html" class="nav-link active">User Management</a>
-        <a href="index.html" class="nav-link">Main Website</a>
+        <a href="/admin.html" class="nav-link active">User Management</a>
+        <a href="/index.html" class="nav-link">Main Website</a>
+        <a href="/crude-oil.html" class="nav-link">Crude Oil</a>
+        <a href="/real-estate.html" class="nav-link">Real Estate</a>
+        <a href="/login.html" class="nav-link">Access Account</a>
     </aside>
 
     <div class="main-content">
         <header>
             <h1>Admin Dashboard</h1>
-            <div style="font-size: 14px; color: #10b981;">● Connected</div>
+            <div style="font-size: 14px; color: #fbbf24;">● Backend not connected</div>
         </header>
 
         <div class="container">
             <div class="info-note">
-                <strong>Administrative Control Panel:</strong> Financial actions, user management, top-up requests, and withdrawal approvals are managed from this portal[span_3](start_span)[span_3](end_span).
+                <strong>Administrative Control Panel:</strong> This static admin page is not connected to a trusted backend yet. The rows below are sample data only; do not use this page to approve real financial transactions.
             </div>
 
             <div class="card">
-                <h2>Registered Users & Financial Requests</h2>
+                <h2>Sample Users & Financial Requests</h2>
                 <table>
                     <thead>
                         <tr>
@@ -172,14 +184,14 @@
                             <td>user_demo@example.com</td>
                             <td>Top-Up Request</td>
                             <td>3.0 BTC</td>
-                            <td><button class="btn" onclick="alert('Top-up request approved successfully.')">Approve Top-Up</button></td>
+                            <td><button class="btn" type="button" disabled title="Backend integration required">Unavailable</button></td>
                         </tr>
                         <tr>
                             <td>#1043</td>
                             <td>trader_pro@example.com</td>
                             <td>Withdrawal Review</td>
                             <td>$5,000</td>
-                            <td><button class="btn" onclick="alert('Withdrawal review submitted successfully.')">Approve Withdrawal</button></td>
+                            <td><button class="btn" type="button" disabled title="Backend integration required">Unavailable</button></td>
                         </tr>
                     </tbody>
                 </table>
