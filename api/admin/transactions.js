@@ -8,7 +8,7 @@ module.exports = async function adminTransactions(req, res) {
     const { user, db } = await requireAdmin(req);
     if (req.method === "GET") {
       const { data, error } = await db.from("transactions")
-        .select("id,user_id,type,amount,currency,status,reference,admin_notes,created_at,updated_at")
+        .select("id,user_id,type,amount,currency,payment_method_code,status,reference,admin_notes,created_at,updated_at")
         .in("status", ["PENDING", "UNDER_REVIEW"])
         .order("created_at", { ascending: true })
         .limit(100);
