@@ -451,3 +451,11 @@ body.gmo-page {
   .gmo-page .certificate-card-topline { gap: 12px; }
   .gmo-page .certificate-verification-centered .certificate-verify-button { width: 100%; }
 }
+
+
+/* Graphical investment plans section */
+.gmo-page .investment-plans-graphic-wrap { width: 100%; max-width: 960px; margin: 0 auto; }
+.gmo-page .investment-plans-graphic { display: block; width: 100%; max-width: 56rem; height: auto; margin: 0 auto; border: 1px solid rgba(234,179,8,.2); border-radius: 1rem; object-fit: contain; box-shadow: 0 24px 48px rgba(0,0,0,.32); }
+.gmo-page .investment-plans-cta { display: flex; justify-content: center; margin: 26px auto 0; }
+.gmo-page .investment-plans-start-button { display: inline-flex; justify-content: center; align-items: center; min-height: 48px; padding: 13px 24px; border: 1px solid #e8ca70; border-radius: 10px; background: linear-gradient(135deg,#e5c66c,#b88731); color: #24180b; font-weight: 850; text-align: center; box-shadow: 0 8px 22px rgba(0,0,0,.22); }
+@media (max-width: 560px) { .gmo-page .investment-plans-cta { margin-top: 18px; } .gmo-page .investment-plans-start-button { width: 100%; } }
