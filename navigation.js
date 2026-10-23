@@ -31,7 +31,7 @@
     };
 
     // Native anchors perform navigation. JavaScript only manages drawer state.
-    menuButton.addEventListener("click", () => setOpen(!isOpen()));
+    if (!menuButton.hasAttribute("onclick")) menuButton.addEventListener("click", () => setOpen(!isOpen()));
     if (closeButton) closeButton.addEventListener("click", () => setOpen(false));
     backdrop.addEventListener("click", () => setOpen(false));
     drawer.querySelectorAll("a").forEach((link) => {
