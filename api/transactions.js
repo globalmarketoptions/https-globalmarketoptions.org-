@@ -23,16 +23,17 @@ module.exports = async function transactions(req, res) {
     if (type === "DEPOSIT") {
       if (!paymentMethodCode) return send(res, 400, { error: "Choose one of the configured payment methods." });
       const { data: method, error: methodError } = await db.from("payment_instructions")
-        .select("code,currency,is_active").eq("code", paymentMethodCode).eq("is_active", true).maybeSingle();
+        .select("code,kind,currency,is_active").eq("code", paymentMethodCode).eq("is_active", true).maybeSingle();
       if (methodError) throw methodError;
-      if (!method || method.currency !== currency) return send(res, 400, { error: "That payment method is inactive or does not match the selected currency." });
+      const expectedKind = ["BTC", "ETH", "USDT"].includes(currency) ? "CRYPTO" : "BANK";
+      if (!method || method.currency !== currency || method.kind !== expectedKind) return send(res, 400, { error: "That payment method is inactive or does not match the selected currency and payment type." });
     }
     const { data, error } = await db.from("transactions").insert({
       user_id: user.id,
       type,
       amount,
       currency,
-      payment_method_code: paymentMethodCode || null,
+      payment_method_code: type === "DEPOSIT" ? paymentMethodCode : null,
       status: "PENDING",
       reference: reference || null
     }).select("id,type,amount,currency,payment_method_code,status,reference,created_at").single();
