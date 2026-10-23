@@ -54,8 +54,9 @@ button{font:inherit;cursor:pointer;border:0;border-radius:7px;padding:8px 11px;b
  }
  async function viewKycDocument(button){
   button.disabled=true;
-  try{const result=await api("/api/admin/kyc-document?id="+encodeURIComponent(button.dataset.docId));window.open(result.url,"_blank","noopener,noreferrer");}
-  catch(error){status.textContent=error.message;}
+  const popup=window.open("about:blank","_blank");
+  try{const result=await api("/api/admin/kyc-document?id="+encodeURIComponent(button.dataset.docId));if(popup)popup.location.href=result.url;else status.textContent="Popup blocked. Allow popups and click View document again.";}
+  catch(error){if(popup)popup.close();status.textContent=error.message;}
   finally{button.disabled=false;}
  }
  async function updateTradeIntent(button){
