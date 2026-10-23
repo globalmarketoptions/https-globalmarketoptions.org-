@@ -7,6 +7,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         login: resolve(__dirname, "login.html"),
+        dashboard: resolve(__dirname, "dashboard.html"),
         admin: resolve(__dirname, "admin.html"),
         crudeOil: resolve(__dirname, "crude-oil.html"),
         realEstate: resolve(__dirname, "real-estate.html")
