@@ -271,13 +271,54 @@
       color: var(--text);
     }
 
-    /* Hero section */
+    /* Hero section: video-led brand layout with a dark contrast overlay. */
     .hero {
-      padding: 92px 0 74px;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 112px 0 96px;
+      min-height: 560px;
+      display: flex;
+      align-items: center;
       text-align: center;
+      background: #07111e;
+    }
+
+    .hero-video-background,
+    .hero-video-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hero-video-background {
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .hero-background-video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      opacity: 0.48;
+    }
+
+    .hero-video-overlay {
+      z-index: -1;
       background:
-        radial-gradient(ellipse at 50% 0%, #15352f 0%, transparent 55%),
-        var(--bg);
+        linear-gradient(90deg, rgba(5, 12, 24, 0.82), rgba(5, 12, 24, 0.42), rgba(5, 12, 24, 0.82)),
+        linear-gradient(180deg, rgba(5, 12, 24, 0.25), #0b1220 100%);
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      max-width: 900px;
+      text-transform: none;
     }
 
     .eyebrow {
@@ -551,7 +592,8 @@
       }
 
       .hero {
-        padding: 68px 0 58px;
+        min-height: 500px;
+        padding: 76px 0 64px;
       }
 
       .hero-copy {
@@ -691,26 +733,43 @@
 
   <main>
     <section class="hero" id="markets">
+      <div class="hero-video-background" aria-hidden="true">
+        <video
+          class="hero-background-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster="/images/hero-poster.jpg"
+        >
+          <source src="/videos/hero-motion.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="hero-video-overlay" aria-hidden="true"></div>
       <div class="container">
         <p class="eyebrow">
           <span class="eyebrow-dot" aria-hidden="true"></span>
-          Market access and trading tools
+          GLOBAL MARKET OPTIONS
         </p>
 
-        <h1>Explore global markets with greater clarity.</h1>
+        <h1>Experience the Difference</h1>
 
         <p class="hero-copy">
-          Access market information, explore asset categories, and review
-          trading tools from one place. Market prices and account activity
-          should be supplied by verified services.
+          Discover a more connected way to explore global markets, follow
+          opportunities across asset classes, and access your trading
+          workspace from one platform.
         </p>
 
         <div class="hero-actions">
           <a class="button button-primary" href="/login.html">
-            Access Your Account
+            GET STARTED
           </a>
-          <a class="button button-secondary" href="#features">
-            Explore Markets
+          <a class="button button-secondary" href="/login.html">
+            LOGIN
+          </a>
+          <a class="button button-secondary" href="/login.html?demo=true">
+            TRY DEMO ACCOUNT
           </a>
         </div>
       </div>
@@ -857,36 +916,7 @@
       document.getElementById("current-year").textContent =
         new Date().getFullYear();
     })();
-<!-- Hero background video -->
-<div class="hero-video-background" aria-hidden="true">
-  <video
-    class="hero-background-video"
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="auto"
-    poster="/images/hero-poster.jpg"
-  >
-    <source src="/videos/hero-motion.mp4" type="video/mp4">
-  </video>
-</div>
-
-<div class="hero-video-overlay" aria-hidden="true"></div>
-
-<!-- Keep your existing hero heading, text and buttons below this point. -->
-
-  </script>function formatUsd(cents) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(cents / 100);
-}
-
-const initialPracticeBalance = formatUsd(1000); // $10.00
-const initialLiveBalance = formatUsd(0);         // $0.00
+  </script>
 </body>
 </html>
 
