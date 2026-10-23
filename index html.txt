@@ -1,0 +1,228 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Global Market Options</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/supabase-config.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Global Market Options home">
+      Global Market Options
+    </a>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="/markets.html">Markets</a>
+      <a href="/account.html">Account</a>
+      <a href="/funding.html">Funding</a>
+      <a href="/login.html">Sign in</a>
+      <a class="nav-signup" href="/register.html">Create account</a>
+    </nav>
+
+    <div class="header-tools">
+      <label class="language-control">
+        <span class="visually-hidden">Language</span>
+        <select id="language-select" aria-label="Select language">
+          <option value="en">English</option>
+          <option value="ro">Română</option>
+          <option value="fr">Français</option>
+          <option value="es">Español</option>
+          <option value="de">Deutsch</option>
+        </select>
+      </label>
+
+      <button id="mobile-menu-button" class="menu-toggle"
+              type="button" aria-label="Open navigation menu"
+              aria-controls="mobile-nav" aria-expanded="false"
+              onclick="return toggleMobileDrawer(event)">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <button id="mobile-drawer-backdrop" class="drawer-backdrop"
+          type="button" aria-label="Close navigation menu"
+          onclick="return toggleMobileDrawer(event, false)" hidden></button>
+
+  <aside id="mobile-nav" class="mobile-drawer" aria-label="Mobile navigation"
+         aria-hidden="true" inert>
+    <div class="drawer-heading">
+      <span class="brand">Menu</span>
+      <button type="button" class="drawer-close" aria-label="Close menu"
+              onclick="return toggleMobileDrawer(event, false)">×</button>
+    </div>
+
+    <nav class="drawer-links" aria-label="Mobile navigation links">
+      <a href="/">Home</a>
+      <a href="/markets.html">Active Markets</a>
+      <a href="/trading.html">Trading</a>
+      <a href="/account.html">Account Overview</a>
+      <a href="/profile.html">My Profile</a>
+      <a href="/funding.html">Funding</a>
+      <a href="/deposit.html">Deposit</a>
+      <a href="/withdraw.html">Withdraw</a>
+      <a href="/transactions.html">Transaction History</a>
+      <a href="/support.html">Support</a>
+      <a href="/login.html">Sign In</a>
+      <a href="/register.html">Create Account</a>
+      <a class="portal-button" href="/dashboard.html">Live Trading Portal</a>
+    </nav>
+
+    <label class="drawer-language">
+      Language
+      <select id="drawer-language-select" aria-label="Select language">
+        <option value="en">English</option>
+        <option value="ro">Română</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+      </select>
+    </label>
+  </aside>
+
+  <main id="main-content" class="home-content">
+    <section class="hero">
+      <p class="eyebrow">Global Market Options</p>
+      <h1>Explore the markets</h1>
+      <p>Access your account, review available markets, and manage your activity.</p>
+      <div class="hero-actions">
+        <a class="primary-button button-link" href="/markets.html">Explore markets</a>
+        <a class="secondary-button button-link" href="/register.html">Create account</a>
+      </div>
+    </section>
+
+    <section class="content-section" aria-labelledby="markets-heading">
+      <h2 id="markets-heading">Markets</h2>
+      <p>Review the available markets and their current information.</p>
+      <div class="market-links">
+        <a href="/markets.html">View active markets <span aria-hidden="true">→</span></a>
+        <a href="/trading.html">Open trading portal <span aria-hidden="true">→</span></a>
+      </div>
+      <p class="form-notice">
+        Trading and investment products involve risk, and losses may occur.
+        Review the relevant product terms before making financial decisions.
+      </p>
+    </section>
+  </main>
+
+  <div class="floating-support" aria-label="Support options">
+    <button id="live-chat-button" class="support-button live-chat-button"
+            type="button" aria-label="Open live chat">
+      <span aria-hidden="true">●</span> Live Chat
+    </button>
+    <button id="whatsapp-button" class="support-button whatsapp-button"
+            type="button" aria-label="Contact support on WhatsApp">
+      <span aria-hidden="true">◉</span> WhatsApp
+    </button>
+  </div>
+
+  <div id="support-message" class="support-message" role="status"
+       aria-live="polite" hidden></div>
+
+  <script>
+    (() => {
+      const menuButton = document.getElementById("mobile-menu-button");
+      const drawer = document.getElementById("mobile-nav");
+      const backdrop = document.getElementById("mobile-drawer-backdrop");
+
+      function setDrawerOpen(open) {
+        drawer.classList.toggle("is-open", open);
+        backdrop.hidden = !open;
+        document.body.classList.toggle("drawer-open", open);
+        drawer.setAttribute("aria-hidden", String(!open));
+        drawer.inert = !open;
+        menuButton.setAttribute("aria-expanded", String(open));
+        menuButton.setAttribute("aria-label",
+          open ? "Close navigation menu" : "Open navigation menu");
+
+        if (open) {
+          const firstLink = drawer.querySelector("a");
+          firstLink?.focus();
+        } else {
+          menuButton.focus();
+        }
+      }
+
+      // Exposed globally for the inline hamburger and close-button handlers.
+      window.toggleMobileDrawer = function(event, forceOpen) {
+        if (event) event.preventDefault();
+        const currentlyOpen = drawer.classList.contains("is-open");
+        setDrawerOpen(typeof forceOpen === "boolean" ? forceOpen : !currentlyOpen);
+        return false;
+      };
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && drawer.classList.contains("is-open")) {
+          setDrawerOpen(false);
+        }
+      });
+
+      drawer.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => setDrawerOpen(false));
+      });
+
+      // Keep both language selectors synchronized. Connect these values to a
+      // translation system if the site has one; selection alone does not translate content.
+      const languageSelects = [
+        document.getElementById("language-select"),
+        document.getElementById("drawer-language-select")
+      ];
+      languageSelects.forEach(select => {
+        select.addEventListener("change", () => {
+          languageSelects.forEach(other => {
+            if (other !== select) other.value = select.value;
+          });
+          document.documentElement.lang = select.value;
+          try {
+            localStorage.setItem("site-language", select.value);
+          } catch (_) {}
+          window.dispatchEvent(new CustomEvent("site:language-change", {
+            detail: { language: select.value }
+          }));
+        });
+      });
+
+      try {
+        const savedLanguage = localStorage.getItem("site-language");
+        if (savedLanguage && ["en", "ro", "fr", "es", "de"].includes(savedLanguage)) {
+          languageSelects.forEach(select => { select.value = savedLanguage; });
+          document.documentElement.lang = savedLanguage;
+        }
+      } catch (_) {}
+
+      const supportMessage = document.getElementById("support-message");
+      const showSupportMessage = text => {
+        supportMessage.textContent = text;
+        supportMessage.hidden = false;
+      };
+
+      document.getElementById("live-chat-button").addEventListener("click", () => {
+        // A real chat provider can listen for this event and open its chat panel.
+        const event = new CustomEvent("site:open-live-chat", { cancelable: true });
+        const handled = !window.dispatchEvent(event);
+        if (!handled) {
+          showSupportMessage(
+            "Live chat is not connected yet. Please use the Support page."
+          );
+        }
+      });
+
+      document.getElementById("whatsapp-button").addEventListener("click", () => {
+        // Configure window.SITE_WHATSAPP_NUMBER with a verified international
+        // number, digits only, e.g. "40123456789", before enabling this link.
+        const number = String(window.SITE_WHATSAPP_NUMBER || "").replace(/\D/g, "");
+        if (!number) {
+          showSupportMessage(
+            "WhatsApp support is not configured yet. Please use the Support page."
+          );
+          return;
+        }
+        window.open("https://wa.me/" + number, "_blank", "noopener,noreferrer");
+      });
+    })();
+  </script>
+</body>
+</html>

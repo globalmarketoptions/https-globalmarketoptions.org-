@@ -1,0 +1,265 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create Account | Global Market Options</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/supabase-config.js"></script>
+</head>
+<body class="auth-page">
+  <main class="auth-card">
+    <a class="brand" href="/">Global Market Options</a>
+    <h1>Create your account</h1>
+    <p>Enter your details to register.</p>
+
+    <form id="register-form">
+      <div class="form-grid">
+        <label>Full name
+          <input name="full_name" autocomplete="name" required maxlength="120">
+        </label>
+
+        <label>Username
+          <input name="username" autocomplete="username" required
+                 minlength="3" maxlength="30" pattern="[A-Za-z0-9_.-]+"
+                 title="Use letters, numbers, dots, underscores, or hyphens.">
+        </label>
+
+        <label>Email
+          <input name="email" type="email" autocomplete="email" required maxlength="254">
+        </label>
+
+        <label>Country
+          <select id="country" name="country" autocomplete="country-name" required>
+            <option value="">Choose your country</option>
+          </select>
+        </label>
+
+        <label>Preferred currency
+          <select name="currency" required>
+            <option value="">Choose currency</option>
+            <option value="USD">USD — US Dollar</option>
+            <option value="EUR">EUR — Euro</option>
+            <option value="GBP">GBP — Pound Sterling</option>
+            <option value="RON">RON — Romanian Leu</option>
+            <option value="CAD">CAD — Canadian Dollar</option>
+            <option value="AUD">AUD — Australian Dollar</option>
+            <option value="CHF">CHF — Swiss Franc</option>
+            <option value="JPY">JPY — Japanese Yen</option>
+            <option value="CNY">CNY — Chinese Yuan</option>
+            <option value="INR">INR — Indian Rupee</option>
+            <option value="NGN">NGN — Nigerian Naira</option>
+            <option value="ZAR">ZAR — South African Rand</option>
+            <option value="AED">AED — UAE Dirham</option>
+            <option value="SGD">SGD — Singapore Dollar</option>
+            <option value="NZD">NZD — New Zealand Dollar</option>
+          </select>
+        </label>
+
+        <label>Gender (optional)
+          <select name="gender">
+            <option value="">Prefer not to say</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="non_binary">Non-binary</option>
+            <option value="self_described">Self-described</option>
+          </select>
+        </label>
+
+        <label>Phone number (include country code)
+          <input name="phone" type="tel" autocomplete="tel"
+                 placeholder="+40 123 456 789" maxlength="30">
+        </label>
+
+        <label>Password
+          <input id="password" name="password" type="password"
+                 autocomplete="new-password" required minlength="10"
+                 maxlength="128">
+          <small>Use at least 10 characters.</small>
+        </label>
+
+        <label>Confirm password
+          <input id="confirm-password" name="confirm_password" type="password"
+                 autocomplete="new-password" required minlength="10"
+                 maxlength="128">
+        </label>
+      </div>
+
+      <label class="checkbox-row">
+        <input type="checkbox" name="terms" required>
+        <span>I agree to the <a href="/terms.html">Terms and Conditions</a>
+          and have read the <a href="/privacy.html">Privacy Policy</a>.</span>
+      </label>
+
+      <p class="form-notice">
+        Trading and investment products can involve significant financial risk.
+        Review the applicable product terms before making financial decisions.
+      </p>
+
+      <div id="register-message" class="form-message" role="status"
+           aria-live="polite"></div>
+      <button class="primary-button" type="submit">Create account</button>
+    </form>
+
+    <p class="auth-switch">Already registered? <a href="/login.html">Sign in</a></p>
+  </main>
+
+  <script>
+    (() => {
+      const form = document.getElementById("register-form");
+      const message = document.getElementById("register-message");
+      const countrySelect = document.getElementById("country");
+
+      // ISO 3166-1 alpha-2 country/region codes; labels use the browser's locale.
+      const countryCodes = (
+        "AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ " +
+        "BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ " +
+        "CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ " +
+        "DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR " +
+        "GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY " +
+        "HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP " +
+        "KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV " +
+        "LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX " +
+        "MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL " +
+        "PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ " +
+        "SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN " +
+        "TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS XK " +
+        "YE YT ZA ZM ZW"
+      ).split(/\s+/);
+
+      const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+      countryCodes
+        .map(code => ({ code, name: regionNames.of(code) || code }))
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .forEach(({ code, name }) => {
+          const option = document.createElement("option");
+          option.value = name;
+          option.textContent = name;
+          option.dataset.code = code;
+          countrySelect.appendChild(option);
+        });
+
+      function getSupabaseClient() {
+        if (window.supabaseClient) return window.supabaseClient;
+
+        const config = window.SUPABASE_CONFIG || {};
+        const url = window.SUPABASE_URL || config.url;
+        const key = window.SUPABASE_ANON_KEY || config.anonKey ||
+                    window.SUPABASE_PUBLISHABLE_KEY || config.publishableKey;
+
+        if (url && key && window.supabase?.createClient) {
+          return window.supabase.createClient(url, key);
+        }
+        return null;
+      }
+
+      form.addEventListener("submit", async event => {
+        event.preventDefault();
+        message.textContent = "";
+        message.className = "form-message";
+
+        if (!form.reportValidity()) return;
+
+        const data = new FormData(form);
+        const password = String(data.get("password") || "");
+        const confirmation = String(data.get("confirm_password") || "");
+
+        if (password !== confirmation) {
+          message.textContent = "Your passwords do not match.";
+          message.classList.add("error");
+          document.getElementById("confirm-password").focus();
+          return;
+        }
+
+        const client = getSupabaseClient();
+        if (!client) {
+          message.textContent =
+            "Registration is not configured. Please contact site support.";
+          message.classList.add("error");
+          return;
+        }
+
+        const submitButton = form.querySelector('[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = "Creating account…";
+
+        const profile = {
+          full_name: String(data.get("full_name")).trim(),
+          username: String(data.get("username")).trim(),
+          email: String(data.get("email")).trim().toLowerCase(),
+          country: String(data.get("country")),
+          currency: String(data.get("currency")),
+          gender: String(data.get("gender") || ""),
+          phone: String(data.get("phone") || "").trim()
+        };
+
+        try {
+          const { data: result, error } = await client.auth.signUp({
+            email: profile.email,
+            password,
+            options: {
+              data: {
+                full_name: profile.full_name,
+                username: profile.username,
+                country: profile.country,
+                currency: profile.currency,
+                gender: profile.gender || null,
+                phone: profile.phone || null
+              },
+              emailRedirectTo: window.location.origin + "/login.html"
+            }
+          });
+
+          if (error) throw error;
+
+          // With email confirmation enabled, Supabase may not create a session
+          // yet. Metadata above preserves the submitted profile until confirmation.
+          if (result.user && result.session) {
+            const { error: profileError } = await client
+              .from("profiles")
+              .upsert({
+                id: result.user.id,
+                ...profile
+              }, { onConflict: "id" });
+
+            if (profileError) {
+              console.error("Profile save failed:", profileError.message);
+              message.textContent =
+                "Your account was created, but your profile could not be saved. " +
+                "Please sign in or contact support.";
+              message.classList.add("error");
+              return;
+            }
+          }
+
+          form.reset();
+          message.textContent = result.session
+            ? "Account created successfully. You can now sign in."
+            : "Registration received. Check your email for a confirmation link.";
+          message.classList.add("success");
+        } catch (error) {
+          // Do not expose raw provider errors or internal configuration.
+          console.error("Registration failed:", error?.message || "Unknown error");
+          const text = String(error?.message || "").toLowerCase();
+          if (text.includes("already registered") || text.includes("already exists")) {
+            message.textContent =
+              "An account may already exist for this email. Try signing in or resetting your password.";
+          } else if (text.includes("password")) {
+            message.textContent =
+              "Please choose a stronger password and try again.";
+          } else {
+            message.textContent =
+              "We couldn't complete registration. Check your details and try again.";
+          }
+          message.classList.add("error");
+        } finally {
+          submitButton.disabled = false;
+          submitButton.textContent = "Create account";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
