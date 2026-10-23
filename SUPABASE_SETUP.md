@@ -44,6 +44,7 @@ A local `.env.example` is included as a template. Copy it to `.env.local` for lo
 - `GET /api/admin/kyc-document?id=...`: issues a 60-second signed URL to an active administrator and writes an audit log entry.
 - `GET /api/trade-intents` and `POST /api/trade-intents`: list/create the user's trade requests; these are intents only, not live orders.
 - `GET /api/admin/trade-intents` and `PATCH /api/admin/trade-intents`: administrator review workflow; approval is an internal state and does not execute a trade.
+- `POST /api/admin/execute-trade`: an admin-only execution hook that currently returns `503` by design until a broker-specific adapter is implemented and reviewed.
 - `GET /api/admin/users`: requires a valid session and active `admin_users` membership.
 - `GET /api/admin/transactions`: returns pending/under-review requests to active admins.
 - `PATCH /api/admin/transactions`: permits only `UNDER_REVIEW`, `COMPLETED`, or `REJECTED` status changes through a server-side database function and audit log. A status change does not transfer money.
