@@ -188,3 +188,11 @@ header, .navbar, .top-bar {
   cursor: pointer !important;
 }
 #mobile-menu-button { touch-action: manipulation; }
+
+/* Clickable form controls: scoped to controls without changing overlay stacking */
+input, select, textarea, button, [role="button"] {
+  pointer-events: auto !important;
+  cursor: pointer;
+}
+input, select, textarea { position: relative; z-index: 99999; cursor: text; }
+button, [role="button"] { position: relative; z-index: 99999; }
