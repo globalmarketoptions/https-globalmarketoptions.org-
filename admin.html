@@ -26,6 +26,8 @@ button{font:inherit;cursor:pointer;border:0;border-radius:7px;padding:8px 11px;b
 <script>
 (() => {
  const $=id=>document.getElementById(id),status=$("admin-status"),config=window.SUPABASE_CONFIG||{};
+ const adminMain=document.querySelector("main");
+ if(adminMain) adminMain.hidden=true;
  const ready=Boolean(window.supabase&&config.url&&config.anonKey&&!config.url.includes("YOUR_")&&!config.anonKey.includes("YOUR_"));
  const client=ready?window.supabase.createClient(config.url,config.anonKey):null;
  const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -104,7 +106,11 @@ button{font:inherit;cursor:pointer;border:0;border-radius:7px;padding:8px 11px;b
  (async()=>{
   if(!ready){status.textContent="Supabase is not configured. Add the public URL and anon key to supabase-config.js.";return;}
   const {data:{session}}=await client.auth.getSession();if(!session){location.replace("/login.html");return;}
-  try{await load();}catch(error){status.textContent=error.message;$("users-body").innerHTML="<tr><td colspan='4'>Admin data unavailable.</td></tr>";$("requests-body").innerHTML="<tr><td colspan='7'>Admin data unavailable.</td></tr>";}
+  try{await load();if(adminMain)adminMain.hidden=false;}
+  catch(error){
+   status.textContent=error.message==="Administrator access required."?"Administrator access required. This page is restricted to approved administrators.":error.message;
+   if(error.message!=="Administrator access required."){$("users-body").innerHTML="<tr><td colspan='4'>Admin data unavailable.</td></tr>";$("requests-body").innerHTML="<tr><td colspan='7'>Admin data unavailable.</td></tr>";}
+  }
   client.auth.onAuthStateChange((_event,session)=>{if(!session)location.replace("/login.html");});
  })();
 })();
