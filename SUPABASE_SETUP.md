@@ -19,9 +19,10 @@ A local `.env.example` is included as a template. Copy it to `.env.local` for lo
 1. Open the correct Supabase project and go to **SQL Editor**.
 2. Run `supabase/migrations/202610230001_secure_dashboard.sql`. This creates profiles, transactions, trades, KYC status, administrator membership, audit logging, row-level security policies, and a restricted transaction-review function.
 3. Run `supabase/migrations/202610230002_backfill_profiles.sql` to create profile rows for accounts that existed before the profile trigger was installed.
-4. In **Authentication → URL Configuration**, set the Site URL to your production origin and add `https://YOUR_DOMAIN/login.html` to the allowed redirect URLs. Add your preview/local URLs only if needed.
-5. In **Authentication → Providers**, enable Google and configure Google's OAuth client ID/secret and redirect URI using the callback URI Supabase displays. Email-link authentication must be enabled and email delivery configured.
-6. Sign in once with the account that should be an administrator. In the Supabase SQL Editor, run the following after replacing the UUID with that account's actual Auth user ID:
+4. Run `supabase/migrations/202610230003_admin_kyc_review.sql` to enable audited KYC review status changes.
+5. In **Authentication → URL Configuration**, set the Site URL to your production origin and add `https://YOUR_DOMAIN/login.html` to the allowed redirect URLs. Add your preview/local URLs only if needed.
+6. In **Authentication → Providers**, enable Google and configure Google's OAuth client ID/secret and redirect URI using the callback URI Supabase displays. Email-link authentication must be enabled and email delivery configured.
+7. Sign in once with the account that should be an administrator. In the Supabase SQL Editor, run the following after replacing the UUID with that account's actual Auth user ID:
 
    ```sql
    insert into public.admin_users (user_id, is_active)
@@ -38,6 +39,8 @@ A local `.env.example` is included as a template. Copy it to `.env.local` for lo
 - `GET /api/admin/users`: requires a valid session and active `admin_users` membership.
 - `GET /api/admin/transactions`: returns pending/under-review requests to active admins.
 - `PATCH /api/admin/transactions`: permits only `UNDER_REVIEW`, `COMPLETED`, or `REJECTED` status changes through a server-side database function and audit log. A status change does not transfer money.
+- `GET /api/admin/kyc`: returns pending identity-verification statuses to active admins without exposing document paths.
+- `PATCH /api/admin/kyc`: permits audited `UNDER_REVIEW`, `APPROVED`, or `REJECTED` KYC status changes through a server-side database function.
 
 All endpoints reject unauthenticated requests. The service-role key is only read by server-side API code. Direct browser reads are additionally constrained by row-level security. The admin table is not an authorization boundary; the server's `admin_users` check is.
 
