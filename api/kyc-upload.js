@@ -24,7 +24,7 @@ module.exports = async function kycUpload(req,res) {
   const path=user.id+"/"+crypto.randomUUID()+"."+extension;
   const {data:upload,error:uploadError}=await db.storage.from("kyc-private").createSignedUploadUrl(path,{upsert:false});
   if(uploadError) throw uploadError;
-  const record={user_id:user.id,status:"PENDING",document_path:path,updated_at:new Date().toISOString()};
+  const record={user_id:user.id,status:"UPLOAD_PENDING",document_path:path,updated_at:new Date().toISOString()};
   const {error:recordError}=await db.from("kyc_records").upsert(record,{onConflict:"user_id"});
   if(recordError) {
     await db.storage.from("kyc-private").remove([path]);
