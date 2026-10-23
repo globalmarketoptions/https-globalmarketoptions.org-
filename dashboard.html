@@ -1,206 +1,74 @@
 <!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1220">
-<title>Your Dashboard | Global Market Options</title>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>Wallet Dashboard | Global Market Options</title>
 <style>
-:root{color-scheme:dark;--bg:#090713;--panel:#151126;--line:#33254d;--text:#f5f1ff;--muted:#aaa0c3;--accent:#b86bff;--accent-2:#7c4dff;--warn:#fbbf24}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 Inter,system-ui,sans-serif}a{color:inherit}.wrap{width:min(1100px,calc(100% - 32px));margin:auto}
-body{background:radial-gradient(ellipse at 80% 0%,rgba(124,77,255,.13),transparent 36%),var(--bg)}header{border-bottom:1px solid var(--line);background:rgba(11,8,23,.82)}.nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.brand{font-weight:900;text-decoration:none}.nav-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-button,input,select{font:inherit}.header-trade-progress{display:flex;align-items:center;gap:8px;color:var(--muted)}.header-trade-progress progress{width:66px;height:7px;accent-color:var(--accent)}.header-trade-progress strong{color:var(--text)}#trade-progress-bar{height:10px}.kyc-pending{display:inline-block;padding:4px 9px;border-radius:999px;background:#33254d;color:#d9b7ff;font-size:.8rem}button{border:0;border-radius:10px;padding:10px 14px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(124,77,255,.2)}button.secondary{background:#201934;border:1px solid var(--line);color:var(--text);box-shadow:none}button:disabled{opacity:.5;cursor:not-allowed}
-main{padding:28px 0 52px}h1{margin:0;font-size:clamp(1.8rem,4vw,2.5rem);letter-spacing:-.04em}h2{font-size:1.15rem;margin:0 0 16px}.muted{color:var(--muted)}.status{margin:14px 0;padding:12px;border:1px solid var(--line);border-radius:9px;color:var(--muted);overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0}.card{min-width:0;background:linear-gradient(145deg,rgba(25,19,44,.98),rgba(17,14,31,.98));border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 12px 34px rgba(0,0,0,.16)}.metric{font-size:1.6rem;font-weight:850;overflow-wrap:anywhere}.columns{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:18px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:520px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);font-size:.88rem}th{color:var(--muted);font-weight:700}form{display:grid;gap:8px;margin:0 0 18px}label{font-weight:700;font-size:.88rem}input,select{width:100%;padding:11px;border:1px solid var(--line);border-radius:8px;background:#0b1220;color:var(--text)}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.notice{font-size:.83rem;color:var(--muted)}.pill{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:2px 8px;font-size:.76rem}.progress-ring{--progress:33.5;position:relative;display:grid;place-items:center;width:118px;height:118px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--progress)*1%),#302541 0);margin:8px auto 14px}.progress-ring:before{content:"";position:absolute;inset:9px;border-radius:50%;background:#151126}.progress-ring strong{position:relative;font-size:1.25rem;color:var(--text)}.mini-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:16px 0}.mini-card-grid .card{margin:0}.balance-value{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-.03em;margin:12px 0;color:var(--text)}.asset-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.asset-card{display:flex;align-items:center;justify-content:flex-start;gap:10px;min-height:64px;padding:14px;background:#0d1728;color:var(--text);border:1px solid var(--line);border-radius:10px;text-align:left;transition:border-color .15s,background .15s}.asset-card:hover,.asset-card:focus-visible{background:#15243a;border-color:var(--accent);outline:2px solid transparent}.asset-card span{font-weight:700}@media(max-width:800px){.asset-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:800px){.grid{grid-template-columns:1fr}.columns{grid-template-columns:1fr}.mini-card-grid{grid-template-columns:1fr}}@media(max-width:500px){.form-row{grid-template-columns:1fr}.card{padding:15px}}
- .dashboard-nav{flex-wrap:wrap;justify-content:flex-start}.dashboard-nav a{font-size:.82rem;text-decoration:none;color:var(--muted)}.dashboard-nav a:hover{color:var(--text)}.portal-shortcuts{align-items:stretch}.portal-shortcuts ul{padding-left:18px}.portal-shortcuts li{margin:8px 0}.portal-shortcuts button{padding:5px 8px;font-size:.8rem}@media(max-width:800px){.dashboard-nav{width:100%;gap:9px}.dashboard-nav a{font-size:.78rem}}@media(max-width:500px){.dashboard-nav{gap:8px}.dashboard-nav a{padding:3px 0}}\n/* Streamlined visitor dashboard: legacy request forms and watchlist are hidden from the production layout. */
-#watchlist,#request-center,#trade{display:none!important}
-</style></head><body>
-<header><div class="wrap nav"><a class="brand" href="/index.html">← GLOBAL MARKET OPTIONS</a><nav class="nav-right dashboard-nav" aria-label="Customer dashboard navigation">
-<a href="#overview">Overview</a><a href="#portfolio">Portfolio</a><a href="#markets">Markets</a><a href="#orders">Orders</a><a href="#transaction-history">Transaction History</a><a href="/secured/deposit">Deposits</a><a href="#request-center">Withdrawals</a><a href="#profile">Profile</a><a href="#security">Security</a><a href="/paper-trading.html">Practice Trading</a>
-<div class="header-trade-progress" aria-label="Seven-day progress"><progress id="header-trade-progress" value="0" max="100"></progress><strong id="header-trade-progress-label">0%</strong></div><a href="#financial-overview" aria-label="Notifications">🔔</a><a href="#profile" aria-label="User profile">👤</a><span id="signed-in-email" class="muted"></span><button class="secondary" id="sign-out" type="button">Sign out</button></nav></div></header>
-<main class="wrap" id="overview">
-<h1 id="welcome-heading">Welcome</h1><p class="muted">Your account activity and submitted requests.</p><div class="form-row portal-shortcuts" style="margin:16px 0"><a href="/secured/deposit"><button type="button">Top Up</button></a><a href="/secured/deposit"><button type="button" class="secondary">Deposit</button></a><a href="#request-center"><button type="button" class="secondary">Withdraw</button></a></div>
-<p id="page-status" class="status" role="status" aria-live="polite">Welcome to your account.</p>
-<div class="mini-card-grid" id="liquidity-identity"><section class="card" id="trade-progress-card"><h2>Trade In Progress</h2><div class="progress-ring" id="trade-progress-ring" style="--progress:0" role="img" aria-label="Seven-day timer 0 percent"><strong id="trade-progress-percent">0%</strong></div><progress id="trade-progress-bar" value="0" max="100" style="width:100%;accent-color:var(--accent)"></progress><p class="muted" id="trade-progress-remaining">7 days remaining</p></section><section class="card" id="identity-card"><h2>Identity verification</h2><div class="progress-ring" style="--progress:0" role="img" aria-label="Identity verification status"><strong id="identity-ring-label">0%</strong></div><div class="metric" id="kyc-status">Not verified</div><form id="kyc-local-form" style="display:grid;gap:10px"><label for="kyc-local-type">Document type</label><select id="kyc-local-type" required><option value="">Choose document type</option><option>Government ID</option><option>Passport</option><option>Driver’s License</option></select><label for="kyc-local-file">Verification document (PDF, JPG, PNG)</label><input id="kyc-local-file" type="file" accept="image/jpeg,image/png,application/pdf" required><button type="submit">Upload document</button></form><p class="muted" id="kyc-local-status" role="status" aria-live="polite">No document submitted.</p></section><section class="card" id="account-balance-card"><h2>Main Account</h2><p class="muted">Account balance</p><div class="metric" id="compact-main-balance">US$0.00</div><a href="/secured/deposit">Deposit / recharge →</a></section><section class="card" id="local-deposit-card"><h2>Recent Top Ups</h2><p class="muted">Latest deposit submission</p><div class="metric" id="local-deposit-total">US$0.00</div><p class="muted" id="local-deposit-status">No local top-up recorded.</p><a href="/secured/deposit">Open deposit options →</a></section></div>
-<section class="card" id="financial-overview" style="margin:18px 0"><h2>Financial Overview</h2><div class="grid" style="margin:0">
-<section class="card"><div class="muted">Total Balance</div><div class="metric" id="stat-total-balance">$0.00</div></section>\n
-<section class="card"><div class="muted">Profit</div><div class="metric" id="stat-profit">$0.00</div></section>
-<section class="card"><div class="muted">Trade Bonus</div><div class="metric" id="stat-trade-bonus">$0.00</div></section>
-<section class="card"><div class="muted">Referral Bonus</div><div class="metric" id="stat-referral-bonus">$0.00</div></section>
-<section class="card"><div class="muted">Total Won</div><div class="metric" id="stat-total-won">$0.00</div></section>
-<section class="card"><div class="muted">Total Loss</div><div class="metric" id="stat-total-loss">$0.00</div></section></div>
-<div class="columns" style="margin-top:16px"><section><h2>Referral Link</h2><p class="muted">Share your referral link.</p><div class="form-row"><input id="referral-link" readonly aria-label="Referral link"><button type="button" id="copy-referral">Copy</button></div><p id="referral-status" class="notice" role="status"></p></section><section><h2>Progress</h2><label>SIGNAL STRENGTH <strong>100%</strong></label><progress value="100" max="100" style="width:100%"></progress><label>TRADING PROGRESS <strong>100%</strong></label><progress value="100" max="100" style="width:100%"></progress></section></div>
-<div class="columns" style="margin-top:16px"><section><h2>Total Deposits</h2><p id="total-deposits">$0.00</p><a href="/secured/deposit">Deposit</a></section><section><h2>Total Withdrawals</h2><p id="total-withdrawals">$0.00</p><a href="#request-type">Withdraw</a></section><section><h2>Verification Status</h2><p id="verification-summary">Your account is not verified</p><a href="#security">Verify</a></section></div></section>
-<div class="grid">
-<section class="card"><div class="muted">Transactions</div><div class="metric" id="transaction-count">—</div></section>
-<section class="card"><div class="muted">Active trades</div><div class="metric" id="trade-count">—</div></section>
-<section class="card"><div class="muted">Identity verification</div><div class="metric" id="kyc-status">—</div></section>
-</div>
-<div class="grid portal-shortcuts">
-<section class="card" id="portfolio"><h2>Main Account Balance</h2><p class="muted">Your account balance.</p><div class="balance-value" id="main-balance" aria-live="polite">$0.00</div><span class="pill">ACCOUNT BALANCE</span><p><a href="/secured/deposit">Deposit funds →</a> · <a href="#request-type">Withdraw →</a></p><p><a href="/paper-trading.html">Open Practice Trading →</a></p><a href="#transaction-history">Review transaction history →</a></section>
-<section class="card" id="watchlist"><h2>Watchlist</h2><p class="notice">Your watchlist is stored in this browser only; it is not a market quote feed.</p><form id="watchlist-form"><label for="watchlist-symbol">Add a symbol or asset</label><div class="form-row"><input id="watchlist-symbol" maxlength="32" placeholder="e.g. EUR/USD or BTC" required><button type="submit">Add</button></div></form><ul id="watchlist-items" aria-live="polite"></ul></section>
-<section class="card" id="markets"><h2>Markets</h2><p class="muted">Explore the available market categories.</p><p><a href="/crypto-trading.html">Crypto Trading</a> · <a href="/forex-trading.html">Forex Trading</a> · <a href="/stocks-etfs.html">Stocks &amp; ETFs</a></p><p><a href="/crude-oil.html">Crude Oil</a> · <a href="/real-estate.html">Real Estate</a></p></section>
-</div>
-<div class="columns">
-<section class="card"><h2 id="transaction-history">Transaction History</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Payment method</th><th>Status</th></tr></thead><tbody id="transactions-body"><tr><td colspan="5">Loading…</td></tr></tbody></table></div><h2 id="orders" style="margin-top:26px">Orders &amp; trading activity</h2><div class="table-wrap"><table><thead><tr><th>Plan</th><th>Amount</th><th>Progress</th><th>Status</th></tr></thead><tbody id="trades-body"><tr><td colspan="4">Loading…</td></tr></tbody></table></div></section>
-<section class="card" id="request-center"><h2>Deposits &amp; Withdrawals</h2><p class="notice">This records a pending request for manual review. It does not transfer money or execute a trade.</p><p><a href="/secured/deposit">Open Deposit Page →</a></p>
-<form id="request-form"><div class="form-row"><div><label for="request-type">Request type</label><select id="request-type" required><option value="DEPOSIT">Deposit</option><option value="WITHDRAWAL">Withdrawal</option></select></div><div><label for="currency">Currency</label><select id="currency" required><option>USD</option><option>EUR</option><option>BTC</option><option>ETH</option><option>USDT</option></select></div></div>
-<div><label for="payment-method">Payment method (required for deposits)</label><select id="payment-method"><option value="">Choose a configured method</option></select></div>
-<div><label for="amount">Amount</label><input id="amount" type="number" min="0.00000001" max="1000000000" step="0.00000001" required placeholder="Enter amount"></div>
-<div><label for="reference">Transaction hash / reference (optional)</label><input id="reference" maxlength="160" autocomplete="off" placeholder="Reference only"></div>
-<button id="submit-request" type="submit">Submit for review</button></form>
-<p class="notice">Never submit passwords, private keys, seed phrases, or secret wallet credentials.</p></section>
-</div>
-<section class="card" id="payment-instructions" style="margin-top:18px"><h2>Deposit payment instructions</h2><p class="notice">Use only the exact active instructions shown below. Confirm the asset and network carefully; sending crypto on the wrong network can permanently lose funds. This page does not itself receive or verify payments.</p><div id="payment-methods" class="notice">Loading available methods…</div></section>
-<section class="card" id="security" style="margin-top:18px"><h2>Security &amp; identity verification</h2><p class="notice">Upload only your own identity document. Files are stored in a private bucket and are accessible to authorized reviewers through short-lived links. Maximum size 5 MB; PDF, JPEG, or PNG only.</p><form id="kyc-form"><div><label for="kyc-document">Identity document</label><input id="kyc-document" type="file" accept="application/pdf,image/jpeg,image/png" required></div><button id="kyc-submit" type="submit">Upload securely</button></form><p class="notice" id="kyc-message" role="status"></p></section>
-<section class="card" id="market-chart" style="margin-top:18px"><h2>Market Chart &amp; Asset Classes</h2><p class="notice">Illustrative reference chart and sample levels only; this is not a live quote feed.</p><div class="form-row" id="asset-class-tabs" role="group" aria-label="Asset class tabs"><button type="button" class="secondary" data-class="Indices">Indices</button><button type="button" class="secondary" data-class="Futures">Futures</button><button type="button" class="secondary" data-class="Bonds">Bonds</button><button type="button" class="secondary" data-class="Forex">Forex</button><button type="button" class="secondary" data-class="Crypto">Crypto</button></div><div class="form-row"><div><label for="chart-timeframe">Timeframe</label><select id="chart-timeframe"><option>1D</option><option>1M</option><option>3M</option><option>1Y</option><option>5Y</option><option>All</option></select></div><div><label for="asset-class">Asset class</label><select id="asset-class"><option>Indices</option><option>Futures</option><option>Bonds</option><option>Forex</option><option>Crypto</option></select></div></div><svg viewBox="0 0 700 180" role="img" aria-label="Illustrative sample price line, not live market data" style="width:100%;height:auto;background:#0b1220;border:1px solid var(--line);border-radius:8px"><path d="M20 145 L85 118 L150 128 L215 75 L280 96 L345 55 L410 82 L475 40 L540 66 L605 25 L680 48" fill="none" stroke="#64e5b1" stroke-width="3"/><path d="M20 145 L85 118 L150 128 L215 75 L280 96 L345 55 L410 82 L475 40 L540 66 L605 25 L680 48 L680 165 L20 165 Z" fill="#64e5b1" opacity=".08"/></svg><div class="table-wrap"><table><thead><tr><th>Asset</th><th>Sample reference level</th><th>Source</th></tr></thead><tbody id="sample-assets"><tr><td>S&amp;P 500</td><td>Reference only</td><td>Not connected</td></tr><tr><td>US 100 Cash CFD</td><td>Reference only</td><td>Not connected</td></tr><tr><td>Dow Jones</td><td>Reference only</td><td>Not connected</td></tr><tr><td>Japan 225</td><td>Reference only</td><td>Not connected</td></tr><tr><td>DEU40</td><td>Reference only</td><td>Not connected</td></tr></tbody></table></div></section>
-<section class="card" id="asset-market" style="margin-top:18px"><h2>Explore assets</h2><p class="notice">Choose an asset to prepare a trade request for review. Selecting an asset does not place a live order or transfer funds.</p><div class="asset-grid" id="asset-grid"><button class="asset-card" type="button" data-market="OTHER" data-label="Trading">📊 <span>Trading</span></button><button class="asset-card" type="button" data-market="MICROSOFT" data-label="Microsoft">🪟 <span>Microsoft</span></button><button class="asset-card" type="button" data-market="TESLA" data-label="Tesla">🚘 <span>Tesla</span></button><button class="asset-card" type="button" data-market="DISNEY" data-label="Disney">🎬 <span>Disney</span></button><button class="asset-card" type="button" data-market="BTC" data-label="Bitcoin">₿ <span>Bitcoin</span></button><button class="asset-card" type="button" data-market="ETH" data-label="Ethereum">◆ <span>Ethereum</span></button><button class="asset-card" type="button" data-market="BNB" data-label="BNB">🟡 <span>BNB</span></button><button class="asset-card" type="button" data-market="SHIB" data-label="Shiba Inu">🐕 <span>Shiba Inu</span></button></div><p id="asset-selection-status" class="notice" role="status" aria-live="polite"></p></section><section class="card" id="trade" style="margin-top:18px"><h2>Trade request</h2><p class="notice">This submits an intent for review only. Live execution is disabled until a broker/exchange provider, credentials, order validation, and reconciliation are configured.</p><form id="trade-form"><div class="form-row"><div><label for="trade-type">Trade Type</label><select id="trade-type"><option>Crypto</option><option>Forex</option><option>Indices</option><option>Stocks</option><option>Commodities</option></select></div><div><label for="trade-duration">Duration</label><select id="trade-duration"><option>1 minute</option><option>5 minutes</option><option>15 minutes</option><option>1 hour</option><option>1 day</option></select></div></div><div class="form-row"><div><label for="trade-leverage">Leverage</label><select id="trade-leverage"><option value="1">1×</option><option value="2">2×</option><option value="5">5×</option><option value="10">10×</option></select></div><div><label for="trade-market">Market</label><select id="trade-market"><option value="CRUDE_OIL">Crude oil</option><option value="REAL_ESTATE">Real estate</option><option value="MICROSOFT">Microsoft</option><option value="TESLA">Tesla</option><option value="DISNEY">Disney</option><option value="BTC">Bitcoin (BTC)</option><option value="ETH">Ethereum (ETH)</option><option value="BNB">BNB</option><option value="SHIB">Shiba Inu (SHIB)</option><option value="USDT">USDT</option><option value="OTHER">Trading / Other</option></select></div><div><label for="trade-side">Action</label><select id="trade-side"><option value="BUY">Buy</option><option value="SELL">Sell</option><option value="SUBSCRIBE">Subscribe</option><option value="REDEEM">Redeem</option></select></div></div><div class="form-row"><div><label for="trade-amount">Amount</label><input id="trade-amount" type="number" min="0.00000001" max="1000000000" step="0.00000001" required></div><div><label for="trade-currency">Currency</label><select id="trade-currency"><option>USD</option><option>EUR</option><option>BTC</option><option>ETH</option><option>USDT</option></select></div></div><div><label for="trade-notes">Notes (optional)</label><input id="trade-notes" maxlength="500" placeholder="Additional context"></div><div class="form-row"><button id="trade-buy" type="submit" data-side="BUY" style="background:#22c55e;color:#052e16">BUY</button><button id="trade-sell" type="submit" data-side="SELL" style="background:#ef4444;color:#fff">SELL</button></div><button id="trade-submit" class="secondary" type="submit">Submit trade request</button></form><div class="table-wrap"><table><thead><tr><th>Submitted</th><th>Market</th><th>Action</th><th>Amount</th><th>Status</th></tr></thead><tbody id="trade-intents-body"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></section>
-<section class="card" id="profile" style="margin-top:18px"><h2>Profile</h2><p class="muted">Your authenticated email is shown in the header. Profile changes are not enabled until a profile-update endpoint is configured. For account access controls, see Security.</p><p><a href="/login.html">Sign-in settings and account access →</a></p></section>
+:root{color-scheme:light;--bg:#f6f8fc;--panel:#fff;--line:#e7eaf2;--text:#20243a;--muted:#7d8298;--purple:#6d3de7;--purple-dark:#5226c9;--cyan:#19c5e8;--shadow:0 12px 35px rgba(38,35,78,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,a{font:inherit}a{color:inherit;text-decoration:none}button{cursor:pointer}.shell{max-width:1160px;margin:auto;padding:0 24px}header{background:#fff;border-bottom:1px solid var(--line)}.topbar{height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:-.03em;font-size:1.08rem}.logo{width:39px;height:39px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,#8d65ff,#5d2fd6);color:#fff;font-weight:900;font-size:1.05rem;box-shadow:0 5px 12px #6d3de733}.top-actions{display:flex;align-items:center;gap:13px}.connect{border:0;border-radius:999px;background:var(--purple);color:white;padding:10px 22px;font-weight:750;box-shadow:0 6px 14px #6d3de72b}.search{height:42px;width:42px;display:grid;place-items:center;border:1px solid var(--line);background:#fff;border-radius:50%;color:#4e5269}.notice{margin:24px 0 28px;background:#e1faff;border:1px solid #b7f1fb;color:#167c96;padding:13px 17px;border-radius:10px;display:flex;align-items:center;gap:10px}.notice-x{font-size:1.2rem;font-weight:800}.notice strong{font-weight:750}.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:24px}h1{font-size:clamp(1.8rem,4vw,2.35rem);letter-spacing:-.045em;line-height:1.15;margin:0 0 18px;font-weight:850}.tabs{display:flex;gap:10px;flex-wrap:wrap}.tab{border:1px solid var(--purple);border-radius:9px;padding:10px 17px;font-weight:750;background:#fff;color:var(--purple)}.tab.active{background:var(--purple);color:#fff;box-shadow:0 6px 15px #6d3de72c}.balance-panel{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:26px 28px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin-bottom:22px}.eyebrow{font-size:.92rem;color:var(--muted);font-weight:650}.balance-line{display:flex;align-items:center;gap:17px;flex-wrap:wrap}.balance{font-size:clamp(2rem,5vw,2.9rem);letter-spacing:-.055em;line-height:1.2;font-weight:850;margin-top:6px}.topup{border:1px solid #b9a6fb;background:#fff;color:var(--purple);border-radius:9px;padding:10px 17px;font-weight:750}.topup:hover,.tab:not(.active):hover{background:#f5f1ff}.deposit-card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:25px 28px;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;min-height:230px}.deposit-card h2{font-size:1.12rem;margin:0 0 10px}.deposit-amount{font-size:clamp(1.8rem,4vw,2.35rem);font-weight:850;letter-spacing:-.04em}.daily{color:#8b8fa2;font-size:.9rem;margin-top:8px}.daily .arrow{color:#23a878;font-weight:900;margin-right:5px}.ring-wrap{width:148px;height:148px;display:grid;place-items:center;position:relative}.ring{--p:0;width:136px;height:136px;border-radius:50%;background:conic-gradient(var(--purple) calc(var(--p)*1%),#eee9fb 0);display:grid;place-items:center;position:relative;transition:background .2s linear}.ring:before{content:"";position:absolute;inset:10px;background:#fff;border-radius:50%}.ring-label{position:relative;text-align:center;font-size:1.15rem;font-weight:850;color:var(--purple)}.ring-label small{display:block;font-size:.67rem;color:#9691aa;font-weight:650;letter-spacing:.04em}.bottom-nav{position:fixed;z-index:10;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:space-around;gap:6px;width:min(560px,calc(100% - 28px));padding:10px 13px;background:linear-gradient(110deg,#7143e9,#5728cc);border-radius:18px;box-shadow:0 12px 32px #5426bc45;color:#fff}.nav-action{min-width:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:transparent;border:0;color:#fff;border-radius:11px;padding:5px 9px;font-size:.68rem;font-weight:650;opacity:.94}.nav-action:hover,.nav-action:focus-visible{background:#ffffff25;outline:none}.nav-icon{font-size:1.25rem;line-height:1.2}.flag{font-size:1.28rem}.spacer-bottom{height:110px}.toast{display:none;margin:14px 0 0;padding:10px 13px;border-radius:9px;background:#f2edff;color:#4e2aa9;font-size:.9rem}.toast.show{display:block}.dark{--bg:#171526;--panel:#211e34;--line:#39344d;--text:#f4f1ff;--muted:#b5afc9;--shadow:0 12px 35px #0003}.dark header,.dark .balance-panel,.dark .deposit-card,.dark .search,.dark .topup,.dark .tab:not(.active){background:var(--panel);color:var(--text);border-color:var(--line)}.dark .ring:before{background:var(--panel)}.dark .notice{background:#18353d;border-color:#27535d;color:#a6effa}.dark .ring{background:conic-gradient(var(--purple) calc(var(--p)*1%),#393149 0)}@media(max-width:620px){.shell{padding:0 16px}.topbar{height:68px}.brand{font-size:.94rem}.logo{width:35px;height:35px}.connect{padding:9px 15px}.notice{margin:18px 0 24px}.balance-panel{padding:21px 19px}.deposit-card{padding:22px 19px;grid-template-columns:1fr;gap:10px}.ring-wrap{margin:0 auto}.bottom-nav{bottom:12px}.nav-action{min-width:45px;padding:6px 5px}.nav-icon{font-size:1.15rem}}
+</style>
+</head>
+<body>
+<header><div class="shell topbar">
+<a class="brand" href="/dashboard" aria-label="Global Market Options home"><span class="logo">G</span><span>GLOBAL MARKET OPTIONS</span></a>
+<div class="top-actions"><button class="connect" id="connect-button" type="button">Connect</button><button class="search" id="search-button" type="button" aria-label="Search"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg></button></div>
+</div></header>
+<main class="shell">
+<div class="notice" role="status"><span class="notice-x" aria-hidden="true">×</span><span id="welcome-message"><strong>Welcome!</strong> You are viewing your wallet dashboard.</span></div>
+<section class="page-head"><div><h1>Wallet Dashboard</h1><div class="tabs"><button class="tab active" id="liquidity-tab" type="button">+ Liquidity</button><button class="tab" id="history-tab" type="button">Trade History</button></div></div></section>
+<section class="balance-panel" aria-labelledby="total-label"><div><div class="eyebrow" id="total-label">Total Balance</div><div class="balance-line"><div class="balance" id="total-balance">€0.00 / US$0.00</div></div></div><button class="topup" id="topup-button" type="button">+ Top Up</button></section>
+<section class="deposit-card" aria-labelledby="deposited-title"><div><h2 id="deposited-title">Deposited</h2><div class="deposit-amount" id="deposited-balance">€0.00 / US$0.00</div><div class="daily"><span class="arrow">↗</span>10 Percent (Daily Limit)</div></div><div class="ring-wrap"><div class="ring" id="progress-ring" role="img" aria-label="Progress 0 percent"><div class="ring-label"><span id="progress-value">00.0%</span><small>PROGRESS</small></div></div></div></section>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="spacer-bottom"></div>
 </main>
+<nav class="bottom-nav" aria-label="Dashboard tools">
+<button class="nav-action" id="theme-toggle" type="button" aria-label="Toggle theme"><span class="nav-icon">◐</span><span>Theme</span></button>
+<button class="nav-action" id="country-toggle" type="button" aria-label="Select country"><span class="nav-icon flag" id="country-flag">🇳🇱</span><span>Country</span></button>
+<button class="nav-action" id="menu-button" type="button" aria-label="Menu"><span class="nav-icon">☰</span><span>Menu</span></button>
+<button class="nav-action" id="notifications-button" type="button" aria-label="Notifications"><span class="nav-icon">♧</span><span>Alerts</span></button>
+<button class="nav-action" id="chat-button" type="button" aria-label="Chat"><span class="nav-icon">▤</span><span>Chat</span></button>
+</nav>
 <script>
 (() => {
- const form=document.getElementById("watchlist-form");
- const input=document.getElementById("watchlist-symbol");
- const list=document.getElementById("watchlist-items");
- const key="gmo-paper-watchlist-v1";
- let items=[];
- try { const saved=JSON.parse(localStorage.getItem(key)||"[]"); if(Array.isArray(saved)) items=saved.filter(v=>typeof v==="string").slice(0,50); } catch (_) {}
- function render(){
-  list.innerHTML="";
-  items.forEach((symbol,index)=>{
-   const li=document.createElement("li"); const text=document.createElement("span"); text.textContent=symbol;
-   const remove=document.createElement("button"); remove.type="button"; remove.className="secondary"; remove.textContent="Remove";
-   remove.addEventListener("click",()=>{items.splice(index,1);persist();render();});
-   li.append(text," ",remove);list.appendChild(li);
-  });
-  if(!items.length){const li=document.createElement("li");li.className="muted";li.textContent="Your watchlist is empty.";list.appendChild(li);}
+ const $ = id => document.getElementById(id);
+ const toast = message => { const el=$('toast'); el.textContent=message; el.classList.add('show'); };
+ // Balances default to zero. Only a trusted account API should ever replace these display values.
+ $('total-balance').textContent='€0.00 / US$0.00';
+ $('deposited-balance').textContent='€0.00 / US$0.00';
+ // Resolve the welcome name from an existing authenticated Supabase session when available.
+ async function setWelcome(){
+   try {
+     const cfg=window.SUPABASE_CONFIG||{};
+     if(window.supabase && cfg.url && cfg.anonKey && !String(cfg.url).includes('YOUR_') && !String(cfg.anonKey).includes('YOUR_')){
+       const client=window.supabase.createClient(cfg.url,cfg.anonKey);
+       const result=await client.auth.getUser();
+       const user=result && result.data && result.data.user;
+       if(user){const name=(user.user_metadata && (user.user_metadata.full_name || user.user_metadata.name)) || user.email || 'Account holder'; $('welcome-message').textContent='You are logged in as '+name+'!'; return;}
+     }
+   } catch (_) {}
+   $('welcome-message').textContent='Welcome to your wallet dashboard!';
  }
- function persist(){try{localStorage.setItem(key,JSON.stringify(items));}catch(_){}}
- form.addEventListener("submit",event=>{event.preventDefault();const symbol=input.value.trim().toUpperCase();if(!symbol)return;if(items.includes(symbol)){input.value="";return;}if(items.length>=50){alert("Watchlist limit is 50 items.");return;}items.push(symbol);persist();render();input.value="";});
- render();
+ setWelcome();
+ // A seven-day visual progress indicator only; it never changes balances or enables financial actions.
+ const key='gmo-wallet-progress-start-v1';
+ let started=Number(localStorage.getItem(key));
+ if(!Number.isFinite(started)||started<=0){started=Date.now();localStorage.setItem(key,String(started));}
+ const duration=7*24*60*60*1000;
+ function updateProgress(){const pct=Math.max(0,Math.min(100,(Date.now()-started)/duration*100));$('progress-ring').style.setProperty('--p',pct.toFixed(3));$('progress-value').textContent=(pct<10?'0':'')+pct.toFixed(1)+'%';$('progress-ring').setAttribute('aria-label','Progress '+pct.toFixed(1)+' percent');}
+ updateProgress();setInterval(updateProgress,60000);
+ $('connect-button').addEventListener('click',()=>toast('Connect your account using the secure sign-in flow.'));
+ $('search-button').addEventListener('click',()=>toast('Search is not available on this dashboard yet.'));
+ $('liquidity-tab').addEventListener('click',()=>{ $('liquidity-tab').classList.add('active');$('history-tab').classList.remove('active');toast('Liquidity overview selected.'); });
+ $('history-tab').addEventListener('click',()=>{ $('history-tab').classList.add('active');$('liquidity-tab').classList.remove('active');toast('Trade history is not available to display yet.'); });
+ $('topup-button').addEventListener('click',()=>{window.location.assign('/deposit');});
+ $('theme-toggle').addEventListener('click',()=>document.body.classList.toggle('dark'));
+ const flags=['🇳🇱','🇬🇧','🇺🇸','🇩🇪','🇫🇷'];let flagIndex=0;
+ $('country-toggle').addEventListener('click',()=>{flagIndex=(flagIndex+1)%flags.length;$('country-flag').textContent=flags[flagIndex];});
+ $('menu-button').addEventListener('click',()=>toast('Menu options are not available on this dashboard yet.'));
+ $('notifications-button').addEventListener('click',()=>toast('You have no new notifications.'));
+ $('chat-button').addEventListener('click',()=>toast('Chat support is not available right now.'));
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/supabase-config.js"></script>
-<script>
-(() => {
- const $=id=>document.getElementById(id), status=$("page-status"), config=window.SUPABASE_CONFIG||{};
- const ready=Boolean(window.supabase&&config.url&&config.anonKey&&!config.url.includes("YOUR_")&&!config.anonKey.includes("YOUR_"));
- const client=ready?window.supabase.createClient(config.url,config.anonKey):null;
- let availablePaymentMethods=[];
- const escapeHtml=value=>String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
- async function api(path,options={}) {
-  const {data:{session}}=await client.auth.getSession();
-  if(!session)throw new Error("Your session expired. Please sign in again.");
-  const response=await fetch(path,{...options,headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token,...(options.headers||{})}});
-  const result=await response.json().catch(()=>({error:"Unexpected server response."}));
-  if(!response.ok)throw new Error(result.error||"Request failed.");
-  return result;
- }
- function fmtDate(value){return value?new Date(value).toLocaleString():"—"}
- const LOCAL_DEPOSIT_KEY="gmo-local-deposit-summary-v1";
- function renderLocalDepositSummary(){try{const item=JSON.parse(localStorage.getItem(LOCAL_DEPOSIT_KEY)||"null");if(item&&Number.isFinite(Number(item.amount))&&Number(item.amount)>0){$("local-deposit-total").textContent=new Intl.NumberFormat("en-US",{style:"currency",currency:item.currency||"USD"}).format(Number(item.amount));$("local-deposit-status").textContent=item.status==="VERIFIED"?"Deposit verified":"Deposit submitted · awaiting verification";}}catch(_){}}
- renderLocalDepositSummary();window.addEventListener("storage",event=>{if(event.key===LOCAL_DEPOSIT_KEY||event.key==="gmo-deposit-updated")renderLocalDepositSummary();});window.addEventListener("focus",renderLocalDepositSummary);
- const SESSION_TIMER_KEY="gmo-dashboard-session-start-v1",SESSION_TIMER_MS=7*24*60*60*1000,SESSION_NOTICE_KEY="gmo-dashboard-session-notified-v1";
- if(!localStorage.getItem(SESSION_TIMER_KEY))localStorage.setItem(SESSION_TIMER_KEY,String(Date.now()));
- function updateSessionTimer(){
-  const start=Number(localStorage.getItem(SESSION_TIMER_KEY)||Date.now()),elapsed=Math.max(0,Date.now()-start),pct=Math.min(100,elapsed/SESSION_TIMER_MS*100),whole=Math.floor(pct),remaining=Math.max(0,SESSION_TIMER_MS-elapsed);
-  $("trade-progress-ring").style.setProperty("--progress",String(pct));$("trade-progress-ring").setAttribute("aria-label","Seven-day timer "+whole+" percent");$("trade-progress-percent").textContent=whole+"%";$("trade-progress-bar").value=pct;$("header-trade-progress").value=pct;$("header-trade-progress-label").textContent=whole+"%";
-  $("trade-progress-remaining").textContent=pct>=100?"7-day timer complete":Math.floor(remaining/86400000)+" days, "+Math.floor((remaining%86400000)/3600000)+" hours remaining";
-  if(pct>=100&&localStorage.getItem(SESSION_NOTICE_KEY)!==String(start)){localStorage.setItem(SESSION_NOTICE_KEY,String(start));const banner=document.createElement("div");banner.className="status";banner.setAttribute("role","status");banner.setAttribute("aria-live","polite");banner.textContent="Your trading session is completed. Withdrawal is now available.";const detail=document.createElement("p");detail.className="muted";detail.textContent="Timer completion is informational; withdrawal eligibility remains subject to account status.";banner.appendChild(detail);document.querySelector("main").prepend(banner);}
- }
- updateSessionTimer();setInterval(updateSessionTimer,60000);
- $("kyc-local-form").addEventListener("submit",event=>{event.preventDefault();const file=$("kyc-local-file").files&&$("kyc-local-file").files[0],kind=$("kyc-local-type").value;if(!file||!kind)return;if(file.size>10*1024*1024){$("kyc-local-status").textContent="Choose a document smaller than 10 MB.";return;}if(!["application/pdf","image/jpeg","image/png"].includes(file.type)){$("kyc-local-status").textContent="Choose a PDF, JPEG, or PNG file.";return;}const record={documentType:kind,fileName:file.name,fileSize:file.size,submittedAt:new Date().toISOString(),status:"PENDING"};localStorage.setItem("gmo-kyc-local-submission-v1",JSON.stringify(record));$("kyc-status").innerHTML='<span class="kyc-pending">Verification Pending</span>';$("kyc-local-status").textContent="Submitted Successfully — Verification Pending";$("identity-ring-label").textContent="Pending";});
- function restoreLocalKyc(){try{const record=JSON.parse(localStorage.getItem("gmo-kyc-local-submission-v1")||"null");if(record&&record.status==="PENDING"){$("kyc-status").innerHTML='<span class="kyc-pending">Verification Pending</span>';$("kyc-local-status").textContent="Submitted Successfully — Verification Pending";$("identity-ring-label").textContent="Pending";}}catch(_){}}
- restoreLocalKyc();
- async function load(){
-  const [data,payments,intents]=await Promise.all([api("/api/dashboard"),api("/api/payment-instructions"),api("/api/trade-intents")]);
-  $("signed-in-email").textContent=data.user.email||"Signed in";
-  const fullName=data.profile?.full_name||data.user.user_metadata?.full_name||data.user.email||"Client";$("welcome-heading").textContent="Welcome, "+fullName;
-  
-  const liveBalance=Number(data.balance??data.account?.balance??0);const currency=data.currency||data.account?.currency||"USD";const money=n=>new Intl.NumberFormat("en-US",{style:"currency",currency}).format(Number.isFinite(Number(n))?Number(n):0);$("main-balance").textContent=money(liveBalance);$("compact-main-balance").textContent=money(liveBalance);$("stat-total-balance").textContent=money(liveBalance);$("stat-profit").textContent=money(data.profit??0);$("stat-trade-bonus").textContent=money(data.tradeBonus??0);$("stat-referral-bonus").textContent=money(data.referralBonus??0);$("stat-total-won").textContent=money(data.totalWon??0);$("stat-total-loss").textContent=money(data.totalLoss??0);$("total-deposits").textContent=money(data.totalDeposits??data.depositsTotal??0);$("total-withdrawals").textContent=money(data.totalWithdrawals??data.withdrawalsTotal??0);$("verification-summary").textContent=(data.kyc&&["APPROVED","VERIFIED"].includes(String(data.kyc.status).toUpperCase()))?"Your account is verified":"Your account is not verified";$("kyc-status").textContent=(data.kyc&&["APPROVED","VERIFIED"].includes(String(data.kyc.status).toUpperCase()))?"Verified":"Not verified";$("identity-ring-label").textContent=(data.kyc&&["APPROVED","VERIFIED"].includes(String(data.kyc.status).toUpperCase()))?"100%":"0%";$("identity-card").querySelector(".progress-ring").style.setProperty("--progress",(data.kyc&&["APPROVED","VERIFIED"].includes(String(data.kyc.status).toUpperCase()))?"100":"0");const referral=new URL("/register",window.location.origin);referral.searchParams.set("ref",data.user.id||data.user.email||"");$("referral-link").value=referral.href;
-  $("transaction-count").textContent=data.transactions.length;
-  $("trade-count").textContent=data.trades.filter(t=>t.status==="IN_PROGRESS").length;
-  $("kyc-status").textContent=data.kyc?data.kyc.status:"NOT SUBMITTED";
-  $("transactions-body").innerHTML=data.transactions.length?data.transactions.map(t=>"<tr><td>"+escapeHtml(fmtDate(t.created_at))+"</td><td>"+escapeHtml(t.type)+"</td><td>"+escapeHtml(t.amount)+" "+escapeHtml(t.currency)+"</td><td>"+escapeHtml(t.payment_method_code||"—")+"</td><td><span class='pill'>"+escapeHtml(t.status)+"</span></td></tr>").join(""):"<tr><td colspan='5'>No transactions yet.</td></tr>";
-  $("trades-body").innerHTML=data.trades.length?data.trades.map(t=>"<tr><td>"+escapeHtml(t.title)+"</td><td>"+escapeHtml(t.amount)+"</td><td>"+escapeHtml(t.progress)+"%</td><td>"+escapeHtml(t.status)+"</td></tr>").join(""):"<tr><td colspan='4'>No trading activity is available.</td></tr>";
-  const methods=payments.methods||[];
-  availablePaymentMethods=methods;
-  $("payment-method").innerHTML="<option value=''>Choose a configured method</option>"+methods.map(m=>"<option value='"+escapeHtml(m.code)+"'>"+escapeHtml(m.label)+" · "+escapeHtml(m.currency)+(m.network?" · "+escapeHtml(m.network):"")+"</option>").join("");
-  syncPaymentMethod();
-  $("payment-methods").innerHTML=methods.length?methods.map(m=>{
-   const entries=Object.entries(m.instructions||{}).filter(([k,v])=>v);
-   return "<article style='border:1px solid var(--line);border-radius:10px;padding:13px;margin:10px 0'><strong>"+escapeHtml(m.label)+"</strong><div class='muted'>"+escapeHtml(m.kind)+" · "+escapeHtml(m.currency)+(m.network?" · Network: "+escapeHtml(m.network):"")+"</div>"+entries.map(([k,v])=>"<div><strong>"+escapeHtml(k.replace(/([A-Z])/g," $1"))+":</strong> "+escapeHtml(v)+"</div>").join("")+"</article>";
-  }).join(""):"No payment methods are configured yet. Contact support before sending any funds.";
-  const intentsList=intents.intents||[];
-  $("trade-intents-body").innerHTML=intentsList.length?intentsList.map(t=>"<tr><td>"+escapeHtml(fmtDate(t.created_at))+"</td><td>"+escapeHtml(t.market)+"</td><td>"+escapeHtml(t.side)+"</td><td>"+escapeHtml(t.amount)+" "+escapeHtml(t.currency)+"</td><td>"+escapeHtml(t.status)+"</td></tr>").join(""):"<tr><td colspan='5'>No trade requests yet.</td></tr>";
-  status.textContent="Your account data loaded securely.";
- }
- function syncPaymentMethod(){
-  const isDeposit=$("request-type").value==="DEPOSIT";
-  $("payment-method").disabled=!isDeposit;
-  $("payment-method").required=isDeposit;
-  if(isDeposit){
-   const selected=availablePaymentMethods.find(m=>m.code===$("payment-method").value);
-   if(selected)$("currency").value=selected.currency;
-  }
- }
- $("asset-class-tabs").addEventListener("click",event=>{const button=event.target.closest("button[data-class]");if(!button)return;$("asset-class").value=button.dataset.class;for(const item of $("asset-class-tabs").querySelectorAll("button")){item.style.background=item===button?"var(--accent)":"#19263b";item.style.color=item===button?"#071a14":"var(--text)";}});
- $("copy-referral").addEventListener("click",async()=>{const el=$("referral-link");try{await navigator.clipboard.writeText(el.value);}catch(_){el.select();document.execCommand("copy");}$("referral-status").textContent="Copied!";window.setTimeout(()=>{$("referral-status").textContent="";},1600);});
- $("request-type").addEventListener("change",syncPaymentMethod);
- $("payment-method").addEventListener("change",()=>{
-  const selected=availablePaymentMethods.find(m=>m.code===$("payment-method").value);
-  if(selected)$("currency").value=selected.currency;
- });
- $("kyc-form").addEventListener("submit",async event=>{
-  event.preventDefault();const file=$("kyc-document").files[0],button=$("kyc-submit"),message=$("kyc-message");
-  if(!file)return;
-  if(file.size>5*1024*1024){message.textContent="The file must be 5 MB or smaller.";return;}
-  if(!["application/pdf","image/jpeg","image/png"].includes(file.type)){message.textContent="Choose a PDF, JPEG, or PNG file.";return;}
-  button.disabled=true;message.textContent="Preparing secure upload…";
-  try{
-   const signed=await api("/api/kyc-upload",{method:"POST",body:JSON.stringify({contentType:file.type,size:file.size})});
-   const {error}=await client.storage.from(signed.bucket).uploadToSignedUrl(signed.path,signed.token,file,{contentType:file.type,upsert:false});
-   if(error)throw error;
-   await api("/api/kyc-upload-complete",{method:"POST",body:JSON.stringify({path:signed.path})});
-   message.textContent="Document validated, uploaded to private storage, and submitted for review.";
-   $("kyc-form").reset();await load();
-  }catch(error){message.textContent=error.message||"Upload failed. Please try again.";}
-  finally{button.disabled=false;}
- });
- $("asset-grid").addEventListener("click",event=>{const card=event.target.closest("button[data-market]");if(!card)return;$("trade-market").value=card.dataset.market;$("trade-side").value="BUY";$("asset-selection-status").textContent=card.dataset.label+" selected. Review the amount and currency below, then submit a trade request for review.";$("trade").scrollIntoView({behavior:"smooth",block:"start"});$("trade-amount").focus({preventScroll:true});});
- $("trade-form").addEventListener("submit",async event=>{
-  event.preventDefault();const button=event.submitter&&event.submitter.id==="trade-sell"?$("trade-sell"):event.submitter&&event.submitter.id==="trade-buy"?$("trade-buy"):$("trade-submit");if(event.submitter&&event.submitter.dataset.side) $("trade-side").value=event.submitter.dataset.side;button.disabled=true;status.textContent="Submitting trade request…";
-  try{
-   const result=await api("/api/trade-intents",{method:"POST",body:JSON.stringify({market:$("trade-market").value,side:$("trade-side").value,amount:$("trade-amount").value,currency:$("trade-currency").value,notes:[$("trade-notes").value,"Trade type: "+$("trade-type").value,"Duration: "+$("trade-duration").value,"Leverage: "+$("trade-leverage").value+"x"].filter(Boolean).join(" | ")})});
-   $("trade-form").reset();await load();status.textContent=result.notice||"Trade request submitted for review; no live order was placed.";
-  }catch(error){status.textContent=error.message;}
-  finally{button.disabled=false;}
- });
- $("sign-out").addEventListener("click",async()=>{if(client)await client.auth.signOut();location.assign("/login.html");});
- $("request-form").addEventListener("submit",async event=>{
-  event.preventDefault();if(!client)return;
-  const button=$("submit-request");button.disabled=true;status.textContent="Submitting request…";
-  try{await api("/api/transactions",{method:"POST",body:JSON.stringify({type:$("request-type").value,currency:$("currency").value,paymentMethodCode:$("payment-method").value,amount:$("amount").value,reference:$("reference").value})});$("request-form").reset();syncPaymentMethod();await load();status.textContent="Request recorded as pending for manual review.";}
-  catch(error){status.textContent=error.message;}
-  finally{button.disabled=false;}
- });
- (async()=>{
-  if(!ready){status.textContent="Your account service is currently unavailable. Please sign in again later.";return;}
-  const {data:{session}}=await client.auth.getSession();
-  if(!session){location.replace("/login.html");return;}
-  try{await load();}catch(error){status.textContent=error.message;}
-  client.auth.onAuthStateChange((_event,session)=>{if(!session)location.replace("/login.html");});
-  // Re-fetch the authoritative server balance when returning from the deposit page.
-  // Client-side deposit simulations are never treated as confirmed account funds.
-  let balanceRefreshInFlight=false;
-  const refreshAccountAfterDeposit=async()=>{
-    if(document.visibilityState==="hidden"||balanceRefreshInFlight)return;
-    balanceRefreshInFlight=true;
-    try{await load();}catch(error){status.textContent=error.message||"Unable to refresh account data.";}
-    finally{balanceRefreshInFlight=false;}
-  };
-  window.addEventListener("focus",refreshAccountAfterDeposit);
-  document.addEventListener("visibilitychange",refreshAccountAfterDeposit);
-  window.addEventListener("storage",event=>{if(event.key==="gmo-deposit-status"||event.key==="gmo-deposit-updated")refreshAccountAfterDeposit();});\n
-
- })();
-})();
-</script><script src="/tawk-chat.js" defer></script>
 </body></html>
