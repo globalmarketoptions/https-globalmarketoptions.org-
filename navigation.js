@@ -1,4 +1,4 @@
-(() => {
+document.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
   const menuButton = document.getElementById("mobile-menu-button");
@@ -76,4 +76,4 @@
   };
   if (mobileQuery.addEventListener) mobileQuery.addEventListener("change", closeOnDesktop);
   else if (mobileQuery.addListener) mobileQuery.addListener(closeOnDesktop);
-})();
+});
