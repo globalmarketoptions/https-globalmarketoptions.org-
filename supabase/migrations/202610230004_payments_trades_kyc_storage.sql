@@ -23,6 +23,8 @@ create policy "Users can read active payment instructions" on public.payment_ins
 grant select on public.payment_instructions to authenticated;
 grant select, insert, update, delete on public.payment_instructions to service_role;
 
+alter table public.transactions add column if not exists payment_method_code text references public.payment_instructions(code) on update cascade on delete set null;
+
 create table if not exists public.trade_intents (
  id uuid primary key default gen_random_uuid(),
  user_id uuid not null references auth.users(id) on delete restrict,
