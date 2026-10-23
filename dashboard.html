@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1220">
+<title>Your Dashboard | Global Market Options</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#111b2d;--line:#25334a;--text:#f3f6fc;--muted:#9caec6;--accent:#64e5b1;--warn:#fbbf24}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 Inter,system-ui,sans-serif}a{color:inherit}.wrap{width:min(1100px,calc(100% - 32px));margin:auto}
+header{border-bottom:1px solid var(--line)}.nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.brand{font-weight:900;text-decoration:none}.nav-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+button,input,select{font:inherit}button{border:0;border-radius:8px;padding:10px 14px;background:var(--accent);color:#071a14;font-weight:800;cursor:pointer}button.secondary{background:#19263b;border:1px solid var(--line);color:var(--text)}button:disabled{opacity:.5;cursor:not-allowed}
+main{padding:28px 0 52px}h1{margin:0;font-size:clamp(1.8rem,4vw,2.5rem);letter-spacing:-.04em}h2{font-size:1.15rem;margin:0 0 16px}.muted{color:var(--muted)}.status{margin:14px 0;padding:12px;border:1px solid var(--line);border-radius:9px;color:var(--muted);overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0}.card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}.metric{font-size:1.6rem;font-weight:850;overflow-wrap:anywhere}.columns{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:18px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:520px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);font-size:.88rem}th{color:var(--muted);font-weight:700}form{display:grid;gap:8px;margin:0 0 18px}label{font-weight:700;font-size:.88rem}input,select{width:100%;padding:11px;border:1px solid var(--line);border-radius:8px;background:#0b1220;color:var(--text)}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.notice{font-size:.83rem;color:var(--muted)}.pill{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:2px 8px;font-size:.76rem}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.columns{grid-template-columns:1fr}}@media(max-width:500px){.form-row{grid-template-columns:1fr}.card{padding:15px}}
+</style></head><body>
+<header><div class="wrap nav"><a class="brand" href="/index.html">GLOBAL MARKET OPTIONS</a><div class="nav-right"><span id="signed-in-email" class="muted"></span><a href="/crude-oil.html">Markets</a><button class="secondary" id="sign-out" type="button">Sign out</button></div></div></header>
+<main class="wrap">
+<h1>Your account</h1><p class="muted">Your account activity and submitted requests.</p>
+<p id="page-status" class="status" role="status" aria-live="polite">Checking your sign-in…</p>
+<div class="grid">
+<section class="card"><div class="muted">Transactions</div><div class="metric" id="transaction-count">—</div></section>
+<section class="card"><div class="muted">Active trades</div><div class="metric" id="trade-count">—</div></section>
+<section class="card"><div class="muted">Identity verification</div><div class="metric" id="kyc-status">—</div></section>
+</div>
+<div class="columns">
+<section class="card"><h2>Recent transactions</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead><tbody id="transactions-body"><tr><td colspan="4">Loading…</td></tr></tbody></table></div><h2 style="margin-top:26px">Trading activity</h2><div class="table-wrap"><table><thead><tr><th>Plan</th><th>Amount</th><th>Progress</th><th>Status</th></tr></thead><tbody id="trades-body"><tr><td colspan="4">Loading…</td></tr></tbody></table></div></section>
+<section class="card"><h2>Submit a request</h2><p class="notice">This records a pending request for manual review. It does not transfer money or execute a trade.</p>
+<form id="request-form"><div class="form-row"><div><label for="request-type">Request type</label><select id="request-type" required><option value="DEPOSIT">Deposit</option><option value="WITHDRAWAL">Withdrawal</option></select></div><div><label for="currency">Currency</label><select id="currency" required><option>USD</option><option>EUR</option><option>BTC</option><option>ETH</option><option>USDT</option></select></div></div>
+<div><label for="amount">Amount</label><input id="amount" type="number" min="0.00000001" max="1000000000" step="0.00000001" required placeholder="Enter amount"></div>
+<div><label for="reference">Transaction hash / reference (optional)</label><input id="reference" maxlength="160" autocomplete="off" placeholder="Reference only"></div>
+<button id="submit-request" type="submit">Submit for review</button></form>
+<p class="notice">Never submit passwords, private keys, seed phrases, or secret wallet credentials.</p></section>
+</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/supabase-config.js"></script>
+<script>
+(() => {
+ const $=id=>document.getElementById(id), status=$("page-status"), config=window.SUPABASE_CONFIG||{};
+ const ready=Boolean(window.supabase&&config.url&&config.anonKey&&!config.url.includes("YOUR_")&&!config.anonKey.includes("YOUR_"));
+ const client=ready?window.supabase.createClient(config.url,config.anonKey):null;
+ const escapeHtml=value=>String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+ async function api(path,options={}) {
+  const {data:{session}}=await client.auth.getSession();
+  if(!session)throw new Error("Your session expired. Please sign in again.");
+  const response=await fetch(path,{...options,headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token,...(options.headers||{})}});
+  const result=await response.json().catch(()=>({error:"Unexpected server response."}));
+  if(!response.ok)throw new Error(result.error||"Request failed.");
+  return result;
+ }
+ function fmtDate(value){return value?new Date(value).toLocaleString():"—"}
+ async function load(){
+  const data=await api("/api/dashboard");
+  $("signed-in-email").textContent=data.user.email||"Signed in";
+  $("transaction-count").textContent=data.transactions.length;
+  $("trade-count").textContent=data.trades.filter(t=>t.status==="IN_PROGRESS").length;
+  $("kyc-status").textContent=data.kyc?data.kyc.status:"NOT SUBMITTED";
+  $("transactions-body").innerHTML=data.transactions.length?data.transactions.map(t=>"<tr><td>"+escapeHtml(fmtDate(t.created_at))+"</td><td>"+escapeHtml(t.type)+"</td><td>"+escapeHtml(t.amount)+" "+escapeHtml(t.currency)+"</td><td><span class='pill'>"+escapeHtml(t.status)+"</span></td></tr>").join(""):"<tr><td colspan='4'>No transactions yet.</td></tr>";
+  $("trades-body").innerHTML=data.trades.length?data.trades.map(t=>"<tr><td>"+escapeHtml(t.title)+"</td><td>"+escapeHtml(t.amount)+"</td><td>"+escapeHtml(t.progress)+"%</td><td>"+escapeHtml(t.status)+"</td></tr>").join(""):"<tr><td colspan='4'>No trading activity is available.</td></tr>";
+  status.textContent="Your account data loaded securely.";
+ }
+ $("sign-out").addEventListener("click",async()=>{if(client)await client.auth.signOut();location.assign("/login.html");});
+ $("request-form").addEventListener("submit",async event=>{
+  event.preventDefault();if(!client)return;
+  const button=$("submit-request");button.disabled=true;status.textContent="Submitting request…";
+  try{await api("/api/transactions",{method:"POST",body:JSON.stringify({type:$("request-type").value,currency:$("currency").value,amount:$("amount").value,reference:$("reference").value})});$("request-form").reset();await load();status.textContent="Request recorded as pending for manual review.";}
+  catch(error){status.textContent=error.message;}
+  finally{button.disabled=false;}
+ });
+ (async()=>{
+  if(!ready){status.textContent="Supabase is not configured. Add the project URL and public anon key in supabase-config.js.";return;}
+  const {data:{session}}=await client.auth.getSession();
+  if(!session){location.replace("/login.html");return;}
+  try{await load();}catch(error){status.textContent=error.message;}
+  client.auth.onAuthStateChange((_event,session)=>{if(!session)location.replace("/login.html");});
+ })();
+})();
+</script></body></html>
