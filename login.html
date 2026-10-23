@@ -14,9 +14,9 @@ button{width:100%;margin-top:12px;padding:13px;border:0;border-radius:9px;backgr
 </style></head><body>
 <header><div class="wrap nav"><a class="brand" href="/index.html">GLOBAL MARKET OPTIONS</a><nav class="links" aria-label="Main navigation"><a href="/index.html">Markets</a><a href="/crude-oil.html">Crude Oil</a><a href="/real-estate.html">Real Estate</a></nav></div></header>
 <main class="wrap"><section class="panel" aria-labelledby="login-title">
-<h1 id="login-title">Access your account</h1><p class="muted">Sign in securely with Google or request a passwordless email link.</p>
-<button id="google-sign-in" type="button">Continue with Google</button><div aria-hidden="true" class="muted" style="text-align:center;margin:14px 0">or use email</div>
-<form id="email-form"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required><button class="secondary" id="email-submit" type="submit">Send sign-in link</button></form>
+<h1 id="login-title">Access your account</h1><p id="auth-intro" class="muted">Create an account or sign in securely with Google or a passwordless email link. New and existing users use the same secure flow.</p>
+<button id="google-sign-in" type="button">Continue with Google or create account</button><div aria-hidden="true" class="muted" style="text-align:center;margin:14px 0">or use email</div>
+<form id="email-form"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required><button class="secondary" id="email-submit" type="submit">Send secure email link</button></form>
 <p id="status" role="status" aria-live="polite">Authentication setup is required before sign-in can work.</p>
 <p class="notice">Configure your Supabase project URL and public anon key, enable Google OAuth, and allow this page as a redirect URL. Never put a service-role key in browser code.</p>
 </section></main>
@@ -25,13 +25,15 @@ button{width:100%;margin-top:12px;padding:13px;border:0;border-radius:9px;backgr
 <script>
 (() => {
  const status=document.getElementById("status"),google=document.getElementById("google-sign-in"),form=document.getElementById("email-form");
+ const signupMode=new URLSearchParams(window.location.search).get("mode")==="signup";
+ if(signupMode){document.getElementById("login-title").textContent="Create your account";document.getElementById("auth-intro").textContent="Start with Google or request a passwordless email link. If you already have an account, this same flow signs you in.";}
  document.getElementById("year").textContent=new Date().getFullYear();
  const config=window.SUPABASE_CONFIG||{};
  const ready=Boolean(window.supabase&&config.url&&config.anonKey&&!config.url.includes("YOUR_")&&!config.anonKey.includes("YOUR_"));
  const client=ready?window.supabase.createClient(config.url,config.anonKey):null;
  if(!ready){status.textContent="Supabase is not configured yet. Add your project URL and public anon key in supabase-config.js to enable sign-in.";google.disabled=true;form.querySelector("button").disabled=true;}
  google.addEventListener("click",async()=>{if(!client)return;google.disabled=true;status.textContent="Redirecting to Google…";const result=await client.auth.signInWithOAuth({provider:"google",options:{redirectTo:window.location.origin+"/login.html"}});if(result.error){status.textContent=result.error.message;google.disabled=false;}});
- form.addEventListener("submit",async event=>{event.preventDefault();if(!client)return;const email=document.getElementById("email").value.trim(),button=form.querySelector("button");button.disabled=true;status.textContent="Sending sign-in link…";const result=await client.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.origin+"/login.html"}});status.textContent=result.error?result.error.message:"If this email is registered and your Supabase email settings allow it, a sign-in link will arrive shortly.";button.disabled=false;});
+ form.addEventListener("submit",async event=>{event.preventDefault();if(!client)return;const email=document.getElementById("email").value.trim(),button=form.querySelector("button");button.disabled=true;status.textContent=signupMode?"Sending account creation link…":"Sending secure access link…";const result=await client.auth.signInWithOtp({email,options:{emailRedirectTo:window.location.origin+"/login.html"}});status.textContent=result.error?result.error.message:"If this email is registered and your Supabase email settings allow it, a sign-in link will arrive shortly.";button.disabled=false;});
  if(client)client.auth.onAuthStateChange((_event,session)=>{if(session){status.textContent="Signed in. Opening your dashboard…";window.location.replace("/dashboard.html");}});
 })();
 </script></body></html>
