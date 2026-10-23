@@ -2,7 +2,7 @@ const { requireUser, requireAdmin } = require("../lib/supabase-server");
 const { send, methodNotAllowed, fail } = require("../lib/api-http");
 
 const KINDS = new Set(["CRYPTO", "BANK"]);
-const CURRENCIES = new Set(["BTC", "ETH", "USDT", "USD", "EUR"]);
+const CURRENCIES = new Set(["BTC", "ETH", "TRX", "USDT", "USD", "EUR", "GBP", "CHF", "SGD"]);
 
 function cleanInstruction(input) {
   if (!input || typeof input !== "object" || Array.isArray(input)) throw Object.assign(new Error("instructions must be an object."), {status:400});
