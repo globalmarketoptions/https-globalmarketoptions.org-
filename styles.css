@@ -171,3 +171,20 @@
 .gmo-page .mobile-menu-button span{pointer-events:none}
 .gmo-page .mobile-nav[aria-hidden="true"]{pointer-events:none}
 .gmo-page .mobile-nav[aria-hidden="false"]{pointer-events:auto}
+
+
+/* Emergency header pointer-event recovery */
+html, body { pointer-events: auto !important; }
+header, .navbar, .top-bar {
+  position: relative;
+  z-index: 999999;
+  pointer-events: auto !important;
+}
+#mobile-menu-button, .register-btn, .login-btn, .practice-btn,
+.header-action, .button, button, a {
+  position: relative;
+  z-index: 1000000;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+#mobile-menu-button { touch-action: manipulation; }
