@@ -518,3 +518,26 @@ body.gmo-page {
 .gmo-page .bitcoin-diagram-panel .bitcoin-education-heading { margin-bottom: 20px; }
 .gmo-page .bitcoin-network-image-wrap { width: 100%; max-width: 48rem; margin: 0 auto; }
 .gmo-page .bitcoin-network-image { display: block; width: 100%; max-width: 48rem; height: auto; margin: 0 auto; padding: 8px; border: 1px solid rgba(234,179,8,.2); border-radius: 12px; background: #fff; object-fit: contain; box-shadow: 0 24px 48px rgba(0,0,0,.32); }
+
+
+/* Header interaction fix: keep click targets above page decoration without
+   assigning enormous z-index values to every link and button site-wide. */
+.gmo-page .site-header {
+  position: relative;
+  z-index: 100;
+  pointer-events: auto;
+}
+.gmo-page .site-header .nav-container { position: relative; pointer-events: auto; }
+.gmo-page .site-header .header-actions,
+.gmo-page .site-header .header-action,
+.gmo-page .site-header .mobile-menu-button {
+  position: relative;
+  z-index: 102;
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.gmo-page .mobile-drawer-backdrop { z-index: 110; }
+.gmo-page .mobile-nav { z-index: 111; }
+.gmo-page .mobile-nav.open { pointer-events: auto; }
+.gmo-page .site-header a, .gmo-page .site-header button { cursor: pointer; }
