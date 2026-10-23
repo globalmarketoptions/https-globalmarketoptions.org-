@@ -23,6 +23,7 @@ main{padding:28px 0 52px}h1{margin:0;font-size:clamp(1.8rem,4vw,2.5rem);letter-s
 <section class="card"><h2>Recent transactions</h2><div class="table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead><tbody id="transactions-body"><tr><td colspan="4">Loading…</td></tr></tbody></table></div><h2 style="margin-top:26px">Trading activity</h2><div class="table-wrap"><table><thead><tr><th>Plan</th><th>Amount</th><th>Progress</th><th>Status</th></tr></thead><tbody id="trades-body"><tr><td colspan="4">Loading…</td></tr></tbody></table></div></section>
 <section class="card"><h2>Submit a request</h2><p class="notice">This records a pending request for manual review. It does not transfer money or execute a trade.</p>
 <form id="request-form"><div class="form-row"><div><label for="request-type">Request type</label><select id="request-type" required><option value="DEPOSIT">Deposit</option><option value="WITHDRAWAL">Withdrawal</option></select></div><div><label for="currency">Currency</label><select id="currency" required><option>USD</option><option>EUR</option><option>BTC</option><option>ETH</option><option>USDT</option></select></div></div>
+<div><label for="payment-method">Payment method (required for deposits)</label><select id="payment-method"><option value="">Choose a configured method</option></select></div>
 <div><label for="amount">Amount</label><input id="amount" type="number" min="0.00000001" max="1000000000" step="0.00000001" required placeholder="Enter amount"></div>
 <div><label for="reference">Transaction hash / reference (optional)</label><input id="reference" maxlength="160" autocomplete="off" placeholder="Reference only"></div>
 <button id="submit-request" type="submit">Submit for review</button></form>
@@ -38,6 +39,7 @@ main{padding:28px 0 52px}h1{margin:0;font-size:clamp(1.8rem,4vw,2.5rem);letter-s
  const $=id=>document.getElementById(id), status=$("page-status"), config=window.SUPABASE_CONFIG||{};
  const ready=Boolean(window.supabase&&config.url&&config.anonKey&&!config.url.includes("YOUR_")&&!config.anonKey.includes("YOUR_"));
  const client=ready?window.supabase.createClient(config.url,config.anonKey):null;
+ let availablePaymentMethods=[];
  const escapeHtml=value=>String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
  async function api(path,options={}) {
   const {data:{session}}=await client.auth.getSession();
@@ -57,6 +59,9 @@ main{padding:28px 0 52px}h1{margin:0;font-size:clamp(1.8rem,4vw,2.5rem);letter-s
   $("transactions-body").innerHTML=data.transactions.length?data.transactions.map(t=>"<tr><td>"+escapeHtml(fmtDate(t.created_at))+"</td><td>"+escapeHtml(t.type)+"</td><td>"+escapeHtml(t.amount)+" "+escapeHtml(t.currency)+"</td><td><span class='pill'>"+escapeHtml(t.status)+"</span></td></tr>").join(""):"<tr><td colspan='4'>No transactions yet.</td></tr>";
   $("trades-body").innerHTML=data.trades.length?data.trades.map(t=>"<tr><td>"+escapeHtml(t.title)+"</td><td>"+escapeHtml(t.amount)+"</td><td>"+escapeHtml(t.progress)+"%</td><td>"+escapeHtml(t.status)+"</td></tr>").join(""):"<tr><td colspan='4'>No trading activity is available.</td></tr>";
   const methods=payments.methods||[];
+  availablePaymentMethods=methods;
+  $("payment-method").innerHTML="<option value=''>Choose a configured method</option>"+methods.map(m=>"<option value='"+escapeHtml(m.code)+"'>"+escapeHtml(m.label)+" · "+escapeHtml(m.currency)+(m.network?" · "+escapeHtml(m.network):"")+"</option>").join("");
+  syncPaymentMethod();
   $("payment-methods").innerHTML=methods.length?methods.map(m=>{
    const entries=Object.entries(m.instructions||{}).filter(([k,v])=>v);
    return "<article style='border:1px solid var(--line);border-radius:10px;padding:13px;margin:10px 0'><strong>"+escapeHtml(m.label)+"</strong><div class='muted'>"+escapeHtml(m.kind)+" · "+escapeHtml(m.currency)+(m.network?" · Network: "+escapeHtml(m.network):"")+"</div>"+entries.map(([k,v])=>"<div><strong>"+escapeHtml(k.replace(/([A-Z])/g," $1"))+":</strong> "+escapeHtml(v)+"</div>").join("")+"</article>";
@@ -65,6 +70,20 @@ main{padding:28px 0 52px}h1{margin:0;font-size:clamp(1.8rem,4vw,2.5rem);letter-s
   $("trade-intents-body").innerHTML=intentsList.length?intentsList.map(t=>"<tr><td>"+escapeHtml(fmtDate(t.created_at))+"</td><td>"+escapeHtml(t.market)+"</td><td>"+escapeHtml(t.side)+"</td><td>"+escapeHtml(t.amount)+" "+escapeHtml(t.currency)+"</td><td>"+escapeHtml(t.status)+"</td></tr>").join(""):"<tr><td colspan='5'>No trade requests yet.</td></tr>";
   status.textContent="Your account data loaded securely.";
  }
+ function syncPaymentMethod(){
+  const isDeposit=$("request-type").value==="DEPOSIT";
+  $("payment-method").disabled=!isDeposit;
+  $("payment-method").required=isDeposit;
+  if(isDeposit){
+   const selected=availablePaymentMethods.find(m=>m.code===$("payment-method").value);
+   if(selected)$("currency").value=selected.currency;
+  }
+ }
+ $("request-type").addEventListener("change",syncPaymentMethod);
+ $("payment-method").addEventListener("change",()=>{
+  const selected=availablePaymentMethods.find(m=>m.code===$("payment-method").value);
+  if(selected)$("currency").value=selected.currency;
+ });
  $("kyc-form").addEventListener("submit",async event=>{
   event.preventDefault();const file=$("kyc-document").files[0],button=$("kyc-submit"),message=$("kyc-message");
   if(!file)return;
@@ -93,7 +112,7 @@ main{padding:28px 0 52px}h1{margin:0;font-size:clamp(1.8rem,4vw,2.5rem);letter-s
  $("request-form").addEventListener("submit",async event=>{
   event.preventDefault();if(!client)return;
   const button=$("submit-request");button.disabled=true;status.textContent="Submitting request…";
-  try{await api("/api/transactions",{method:"POST",body:JSON.stringify({type:$("request-type").value,currency:$("currency").value,amount:$("amount").value,reference:$("reference").value})});$("request-form").reset();await load();status.textContent="Request recorded as pending for manual review.";}
+  try{await api("/api/transactions",{method:"POST",body:JSON.stringify({type:$("request-type").value,currency:$("currency").value,paymentMethodCode:$("payment-method").value,amount:$("amount").value,reference:$("reference").value})});$("request-form").reset();syncPaymentMethod();await load();status.textContent="Request recorded as pending for manual review.";}
   catch(error){status.textContent=error.message;}
   finally{button.disabled=false;}
  });
