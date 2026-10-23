@@ -4,23 +4,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b1220">
+  <meta name="theme-color" content="#0B0F17">\n  <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=3e1019e">\n  <link rel="apple-touch-icon" href="./favicon.svg?v=3e1019e">
   <meta name="description" content="Explore stocks, ETFs, crypto, forex, copy trading and market education with Global Market Options.">
   <title>Global Market Options | Markets</title>
 
   <style>
     :root {
       color-scheme: dark;
-      --bg: #0b1220;
-      --surface: #111b2d;
-      --surface-hover: #19263b;
-      --border: #25334a;
-      --text: #f3f6fc;
-      --muted: #9caec6;
-      --accent: #64e5b1;
-      --accent-text: #071a14;
-      --positive: #5de1ad;
-      --negative: #ff8585;
+      --bg: #0B0F17;
+      --surface: #111923;
+      --surface-hover: #1b2935;
+      --border: #293744;
+      --text: #f3f8f7;
+      --muted: #9cacae;
+      --accent: #10B981;
+      --accent-text: #061b14;
+      --positive: #10B981;
+      --negative: #fb7185;
+      --brand-gold: #F59E0B;
+      --brand-blue: #3B82F6;
       --container-width: 1200px;
       --register-blue: #2f80ed;
       --register-blue-hover: #4b93f1;
@@ -73,7 +75,7 @@
       justify-content: center;
       padding: 0;
       overflow: hidden;
-      background: #0d1728;
+      background: #0B0F17;
       border-bottom: 1px solid var(--border);
     }
 
@@ -84,7 +86,7 @@
     }
 
     .network-bar {
-      background: #091321;
+      background: #0B0F17;
       border-bottom: 1px solid var(--border);
       color: var(--muted);
       font-size: 12px;
@@ -267,15 +269,12 @@
     }
 
     .brand-mark {
-      width: 38px;
+      width: 210px;
       height: 38px;
-      display: grid;
-      place-items: center;
-      border-radius: 11px;
-      background: var(--accent);
-      color: var(--accent-text);
-      font-size: 19px;
-      font-weight: 900;
+      display: block;
+      flex-shrink: 0;
+      object-fit: contain;
+      object-position: left center;
     }
 
     .desktop-nav {
@@ -801,7 +800,7 @@
       }
     }
   </style>
-  <link rel="stylesheet" href="/styles.css"></head>
+  <link rel="stylesheet" href="./styles.css?v=95b475e"></head>
 
 <body class="gmo-page">
   <!-- Live FX ticker powered by TradingView's official embedded widget. -->
@@ -841,7 +840,7 @@
   <header class="site-header">
     <div class="container nav-container">
       <a class="brand" href="/" aria-label="Global Market Options home">
-        <span class="brand-mark" aria-hidden="true">GMO</span>
+        <img class="brand-mark" src="./brand-logo.svg?v=4b6e3bf" alt="Global Market Options" width="210" height="38" decoding="async">
         <span class="brand-label">GLOBAL MARKET OPTIONS COMPANY</span>
       </a>
 
@@ -1269,7 +1268,7 @@
   <footer class="site-footer">
     <div class="container footer-columns">
       <div class="footer-brand-column">
-        <a class="brand footer-brand" href="/" aria-label="Global Market Options home"><span class="brand-mark" aria-hidden="true">GMO</span><span class="brand-label">Global Market Options</span></a>
+        <a class="brand footer-brand" href="/" aria-label="Global Market Options home"><img class="brand-mark" src="./brand-logo.svg?v=4b6e3bf" alt="Global Market Options" width="210" height="38" decoding="async"><span class="brand-label">Global Market Options</span></a>
         <p>Market information and trading tools for a global audience.</p>
         <a href="mailto:support@globalmarketoptions.org">support@globalmarketoptions.org</a>
       </div>
@@ -1332,7 +1331,7 @@
       return false;
     };
   </script>
-  <script src="/navigation.js" defer></script>
+  <script src="./navigation.js?v=5f1a2ec" defer></script>
 <a class="gmo-floating-support gmo-floating-whatsapp" href="https://wa.me/" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp support">WhatsApp</a>
 <a class="gmo-floating-support gmo-floating-chat" href="/contact.html" aria-label="Live chat support">Live Chat</a>
 <script>(()=>{const ss=[document.getElementById("header-language"),document.getElementById("drawer-language")].filter(Boolean);ss.forEach(s=>s.addEventListener("change",()=>{ss.forEach(x=>x.value=s.value);document.documentElement.lang=s.value;try{localStorage.setItem("gmo-language",s.value)}catch(e){}}));try{const v=localStorage.getItem("gmo-language");if(v)ss.forEach(s=>s.value=v)}catch(e){}})();</script>
