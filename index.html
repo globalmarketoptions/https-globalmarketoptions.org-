@@ -802,7 +802,18 @@
       }
     }
   </style>
-  <link rel="stylesheet" href="./styles.css?v=95b475e"></head>
+  <link rel="stylesheet" href="./styles.css?v=95b475e"><style>
+.community-chat-stream{overflow:hidden;max-height:390px;min-height:300px;display:flex;flex-direction:column;gap:12px;padding:18px;border-radius:18px}
+.chat-stream-heading{display:flex;align-items:center;gap:9px;font-size:.86rem;font-weight:700;flex-shrink:0}
+.chat-stream-status{margin-left:auto;font-size:.65rem;letter-spacing:.08em;color:#64748b;border:1px solid currentColor;border-radius:999px;padding:3px 7px}
+.chat-stream-messages{display:flex;flex-direction:column;gap:12px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scroll-behavior:smooth;padding:2px 4px 8px;min-height:0}
+.chat-stream-messages .chat-bubble{flex:0 0 auto;animation:communityMessageIn .32s ease-out}
+.chat-stream-messages .chat-bubble p{overflow-wrap:anywhere}
+.chat-stream-messages .chat-avatar-photo{width:40px;height:40px;flex:0 0 40px;object-fit:cover;border-radius:50%}
+@keyframes communityMessageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.chat-stream-messages{scroll-behavior:auto}.chat-stream-messages .chat-bubble{animation:none}}
+</style>
+</head>
 
 <body class="gmo-page">
   <!-- Live FX ticker powered by TradingView's official embedded widget. -->
@@ -1175,10 +1186,12 @@
           <h3>Building connections leads to building confidence.</h3>
           <a class="button button-secondary" href="/contact.html">Connect with us</a>
         </div>
-        <div class="chat-preview" aria-label="Community chat preview">
-          <div class="chat-bubble"><img class="chat-avatar chat-avatar-photo" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&amp;fit=crop&amp;w=160&amp;h=160&amp;q=85" alt="John profile photo" loading="lazy" decoding="async"><p><strong>John</strong><br>What do you think is next for the markets?</p></div>
-          <div class="chat-bubble chat-bubble-reply"><img class="chat-avatar chat-avatar-photo" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&amp;fit=crop&amp;w=160&amp;h=160&amp;q=85" alt="Amy profile photo" loading="lazy" decoding="async"><p><strong>Amy</strong><br>I'd wait for the earnings release before deciding.</p></div>
-          
+        <div class="chat-preview community-chat-stream" id="community-chat-stream" aria-label="Simulated community chat stream" aria-live="polite">
+          <div class="chat-stream-heading"><span class="eyebrow-dot" aria-hidden="true"></span><span>Community conversation</span><span class="chat-stream-status">SIMULATED</span></div>
+          <div class="chat-stream-messages" id="community-chat-messages" tabindex="0">
+            <div class="chat-bubble"><img class="chat-avatar chat-avatar-photo" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&amp;fit=crop&amp;w=160&amp;h=160&amp;q=85" alt="John profile photo" loading="lazy" decoding="async"><p><strong>John</strong><br>What do you think is next for the markets?</p></div>
+            <div class="chat-bubble chat-bubble-reply"><img class="chat-avatar chat-avatar-photo" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&amp;fit=crop&amp;w=160&amp;h=160&amp;q=85" alt="Amy profile photo" loading="lazy" decoding="async"><p><strong>Amy</strong><br>Waiting for earnings before deciding.</p></div>
+          </div>
         </div>
       </div>
     </section>
@@ -1330,5 +1343,32 @@ function googleTranslateElementInit(){new google.translate.TranslateElement({pag
 (()=>{const ss=[document.getElementById("header-language"),document.getElementById("drawer-language")].filter(Boolean);function applyLanguage(lang){ss.forEach(x=>x.value=lang);document.documentElement.lang=lang;try{localStorage.setItem("gmo-language",lang)}catch(e){}const combo=document.querySelector(".goog-te-combo");if(combo){combo.value=lang;combo.dispatchEvent(new Event("change"));}else{window.gmoPendingLanguage=lang;}}ss.forEach(s=>s.addEventListener("change",()=>applyLanguage(s.value)));try{const v=localStorage.getItem("gmo-language");if(v)applyLanguage(v)}catch(e){}})();
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+<script>
+(()=> {
+ const box=document.getElementById('community-chat-messages');
+ if(!box)return;
+ const messages=[
+  {name:'David',text:'Longing BTC here — watching the key level.',avatar:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'Elena',text:'Forex EUR/USD looking strong this morning.',avatar:'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'John',text:'Keeping an eye on the market reaction after the data.',avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'Amy',text:'I prefer to wait for confirmation before deciding.',avatar:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'Marcus',text:'Remember to plan your risk before entering a trade.',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'Sofia',text:'Watching the EUR/USD range for a clearer setup.',avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'Daniel',text:'Volatility is picking up; keeping position sizes modest.',avatar:'https://images.unsplash.com/photo-1504257432389-52343af06ae3?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'Nina',text:'A useful reminder that one session does not make a trend.',avatar:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=160&h=160&q=85'}
+ ];
+ let next=0;
+ function appendMessage(){
+  const item=messages[next%messages.length];next++;
+  const row=document.createElement('div');row.className='chat-bubble'+(next%2===0?' chat-bubble-reply':'');
+  const avatar=document.createElement('img');avatar.className='chat-avatar chat-avatar-photo';avatar.src=item.avatar;avatar.alt=item.name+' profile photo';avatar.loading='lazy';avatar.decoding='async';
+  const p=document.createElement('p');const name=document.createElement('strong');name.textContent=item.name;p.append(name,document.createElement('br'),document.createTextNode(item.text));row.append(avatar,p);box.append(row);
+  while(box.children.length>6)box.firstElementChild.remove();
+  box.scrollTo({top:box.scrollHeight,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+ }
+ window.setInterval(appendMessage,4200);
+})();
+</script>
+
 </body>
 </html>
