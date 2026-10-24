@@ -1,7 +1,8 @@
 (() => {
   "use strict";
 
-  const initNavigation = () => {\n    // Navigation is progressive enhancement; static page content remains usable if controls are absent.
+  const initNavigation = () => {
+    // Navigation is progressive enhancement; static page content remains usable if controls are absent.
     const drawer = document.getElementById("mobile-nav");
     const backdrop = document.getElementById("mobile-drawer-backdrop");
     const menuButton = document.getElementById("mobile-menu-button");
