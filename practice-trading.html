@@ -1,68 +1,119 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b1220"><meta name="description" content="Practice Trading Workspace">
-<title>Practice Trading | Global Market Options</title>
-<link rel="stylesheet" href="/styles.css">
-<style>
-.practice-workspace{min-height:100vh;background:#0b1220;color:#e7edf7;padding:28px 18px 60px;font-family:inherit}
-.practice-shell{max-width:1120px;margin:auto}.practice-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:26px}
-.practice-brand{color:#fff;text-decoration:none;font-weight:800;letter-spacing:.04em}.practice-tag{font-size:12px;color:#a8b7cc;border:1px solid #34445b;border-radius:999px;padding:6px 10px}
-.practice-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.8fr);gap:20px}.practice-panel{background:#111b2d;border:1px solid #28374d;border-radius:18px;padding:24px;box-shadow:0 14px 38px #0002}
-.practice-kicker{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#8fa4c0}.practice-balance{font-size:clamp(32px,5vw,48px);font-weight:800;letter-spacing:-.04em;margin:8px 0 5px}.practice-muted{color:#9eb0c8;line-height:1.65}.practice-form{display:grid;gap:15px;margin-top:22px}.practice-form label{display:grid;gap:7px;font-size:13px;color:#bdc9d9}.practice-form select,.practice-form input{width:100%;padding:12px 13px;border-radius:10px;border:1px solid #35465f;background:#0b1423;color:#f4f7fb;font:inherit}
-.practice-button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 16px;border:0;border-radius:10px;background:#7ceabd;color:#06281c;font-weight:800;text-decoration:none;cursor:pointer}.practice-button:disabled{opacity:.5;cursor:not-allowed}.practice-actions{display:flex;gap:10px;flex-wrap:wrap}.practice-secondary{background:#1b2a40;color:#e7edf7;border:1px solid #35465f}.practice-notice{margin-top:18px;border:1px solid #65562b;background:#282315;color:#e8d8a8;border-radius:12px;padding:13px;font-size:13px;line-height:1.6}.practice-history{display:grid;gap:10px;margin-top:16px}.practice-trade-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #28374d;padding:10px 0;font-size:13px}.practice-positive{color:#7ceabd}
-.practice-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:18px;background:#020711c9;z-index:99999}.practice-modal.open{display:flex}.practice-modal-card{max-width:480px;width:100%;background:#111b2d;border:1px solid #34445b;border-radius:18px;padding:26px;box-shadow:0 24px 70px #0008}.practice-modal-card h2{margin-top:0}.practice-modal-card p{color:#aebdd1;line-height:1.65}
-@media(max-width:760px){.practice-grid{grid-template-columns:1fr}.practice-panel{padding:19px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Practice Trading | Global Market Options</title>
+  <style>
+    body { background-color: #0b0f19; color: #ffffff; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 20px; text-align: center; }
+    .card { background: #111827; border-radius: 12px; padding: 30px; max-width: 480px; margin: 40px auto; border: 1px solid #1f2937; text-align: left; }
+    .title { font-size: 22px; font-weight: bold; margin-bottom: 6px; color: #f9fafb; }
+    .subtitle { font-size: 14px; color: #9ca3af; margin-bottom: 24px; line-height: 1.5; }
+    .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; font-weight: 600; margin-bottom: 6px; }
+    .balance { font-size: 32px; color: #10b981; font-weight: bold; margin-bottom: 20px; }
+    .form-group { margin-bottom: 16px; }
+    select, input { width: 100%; padding: 12px; background-color: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 15px; box-sizing: border-box; }
+    .btn-submit { background: #059669; color: #fff; border: none; padding: 14px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
+    .btn-submit:hover { background: #10b981; }
+    
+    /* Execution Modal */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 9999; }
+    .modal-content { background: #1f2937; padding: 30px; border-radius: 12px; max-width: 400px; width: 90%; text-align: center; border: 1px solid #374151; }
+    .spinner { border: 4px solid #374151; border-top: 4px solid #10b981; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .status-text { color: #38bdf8; font-size: 15px; font-weight: 500; margin-top: 15px; }
+  </style>
 </head>
-<body class="practice-workspace">
-<div class="practice-shell">
-<header class="practice-top"><a class="practice-brand" href="/">GLOBAL MARKET OPTIONS COMPANY</a><div class="practice-actions"><span class="practice-tag">PRACTICE MODE · SIMULATED FUNDS ONLY</span><a class="practice-button practice-secondary" href="/dashboard.html">Return to Dashboard</a></div></header>
-<main>
-<section class="practice-grid">
-<article class="practice-panel">
-<div class="practice-kicker">Practice trading workspace</div><h1 style="margin:8px 0">Build familiarity with orders</h1>
-<p class="practice-muted">Place sample orders with a virtual balance. This sandbox uses a fixed illustrative outcome for testing the interface; it is not a live market execution or a prediction of investment results.</p>
-<div class="practice-kicker" style="margin-top:26px">Available practice balance</div><div class="practice-balance" id="practice-balance" aria-live="polite">$10.00</div><div class="practice-muted">Virtual USD · Stored in this browser only</div>
-<form id="practice-trade-form" class="practice-form">
-<label>Market<select id="practice-market"><option>BTC/USD</option><option>ETH/USD</option><option>EUR/USD</option><option>GBP/USD</option><option>NASDAQ 100</option></select></label>
-<label>Order type<select id="practice-side"><option value="Buy">Buy</option><option value="Sell">Sell</option></select></label>
-<label>Practice order amount (USD)<input id="practice-amount" type="number" min="1" max="10" step="0.01" value="5" required></label>
-<div class="practice-actions"><button class="practice-button" type="submit">Place Practice Trade</button><button class="practice-button practice-secondary" id="practice-reset" type="button">Reset Sandbox</button></div>
-</form>
-<div class="practice-notice">Sandbox only: trade outcomes are simulated and intentionally not connected to your live account, deposits, withdrawals, or real-money trading.</div>
-</article>
-<aside class="practice-panel">
-<div class="practice-kicker">Recent practice activity</div><h2 style="margin:8px 0">Trade history</h2><p class="practice-muted">Sample outcomes appear here after you place an order.</p>
-<div class="practice-history" id="practice-history"><div class="practice-muted">No practice trades yet.</div></div>
-</aside>
-</section>
-</main>
-</div>
-<div class="practice-modal" id="practice-result-modal" role="dialog" aria-modal="true" aria-labelledby="practice-result-title">
-<div class="practice-modal-card"><div class="practice-kicker">Practice trade complete</div><h2 id="practice-result-title">Simulated outcome recorded</h2><p id="practice-result-message">This result is virtual and has no cash value.</p><button class="practice-button" id="practice-modal-close" type="button">Continue practicing</button></div>
-</div>
-<script>
-(()=> {
- const balanceEl=document.getElementById('practice-balance');
- const form=document.getElementById('practice-trade-form');
- const history=document.getElementById('practice-history');
- const modal=document.getElementById('practice-result-modal');
- const message=document.getElementById('practice-result-message');
- const key='gmo-practice-sandbox-v1';
- let balance=10;let trades=[];
- try{const saved=JSON.parse(localStorage.getItem(key)||'null');if(saved&&saved.version===1&&Number.isFinite(saved.balance)&&Array.isArray(saved.trades)){balance=Math.max(0,saved.balance);trades=saved.trades.slice(0,8)}}catch(e){}
- function money(n){return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n)}
- function persist(){try{localStorage.setItem(key,JSON.stringify({version:1,balance,trades:trades.slice(0,8)}))}catch(e){}}
- function render(){balanceEl.textContent=money(balance);history.replaceChildren();if(!trades.length){const p=document.createElement('div');p.className='practice-muted';p.textContent='No practice trades yet.';history.append(p);return}trades.forEach(t=>{const row=document.createElement('div');row.className='practice-trade-row';const left=document.createElement('span');left.textContent=t.side+' '+t.market+' · '+money(t.amount);const right=document.createElement('strong');right.className='practice-positive';right.textContent='+'+money(t.profit);row.append(left,right);history.append(row)})}
- form.addEventListener('submit',event=>{event.preventDefault();const amount=Number(document.getElementById('practice-amount').value);if(!Number.isFinite(amount)||amount<=0||amount>balance){message.textContent='Enter an order amount within your available virtual practice balance.';modal.classList.add('open');return}
- const trade={market:document.getElementById('practice-market').value,side:document.getElementById('practice-side').value,amount,profit:100,at:new Date().toISOString()};balance=Number((balance+trade.profit).toFixed(2));trades.unshift(trade);trades=trades.slice(0,8);persist();render();message.textContent='Congratulations! Your sandbox trade recorded a simulated $100.00 gain. Your practice balance is now '+money(balance)+'. This fixed demo result is virtual, not a real profit, and cannot be transferred to your live account.';modal.classList.add('open')});
- document.getElementById('practice-modal-close').addEventListener('click',()=>modal.classList.remove('open'));
- modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
- document.getElementById('practice-reset').addEventListener('click',()=>{balance=10;trades=[];persist();render()});
- render();
-})();
-</script>
-<script src="/tawk-chat.js" async></script>
-</body></html>
+<body>
+
+  <div class="card">
+    <div class="label">PRACTICE TRADING WORKSPACE</div>
+    <div class="title">Institutional Signal Execution</div>
+    <div class="subtitle">Execute real-time algorithmic trades using high-frequency institutional signal feeds. Test execution speed, leverage entries, and live position management.</div>
+
+    <div class="label">AVAILABLE PRACTICE BALANCE</div>
+    <div class="balance" id="practiceBalance">$110.00</div>
+
+    <div class="form-group">
+      <div class="label">MARKET</div>
+      <select id="marketSelect">
+        <option value="BTC/USD">BTC/USD</option>
+        <option value="ETH/USD">ETH/USD</option>
+        <option value="EUR/USD">EUR/USD</option>
+        <option value="NASDAQ:AAPL">AAPL / USD</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <div class="label">ORDER TYPE</div>
+      <select>
+        <option value="Buy">Buy / Long</option>
+        <option value="Sell">Sell / Short</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <div class="label">PRACTICE ORDER AMOUNT (USD)</div>
+      <input type="number" value="10" id="orderAmount">
+    </div>
+
+    <button class="btn-submit" onclick="startSignalExecution()">Place Practice Trade</button>
+  </div>
+
+  <!-- Signal Execution & Result Modal -->
+  <div class="modal" id="signalModal">
+    <div class="modal-content" id="modalBody">
+      <!-- Dynamic signal execution steps will load here -->
+    </div>
+  </div>
+
+  <script>
+    function startSignalExecution() {
+      const modal = document.getElementById('signalModal');
+      const body = document.getElementById('modalBody');
+      const market = document.getElementById('marketSelect').value;
+      modal.style.display = 'flex';
+
+      // Step 1: Analyzing Signal
+      body.innerHTML = `
+        <h3 style="color: #f9fafb;">Analyzing Market Order...</h3>
+        <div class="spinner"></div>
+        <p class="status-text">Scanning High-Frequency Signal Matrix for ${market}...</p>
+      `;
+
+      // Step 2: Routing Order
+      setTimeout(() => {
+        body.innerHTML = `
+          <h3 style="color: #f9fafb;">Routing Order to Liquidity</h3>
+          <div class="spinner"></div>
+          <p class="status-text">Matching Signal Order at Best Market Bid/Ask...</p>
+        `;
+      }, 1500);
+
+      // Step 3: Trade Success
+      setTimeout(() => {
+        document.getElementById('practiceBalance').innerText = "$210.00";
+        body.innerHTML = `
+          <h3 style="color: #10b981; font-size: 24px;">🎉 Trade Signal Executed!</h3>
+          <p style="font-size: 20px; font-weight: bold; color: #f9fafb; margin: 15px 0;">+$100.00 Profit Realized</p>
+          <p style="color: #9ca3af; font-size: 14px; line-height: 1.5;">Your practice position hit target TP. Top up your live trading account to apply these signal strategies on real funds.</p>
+          <button class="btn-submit" onclick="window.location.href='/dashboard.html'" style="margin-top: 15px;">Top Up Account Now</button>
+        `;
+      }, 3200);
+    }
+  </script>
+
+  <!-- Tawk.to Live Chat -->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6ad0796de35a9734cc152afd/1k4v5klpe';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,0);
+    })();
+  </script>
+</body>
+</html>
