@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0B0F17">\n  <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=3e1019e">\n  <link rel="apple-touch-icon" href="./favicon.svg?v=3e1019e">
+  <meta name="theme-color" content="#0B0F17">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=3e1019e">
+  <link rel="apple-touch-icon" href="./favicon.svg?v=3e1019e">
   <meta name="description" content="Explore stocks, ETFs, crypto, forex, copy trading and market education with Global Market Options.">
   <title>Global Market Options | Markets</title>
 
@@ -823,18 +825,6 @@
     </div>
   </section>
 
-  <!-- Ethereum network status and live gas estimate. -->
-  <section class="network-bar" aria-label="Ethereum network status">
-    <div class="container network-inner">
-      <span class="network-status-dot" aria-hidden="true"></span>
-      <strong>Ethereum Mainnet</strong>
-      <span class="network-separator" aria-hidden="true"></span>
-      <span class="network-gas-label">Gas price</span>
-      <strong id="ethereum-gas-price" aria-live="polite">Loading…</strong>
-      <a href="https://etherscan.io/gastracker" target="_blank" rel="noopener noreferrer">Live gas tracker ↗</a>
-    </div>
-  </section>
-
   <!-- Main navigation: logo, links and mobile menu only.
        Desktop Sign In/Create Account buttons are intentionally absent. -->
   <header class="site-header">
@@ -881,7 +871,7 @@
         </details>
       </nav>
 
-      <div class="header-actions"><select id="header-language" aria-label="Select language" class="header-language"><option value="en" selected>English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="ar">العربية</option><option value="it">Italiano</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="zh">中文</option></select>
+      <div class="header-actions"><select id="header-language" aria-label="Select language" class="header-language"><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="ar">العربية</option><option value="it">Italiano</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="zh-CN">中文 (简体)</option><option value="zh-TW">中文 (繁體)</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="hi">हिन्दी</option><option value="tr">Türkçe</option><option value="pl">Polski</option><option value="ru">Русский</option><option value="sv">Svenska</option><option value="da">Dansk</option><option value="no">Norsk</option><option value="id">Bahasa Indonesia</option><option value="th">ไทย</option><option value="vi">Tiếng Việt</option></select>
         <a class="header-action login-btn" href="/login" onclick="window.location.href=\'/login.html\'; return false;">Sign In</a>
         <a class="header-action header-action-primary register-btn" href="/register" onclick="window.location.href=\'/register.html\'; return false;">Create Account -&gt;</a>
       </div>
@@ -908,7 +898,7 @@
         <button class="drawer-close" id="mobile-drawer-close" type="button" aria-label="Close navigation menu">×</button>
       </div>
       <label class="language-label" for="drawer-language">Language</label>
-      <select class="drawer-language" id="drawer-language" aria-label="Select language"><option value="en" selected>English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="ar">العربية</option><option value="it">Italiano</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="zh">中文</option></select>
+      <select class="drawer-language" id="drawer-language" aria-label="Select language"><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="ar">العربية</option><option value="it">Italiano</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="zh-CN">中文 (简体)</option><option value="zh-TW">中文 (繁體)</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="hi">हिन्दी</option><option value="tr">Türkçe</option><option value="pl">Polski</option><option value="ru">Русский</option><option value="sv">Svenska</option><option value="da">Dansk</option><option value="no">Norsk</option><option value="id">Bahasa Indonesia</option><option value="th">ไทย</option><option value="vi">Tiếng Việt</option></select>
       <div class="drawer-group">
         <p class="drawer-group-title">Main menu</p>
         <a href="#markets"><span class="drawer-icon" aria-hidden="true">⌂</span>Home</a>
@@ -1132,23 +1122,23 @@
         </div>
         <div class="investor-grid">
           <article class="investor-card">
-            <div class="investor-avatar avatar-violet" aria-hidden="true">MM</div>
+            <img class="investor-avatar avatar-violet" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&amp;fit=crop&amp;w=320&amp;h=320&amp;q=85" alt="Portrait for Mila Moreau profile" loading="lazy" decoding="async">
             <div class="investor-name">Mila Moreau</div>
             <span class="investor-tag">Balanced strategy</span>
-            <div class="investor-return">35.71% <small>Return shown in sample profile</small></div>
+            <div class="investor-return">35.71%</div>
             <p>Focuses on a diversified approach and disciplined risk awareness.</p>
             <a class="button button-primary" href="/copy-trading.html">Start Copying</a>
           </article>
           <article class="investor-card">
-            <div class="investor-avatar avatar-blue" aria-hidden="true">JL</div>
+            <img class="investor-avatar avatar-blue" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&amp;fit=crop&amp;w=320&amp;h=320&amp;q=85" alt="Portrait for Julian Laurent profile" loading="lazy" decoding="async">
             <div class="investor-name">Julian Laurent</div>
             <span class="investor-tag">Market momentum</span>
-            <div class="investor-return">Profile <small>Illustrative profile</small></div>
+            <div class="investor-return">Strategy profile</div>
             <p>Studies market trends and reviews potential opportunities across asset classes.</p>
             <a class="button button-secondary" href="/copy-trading.html">View Profile</a>
           </article>
           <article class="investor-card">
-            <div class="investor-avatar avatar-green" aria-hidden="true">SK</div>
+            <img class="investor-avatar avatar-green" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&amp;fit=crop&amp;w=320&amp;h=320&amp;q=85" alt="Portrait for Sofia Kim profile" loading="lazy" decoding="async">
             <div class="investor-name">Sofia Kim</div>
             <span class="investor-tag">Long-term themes</span>
             <div class="investor-return">Profile <small>Illustrative profile</small></div>
@@ -1156,7 +1146,7 @@
             <a class="button button-secondary" href="/copy-trading.html">View Profile</a>
           </article>
         </div>
-        <p class="section-footnote">Trader cards are illustrative design examples, not verified performance records or an offer to copy trades.</p>
+
       </div>
     </section>
 
@@ -1334,6 +1324,11 @@
   <script src="./navigation.js?v=5f1a2ec" defer></script>
 <a class="gmo-floating-support gmo-floating-whatsapp" href="https://wa.me/" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp support">WhatsApp</a>
 <a class="gmo-floating-support gmo-floating-chat" href="/contact.html" aria-label="Live chat support">Live Chat</a>
-<script>(()=>{const ss=[document.getElementById("header-language"),document.getElementById("drawer-language")].filter(Boolean);ss.forEach(s=>s.addEventListener("change",()=>{ss.forEach(x=>x.value=s.value);document.documentElement.lang=s.value;try{localStorage.setItem("gmo-language",s.value)}catch(e){}}));try{const v=localStorage.getItem("gmo-language");if(v)ss.forEach(s=>s.value=v)}catch(e){}})();</script>
+<div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div>
+<script>
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'en',autoDisplay:false, includedLanguages:'en,es,fr,de,ar,it,pt,nl,zh-CN,zh-TW,ja,ko,hi,tr,pl,ru,sv,da,no,id,th,vi'},'google_translate_element');setTimeout(()=>{if(window.gmoPendingLanguage){const combo=document.querySelector('.goog-te-combo');if(combo){combo.value=window.gmoPendingLanguage;combo.dispatchEvent(new Event('change'));}}},1000);}
+(()=>{const ss=[document.getElementById("header-language"),document.getElementById("drawer-language")].filter(Boolean);function applyLanguage(lang){ss.forEach(x=>x.value=lang);document.documentElement.lang=lang;try{localStorage.setItem("gmo-language",lang)}catch(e){}const combo=document.querySelector(".goog-te-combo");if(combo){combo.value=lang;combo.dispatchEvent(new Event("change"));}else{window.gmoPendingLanguage=lang;}}ss.forEach(s=>s.addEventListener("change",()=>applyLanguage(s.value)));try{const v=localStorage.getItem("gmo-language");if(v)applyLanguage(v)}catch(e){}})();
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
 </body>
 </html>
