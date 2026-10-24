@@ -12,8 +12,8 @@
 
     // Normalize legacy extensionless routes to static HTML pages.
     const aliases = {
-      "/register": "/register",
-      "/login": "/login",
+      "/register": "/register.html",
+      "/login": "/login.html",
       "/practice-trading": "/dashboard",
       "/dashboard": "/dashboard"
     };
