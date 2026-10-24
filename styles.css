@@ -563,3 +563,22 @@ body.gmo-page {
 .gmo-floating-whatsapp { bottom:80px; background:#25d366; color:#062b16; }
 .gmo-floating-chat { bottom:20px; background:linear-gradient(135deg,#f0d37d,#c28b2e); color:#211807; }
 @media(max-width:620px){.auth-page .form-grid{grid-template-columns:1fr}.gmo-floating-support{right:14px;min-width:48px;height:48px}}
+
+
+/* Community avatars and floating chat launcher polish */
+.gmo-page .chat-avatar-photo {
+  display: block;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--gmo-border);
+}
+.gmo-page .chat-preview { position: relative; }
+.gmo-page .chat-bubble { align-items: flex-start; }
+.gmo-page .chat-bubble p { min-width: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .gmo-page .mobile-nav,
+  .gmo-page .mobile-drawer-backdrop { transition: transform .24s ease, opacity .24s ease, visibility .24s ease; }
+}
