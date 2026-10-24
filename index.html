@@ -816,26 +816,6 @@
 </head>
 
 <body class="gmo-page">
-  <!-- Live FX ticker powered by TradingView's official embedded widget. -->
-  <section class="ticker-bar" aria-label="Live foreign exchange ticker">
-    <div class="tradingview-widget-container">
-      <div class="tradingview-widget-container__widget"></div>
-      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-      {
-        "symbols": [
-          { "proName": "FX:EURUSD", "title": "EUR/USD" },
-          { "proName": "FX:GBPUSD", "title": "GBP/USD" }
-        ],
-        "showSymbolLogo": false,
-        "isTransparent": true,
-        "displayMode": "adaptive",
-        "colorTheme": "dark",
-        "locale": "en"
-      }
-      </script>
-    </div>
-  </section>
-
   <!-- Main navigation: logo, links and mobile menu only.
        Desktop Sign In/Create Account buttons are intentionally absent. -->
   <header class="site-header">
@@ -882,7 +862,7 @@
         </details>
       </nav>
 
-      <div class="header-actions"><select id="header-language" aria-label="Select language" class="header-language"><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="ar">العربية</option><option value="it">Italiano</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="zh-CN">中文 (简体)</option><option value="zh-TW">中文 (繁體)</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="hi">हिन्दी</option><option value="tr">Türkçe</option><option value="pl">Polski</option><option value="ru">Русский</option><option value="sv">Svenska</option><option value="da">Dansk</option><option value="no">Norsk</option><option value="id">Bahasa Indonesia</option><option value="th">ไทย</option><option value="vi">Tiếng Việt</option></select>
+      <div class="header-actions"><a class="header-action" href="/contact.html#contact-form" aria-label="Live chat support">Live Chat / Support</a><select id="header-language" aria-label="Select language" class="header-language"><option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="ar">العربية</option><option value="it">Italiano</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="zh-CN">中文 (简体)</option><option value="zh-TW">中文 (繁體)</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="hi">हिन्दी</option><option value="tr">Türkçe</option><option value="pl">Polski</option><option value="ru">Русский</option><option value="sv">Svenska</option><option value="da">Dansk</option><option value="no">Norsk</option><option value="id">Bahasa Indonesia</option><option value="th">ไทย</option><option value="vi">Tiếng Việt</option></select>
         <a class="header-action login-btn" href="/login" onclick="window.location.href=\'/login.html\'; return false;">Sign In</a>
         <a class="header-action header-action-primary register-btn" href="/register" onclick="window.location.href=\'/register.html\'; return false;">Create Account -&gt;</a>
       </div>
@@ -953,7 +933,7 @@
       <div class="drawer-quick-actions">
         <a class="button button-secondary" href="/login">Sign In</a>
         <a class="button button-register" href="/register" onclick="window.location.href=\'/register.html\'; return false;">Create Account / Register →</a>
-        <a class="button button-primary" href="/dashboard" onclick="window.location.href=\'/dashboard.html\'; return false;">Live Trading Portal</a>
+        <a class="button button-primary" href="/practice-trading.html">Live Trading Portal</a>
       </div>
     </nav>
   </header>
@@ -1015,7 +995,7 @@
           </div>
 
           <div class="practice-action">
-            <a class="button button-primary" href="/login">
+            <a class="button button-primary" href="/practice-trading.html">
               Practice Trading
             </a>
           </div>
@@ -1335,8 +1315,7 @@
     };
   </script>
   <script src="./navigation.js?v=5f1a2ec" defer></script>
-<a class="gmo-floating-support gmo-floating-whatsapp" href="https://wa.me/" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp support">WhatsApp</a>
-<a class="gmo-floating-support gmo-floating-chat" href="/contact.html" aria-label="Live chat support">Live Chat</a>
+
 <div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div>
 <script>
 function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'en',autoDisplay:false, includedLanguages:'en,es,fr,de,ar,it,pt,nl,zh-CN,zh-TW,ja,ko,hi,tr,pl,ru,sv,da,no,id,th,vi'},'google_translate_element');setTimeout(()=>{if(window.gmoPendingLanguage){const combo=document.querySelector('.goog-te-combo');if(combo){combo.value=window.gmoPendingLanguage;combo.dispatchEvent(new Event('change'));}}},1000);}
