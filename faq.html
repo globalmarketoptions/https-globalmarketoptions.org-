@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frequently Asked Questions - Global Market Options</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: #000000; color: #ffffff; padding: 20px; line-height: 1.6; }
+    .container { max-width: 800px; margin: 40px auto; padding: 20px; }
+    h1 { font-size: 32px; font-weight: 700; margin-bottom: 20px; }
+    .faq-item { background: #0b0f19; border: 1px solid #1f2937; border-radius: 8px; margin-bottom: 16px; padding: 18px 20px; cursor: pointer; }
+    .faq-question { font-size: 16px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+    .faq-answer { font-size: 14px; color: #9ca3af; margin-top: 10px; display: none; }
+    .faq-item.active .faq-answer { display: block; }
+    .back-link { display: inline-block; margin-bottom: 20px; color: #3b82f6; text-decoration: none; font-size: 14px; }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <a href="/index.html" class="back-link">&larr; Back to Home</a>
+    <h1>Frequently Asked Questions</h1>
+    <p style="color: #9ca3af; margin-bottom: 30px;">Quick guidance on account access, demo mode, deposits, and market risk.</p>
+
+    <div class="faq-item" onclick="this.classList.toggle('active')">
+      <div class="faq-question">How do I access my account? <span>&#9660;</span></div>
+      <div class="faq-answer">Choose Sign In or Create Account and follow the authentication options configured for the platform.</div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('active')">
+      <div class="faq-question">How are deposits reviewed? <span>&#9660;</span></div>
+      <div class="faq-answer">Deposit submissions are recorded as pending and require authorized admin review. Submitting proof does not itself mean funds have been credited.</div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('active')">
+      <div class="faq-question">What are the fees? <span>&#9660;</span></div>
+      <div class="faq-answer">We maintain transparent structures with clear disclosures across all available market options.</div>
+    </div>
+  </div>
+
+</body>
+</html>
