@@ -1,24 +1,194 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0b1220"><meta name="description" content="Forex Trading | Global Market Options"><title>Forex Trading | Global Market Options</title><link rel="stylesheet" href="/styles.css"></head>
-<body class="gmo-page"><div class="gmo-ticker" aria-label="Live foreign exchange market ticker"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>{"symbols":[{"proName":"FX:EURUSD","title":"EUR/USD"},{"proName":"FX:GBPUSD","title":"GBP/USD"}],"showSymbolLogo":false,"isTransparent":true,"displayMode":"adaptive","colorTheme":"dark","locale":"en"}</script></div></div>
- <div class="gmo-network"><div class="gmo-container gmo-network-inner"><span class="gmo-dot" aria-hidden="true"></span><strong>Ethereum Mainnet</strong><span>•</span><span>Gas price</span><strong id="gmo-gas-price">Loading…</strong><a href="https://etherscan.io/gastracker" target="_blank" rel="noopener noreferrer">Live gas tracker ↗</a></div></div>
- <header class="gmo-header"><div class="gmo-container gmo-header-inner"><a class="gmo-brand" href="/index.html"><span class="gmo-brand-mark" aria-hidden="true">GMO</span><span>GLOBAL MARKET OPTIONS COMPANY</span></a><nav class="gmo-nav" aria-label="Public navigation"><a href="/index.html">Home</a>
-      <a href="/about.html">About Us</a>
-      <a href="/contact.html">Contact</a>
-      <a href="/faqs.html">FAQs</a>
-      <a href="/crypto-trading.html">Crypto Trading</a>
-      <a href="/forex-trading.html" aria-current="page">Forex Trading</a>
-      <a href="/stocks-etfs.html">Stocks & ETFs</a>
-      <a href="/copy-trading.html">Copy Trading</a>
-      <a href="/smart-portfolios.html">Smart Portfolios</a>
-      <a href="/crude-oil.html">Crude Oil</a>
-      <a href="/real-estate.html">Real Estate</a>
-      <a href="/fees.html">Fees</a>
-      <a href="/privacy.html">Privacy Policy</a>
-      <a href="/terms.html">Terms of Service</a>
-      <a href="/risk-disclosure.html">Risk Disclosure</a></nav><div class="gmo-header-actions"><a class="gmo-btn" href="/login.html">Sign In</a><a class="gmo-btn gmo-btn-primary" href="/login.html">Create Account →</a></div></div></header><section class="gmo-hero"><div class="gmo-container"><p class="gmo-eyebrow">Markets / Foreign exchange</p><h1>Follow global currency markets</h1><p class="gmo-lead">Explore currency-pair information, including EUR/USD and GBP/USD, and understand the risks of foreign exchange.</p><div class="gmo-actions"><a class="gmo-btn gmo-btn-primary" href="/login.html">Sign In / Create Account →</a><a class="gmo-btn" href="/dashboard.html">Open Customer Portal</a></div></div></section>
-<main class="gmo-main"><div class="gmo-container"><div class="gmo-grid"><article class="gmo-card"><span class="gmo-pill">01</span><h2>Currency pairs</h2><p>FX prices can move rapidly in response to economic data, central-bank decisions, and geopolitical developments.</p></article>
-<article class="gmo-card"><span class="gmo-pill">02</span><h2>Leverage risk</h2><p>Leverage magnifies both gains and losses and may result in losses exceeding initial expectations, depending on product terms.</p></article>
-<article class="gmo-card"><span class="gmo-pill">03</span><h2>Before you trade</h2><p>Review costs, execution details, and the risk disclosure. Demo trading is not evidence of future live results.</p></article></div><div class="gmo-notice"><strong>Risk reminder:</strong> Market activity involves risk and may result in losses. This website content is general information, not a guarantee of performance or personalized investment advice.</div></div></main><footer class="gmo-footer"><div class="gmo-container gmo-footer-inner"><div>© 2026 Global Market Options Company. Market information is provided for general purposes only.</div><nav class="gmo-footer-links" aria-label="Legal links"><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Service</a><a href="/risk-disclosure.html">Risk Disclosure</a><a href="/contact.html">Contact</a></nav></div></footer><script>
-(()=>{const out=document.getElementById("gmo-gas-price");if(!out)return;async function refresh(){try{const r=await fetch("https://ethereum-rpc.publicnode.com",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_gasPrice",params:[]})});if(!r.ok)throw 0;const j=await r.json();if(!j.result||!/^0x[0-9a-f]+$/i.test(j.result))throw 0;out.textContent=(Number(BigInt(j.result))/1e9).toFixed(2)+" Gwei"}catch(_){out.textContent="See live tracker"}}refresh();setInterval(refresh,30000)})();
-</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forex Trading - Global Market Options</title>
+  <style>
+    :root {
+      --bg: #030712;
+      --card-bg: #0b1329;
+      --border: #1e293b;
+      --text: #ffffff;
+      --muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 40px;
+    }
+
+    /* Header */
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* Page Content */
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    /* Main Info Card */
+    .forex-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .forex-card p {
+      font-size: 14px;
+      color: #cbd5e1;
+      margin-top: 8px;
+    }
+
+    .forex-card h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-email {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .copyright {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 30px;
+    }
+
+    .footer-section {
+      margin-bottom: 24px;
+    }
+
+    .footer-section h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-section a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .footer-section a:hover {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="/" class="brand">Global Market Options</a>
+  </header>
+
+  <main class="container">
+    <h1>Forex Trading</h1>
+
+    <div class="forex-card">
+      <div>
+        <p>
+          Forex is short for foreign exchange. The forex market is a place where currencies are traded. It is the largest and most liquid financial market in the world with an average daily turnover of 6.6 trillion U.S. dollars as of 2019. The basis of the forex market is the fluctuations of exchange rates. Forex traders speculate on the price fluctuations of currency pairs, making money on the difference between buying and selling prices.
+        </p>
+      </div>
+
+      <div>
+        <h2>What is Margin?</h2>
+        <p>
+          Margin is the amount of a trader's funds required to open a new position. Margin is estimated based on the size of your trade, which is measured in lots. A standard lot is 100,000 units. We also provide mini lots (10,000 units), micro lots (1,000 units) and nano lots (100 units). The greater the lot, the bigger the margin amount. Margin allows you to trade with leverage, which, in turn, allows you to place trades larger than the amount of your trading capital. Leverage influences the margin amount too.
+        </p>
+      </div>
+
+      <div>
+        <h2>What is leverage?</h2>
+        <p>
+          Leverage is the ability to trade positions larger than the amount of capital you possess. This mechanism allows traders to use extra funds from a broker in order to increase the size of their trades. For example, 1:100 leverage means that a trader who has deposited $1,000 into his or her account can trade with $100,000. Although leverage lets traders increase their trade size and, consequently, potential gains, it magnifies their potential losses putting their capital at risk.
+        </p>
+      </div>
+
+      <div>
+        <h2>When is the forex market open?</h2>
+        <p>
+          Due to different time zones, the international forex market is open 24 hours a day — from 5 p.m. Eastern Standard Time (EST) on Sunday to 4 p.m. EST on Friday, except holidays. Markets first open in Australasia, then in Europe and afterwards in North America. So, when the market closes in Australia, traders can have access to markets in other regions. The 24-hour availability of the forex market is what makes it so attractive to market participants.
+        </p>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-section">
+        <strong>Global Market Options</strong>
+      </div>
+      <p class="footer-email">support@globalmarketoptions.org</p>
+      <p class="copyright">&copy; 2026 Global Market Options. All rights reserved.</p>
+
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/forex-trading.html">Forex Trading</a></li>
+          <li><a href="/crude-oil.html">Crude Oil</a></li>
+          <li><a href="/real-estate.html">Real Estate</a></li>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+</body>
+</html>
