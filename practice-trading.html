@@ -8,26 +8,25 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; width: 100%; overflow: hidden; background-color: #0b0f19; color: #ffffff; font-family: system-ui, -apple-system, sans-serif; }
     
-    /* App Layout Container */
     .app-container { display: flex; flex-direction: column; height: 100vh; width: 100vw; justify-content: space-between; }
     
     /* Top Header Bar */
-    .top-bar { display: flex; justify-content: space-between; align-items: center; background: #111827; padding: 10px 14px; border-bottom: 1px solid #1f2937; height: 50px; flex-shrink: 0; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; background: #111827; padding: 10px 14px; border-bottom: 1px solid #1f2937; height: 48px; flex-shrink: 0; }
     .logo-area { font-weight: bold; font-size: 14px; color: #fff; }
     .balance-badge { background: #1f2937; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; color: #10b981; }
     
-    /* Chart Area (Dynamically sized so controls fit) */
-    .chart-workspace { height: calc(100vh - 180px); width: 100%; position: relative; background: #0b0f19; }
+    /* Chart Workspace - Adjusted to keep controls fully visible */
+    .chart-workspace { height: calc(100vh - 175px); width: 100%; position: relative; background: #0b0f19; }
     
-    /* Bottom Trade Control Panel */
-    .control-panel { background: #111827; padding: 10px 14px 14px 14px; border-top: 1px solid #1f2937; display: flex; flex-direction: column; gap: 8px; height: 130px; flex-shrink: 0; }
-    .control-row { display: flex; justify-content: space-between; gap: 10px; width: 100%; }
-    .control-box { background: #1f2937; padding: 6px 12px; border-radius: 6px; flex: 1; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #9ca3af; border: 1px solid #374151; }
-    .control-box input { background: transparent; border: none; color: #fff; font-size: 15px; font-weight: bold; width: 50px; text-align: right; outline: none; }
+    /* Bottom Fixed Control Panel */
+    .control-panel { background: #111827; padding: 8px 12px 10px 12px; border-top: 1px solid #1f2937; display: flex; flex-direction: column; gap: 6px; height: 127px; flex-shrink: 0; }
+    .control-row { display: flex; justify-content: space-between; gap: 8px; width: 100%; }
+    .control-box { background: #1f2937; padding: 6px 10px; border-radius: 6px; flex: 1; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #9ca3af; border: 1px solid #374151; }
+    .control-box input { background: transparent; border: none; color: #fff; font-size: 14px; font-weight: bold; width: 50px; text-align: right; outline: none; }
     
     /* Red/Green Action Buttons */
-    .action-row { display: flex; gap: 10px; width: 100%; }
-    .btn-trade { flex: 1; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; color: #fff; cursor: pointer; text-align: center; }
+    .action-row { display: flex; gap: 8px; width: 100%; }
+    .btn-trade { flex: 1; padding: 10px; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; color: #fff; cursor: pointer; text-align: center; }
     .btn-down { background: #ef4444; }
     .btn-down:active { background: #dc2626; }
     .btn-up { background: #10b981; }
@@ -46,7 +45,7 @@
     <!-- Header -->
     <div class="top-bar">
       <div class="logo-area">Global Market Options</div>
-      <div class="balance-badge" id="demoBalance">$9,980.00 Demo account</div>
+      <div class="balance-badge" id="demoBalance">$0.00 Demo account</div>
     </div>
 
     <!-- Live Chart Workspace -->
@@ -81,6 +80,9 @@
   <!-- TradingView Library -->
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
   <script type="text/javascript">
+    let currentBalance = 0.00;
+    const maxLimit = 100.00;
+
     new TradingView.widget({
       "autosize": true,
       "symbol": "NASDAQ:AAPL",
@@ -116,14 +118,19 @@
 
         if (timeLeft <= 0) {
           clearInterval(timer);
-          const profit = (amount * 0.93).toFixed(2);
-          const currentBal = 9980 + parseFloat(profit);
-          document.getElementById('demoBalance').innerText = `$${currentBal.toFixed(2)} Demo account`;
+          const profit = parseFloat((amount * 0.93).toFixed(2));
+          
+          currentBalance += profit;
+          if (currentBalance > maxLimit) {
+            currentBalance = maxLimit;
+          }
+
+          document.getElementById('demoBalance').innerText = `$${currentBalance.toFixed(2)} Demo account`;
           
           body.innerHTML = `
             <h3 style="color: #10b981; margin-top:0; font-size: 22px;">🎉 Trade Won!</h3>
-            <p style="font-size: 20px; font-weight: bold; color: #fff; margin: 12px 0;">+$${profit} Realized</p>
-            <p style="color: #9ca3af; font-size: 13px; line-height: 1.4;">Position hit target execution profit. Balance updated.</p>
+            <p style="font-size: 20px; font-weight: bold; color: #fff; margin: 12px 0;">+$${profit.toFixed(2)} Realized</p>
+            <p style="color: #9ca3af; font-size: 13px; line-height: 1.4;">Practice balance updated. Max practice limit: $100.00</p>
             <button onclick="closeModal()" style="background: #2563eb; color: #fff; border: none; padding: 12px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%;">Continue Trading</button>
           `;
         }
