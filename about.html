@@ -1,24 +1,222 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0b1220"><meta name="description" content="About Us | Global Market Options"><title>About Us | Global Market Options</title><link rel="stylesheet" href="/styles.css"></head>
-<body class="gmo-page"><div class="gmo-ticker" aria-label="Live foreign exchange market ticker"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>{"symbols":[{"proName":"FX:EURUSD","title":"EUR/USD"},{"proName":"FX:GBPUSD","title":"GBP/USD"}],"showSymbolLogo":false,"isTransparent":true,"displayMode":"adaptive","colorTheme":"dark","locale":"en"}</script></div></div>
- <div class="gmo-network"><div class="gmo-container gmo-network-inner"><span class="gmo-dot" aria-hidden="true"></span><strong>Ethereum Mainnet</strong><span>•</span><span>Gas price</span><strong id="gmo-gas-price">Loading…</strong><a href="https://etherscan.io/gastracker" target="_blank" rel="noopener noreferrer">Live gas tracker ↗</a></div></div>
- <header class="gmo-header"><div class="gmo-container gmo-header-inner"><a class="gmo-brand" href="/index.html"><span class="gmo-brand-mark" aria-hidden="true">GMO</span><span>GLOBAL MARKET OPTIONS COMPANY</span></a><nav class="gmo-nav" aria-label="Public navigation"><a href="/index.html">Home</a>
-      <a href="/about.html" aria-current="page">About Us</a>
-      <a href="/contact.html">Contact</a>
-      <a href="/faqs.html">FAQs</a>
-      <a href="/crypto-trading.html">Crypto Trading</a>
-      <a href="/forex-trading.html">Forex Trading</a>
-      <a href="/stocks-etfs.html">Stocks & ETFs</a>
-      <a href="/copy-trading.html">Copy Trading</a>
-      <a href="/smart-portfolios.html">Smart Portfolios</a>
-      <a href="/crude-oil.html">Crude Oil</a>
-      <a href="/real-estate.html">Real Estate</a>
-      <a href="/fees.html">Fees</a>
-      <a href="/privacy.html">Privacy Policy</a>
-      <a href="/terms.html">Terms of Service</a>
-      <a href="/risk-disclosure.html">Risk Disclosure</a></nav><div class="gmo-header-actions"><a class="gmo-btn" href="/login.html">Sign In</a><a class="gmo-btn gmo-btn-primary" href="/login.html">Create Account →</a></div></div></header><section class="gmo-hero"><div class="gmo-container"><p class="gmo-eyebrow">Our company</p><h1>A clearer way to explore financial markets</h1><p class="gmo-lead">Global Market Options brings market information, trading tools, and account workflows together in one place.</p><div class="gmo-actions"><a class="gmo-btn gmo-btn-primary" href="/login.html">Sign In / Create Account →</a><a class="gmo-btn" href="/dashboard.html">Open Customer Portal</a></div></div></section>
-<main class="gmo-main"><div class="gmo-container"><div class="gmo-grid"><article class="gmo-card"><span class="gmo-pill">01</span><h2>Our approach</h2><p>We aim to make market information easier to navigate with clear product experiences and transparent risk information.</p></article>
-<article class="gmo-card"><span class="gmo-pill">02</span><h2>Built around access</h2><p>Explore market categories and use the account portal to manage your profile, requests, and transaction history.</p></article>
-<article class="gmo-card"><span class="gmo-pill">03</span><h2>Risk first</h2><p>Financial markets involve risk. Tools and educational information are not a guarantee of returns or a substitute for independent advice.</p></article></div><div class="gmo-notice"><strong>Risk reminder:</strong> Market activity involves risk and may result in losses. This website content is general information, not a guarantee of performance or personalized investment advice.</div></div></main><footer class="gmo-footer"><div class="gmo-container gmo-footer-inner"><div>© 2026 Global Market Options Company. Market information is provided for general purposes only.</div><nav class="gmo-footer-links" aria-label="Legal links"><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Service</a><a href="/risk-disclosure.html">Risk Disclosure</a><a href="/contact.html">Contact</a></nav></div></footer><script>
-(()=>{const out=document.getElementById("gmo-gas-price");if(!out)return;async function refresh(){try{const r=await fetch("https://ethereum-rpc.publicnode.com",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_gasPrice",params:[]})});if(!r.ok)throw 0;const j=await r.json();if(!j.result||!/^0x[0-9a-f]+$/i.test(j.result))throw 0;out.textContent=(Number(BigInt(j.result))/1e9).toFixed(2)+" Gwei"}catch(_){out.textContent="See live tracker"}}refresh();setInterval(refresh,30000)})();
-</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Global Market Options</title>
+  <style>
+    :root {
+      --bg: #030712;
+      --card-bg: #0b1329;
+      --border: #1e293b;
+      --text: #ffffff;
+      --muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 40px;
+    }
+
+    /* Header */
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      height: 32px;
+    }
+
+    /* Page Content */
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    /* Main Info Card */
+    .about-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .about-card p {
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+
+    .about-card h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-brand {
+      margin-bottom: 12px;
+    }
+
+    .footer-email {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .copyright {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 30px;
+    }
+
+    .footer-section {
+      margin-bottom: 24px;
+    }
+
+    .footer-section h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-section a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .footer-section a:hover {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="/" class="brand">
+      <img src="/brand-logo.svg" alt="Global Market Options" class="brand-mark">
+    </a>
+  </header>
+
+  <main class="container">
+    <h1>About Us</h1>
+
+    <div class="about-card">
+      <p>
+        Welcome to a trading platform where innovation meets opportunity in the world of finance. Our platform is meticulously crafted to cater to the diverse needs and aspirations of traders, from seasoned professionals seeking advanced tools to novices taking their first steps into the world of trading.
+      </p>
+
+      <div>
+        <h2>Copy Trading:</h2>
+        <p>
+          Harness the collective wisdom of the trading community with our innovative copy trading feature. By following the strategies of successful traders, you can replicate their trades in real-time, allowing you to benefit from their expertise and potentially enhance your own investment performance. Whether you're looking to diversify your portfolio or gain insights from top performers, our copy trading feature empowers you to make informed decisions with ease.
+        </p>
+      </div>
+
+      <div>
+        <h2>Stock Trading:</h2>
+        <p>
+          Dive into the world of stocks with confidence using our intuitive trading platform. Whether you're interested in blue-chip companies, emerging growth stocks, or niche sectors, our platform provides access to a wide range of equities from global markets. With advanced charting tools, real-time market data, and comprehensive analysis, you can stay ahead of market trends and make informed trading decisions. Our platform caters to traders of all levels, offering seamless execution and customizable features to suit your individual trading style.
+        </p>
+      </div>
+
+      <div>
+        <h2>Crypto Trading:</h2>
+        <p>
+          Experience the excitement of cryptocurrency trading on our platform. From Bitcoin to altcoins, we offer a diverse selection of digital assets for you to trade, along with real-time market data and comprehensive analysis to help you navigate this rapidly evolving market with confidence. Whether you're a crypto enthusiast exploring new opportunities or a seasoned trader looking to capitalize on market volatility, our platform provides the tools and resources you need to succeed.
+        </p>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-brand">
+        <a href="/" class="brand">
+          <img src="/brand-logo.svg" alt="Global Market Options" class="brand-mark">
+        </a>
+      </div>
+      <div class="footer-email">✉ support@globalmarketoptions.org</div>
+      <div class="copyright">© Global Market Options. All Rights Reserved.</div>
+
+      <div class="footer-section">
+        <h3>Top Instruments</h3>
+        <ul>
+          <li><a href="/stocks-etfs.html">Tesla</a></li>
+          <li><a href="/stocks-etfs.html">Apple</a></li>
+          <li><a href="/stocks-etfs.html">Nvidia</a></li>
+          <li><a href="/stocks-etfs.html">Microsoft</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Learn More</h3>
+        <ul>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/contact.html">Contact Us</a></li>
+          <li><a href="/faq.html">What is Leverage</a></li>
+          <li><a href="/copy-trading.html">How Copy Trading Works</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Privacy</h3>
+        <ul>
+          <li><a href="/cookie-policy.html">Cookie Policy</a></li>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+          <li><a href="/terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="/risk-disclosure.html">General Risk Disclosure</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+</body>
+</html>
