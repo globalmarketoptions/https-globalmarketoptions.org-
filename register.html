@@ -1,33 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta name="theme-color" content="#0B0F17">\n    <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=3e1019e">\n    <link rel="apple-touch-icon" href="./favicon.svg?v=3e1019e">
-    <title>Register - Global Market Options</title>\n    <style>body{background:#0B0F17!important;font-family:Inter,ui-sans-serif,system-ui,sans-serif}.brand-logo{display:flex;justify-content:center;margin:0 auto 24px}.brand-logo img{width:min(260px,100%);height:auto}</style>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account - Global Market Options</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: #000000; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    .register-container { width: 100%; max-width: 480px; background: #000000; padding: 20px; }
+    .register-header { text-align: center; margin-bottom: 24px; }
+    .register-header h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+    .register-header p { font-size: 14px; color: #a1a1aa; }
+    .register-header p a { color: #3b82f6; text-decoration: none; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 14px; color: #ffffff; margin-bottom: 8px; font-weight: 500; }
+    .form-control { width: 100%; padding: 12px 14px; background-color: #ffffff; border: 1px solid #d1d5db; border-radius: 6px; font-size: 15px; color: #000000; outline: none; }
+    .form-control:focus { border-color: #3b82f6; }
+    select.form-control { appearance: auto; background-color: #ffffff; color: #000000; }
+    
+    /* Password field with eye toggle */
+    .password-wrapper { position: relative; width: 100%; }
+    .password-wrapper .form-control { padding-right: 42px; }
+    .toggle-password { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666666; display: flex; align-items: center; justify-content: center; background: none; border: none; padding: 0; }
+    .toggle-password:hover { color: #000000; }
+    .toggle-password svg { width: 20px; height: 20px; }
+
+    .checkbox-group { display: flex; align-items: center; gap: 8px; margin: 20px 0; }
+    .checkbox-group input { width: 18px; height: 18px; cursor: pointer; }
+    .checkbox-group label { font-size: 14px; color: #ffffff; cursor: pointer; }
+    .recaptcha-box { background: #ffffff; color: #000000; border: 1px solid #d1d5db; border-radius: 4px; padding: 12px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; width: 300px; max-width: 100%; }
+    .recaptcha-left { display: flex; align-items: center; gap: 12px; }
+    .recaptcha-checkbox { width: 24px; height: 24px; border: 2px solid #c1c1c1; border-radius: 2px; }
+    .btn-register { width: 100%; padding: 14px; background-color: #0070f3; color: #ffffff; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
+    .btn-register:hover { background-color: #005bb5; }
+  </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between">
-    <div class="max-w-md w-full mx-auto p-6 my-auto bg-slate-900 border border-slate-800 rounded-2xl shadow-xl"><a class="brand-logo" href="/" aria-label="Global Market Options home"><img src="./brand-logo.svg?v=4b6e3bf" alt="Global Market Options" width="260" height="47"></a>
-        <h1 class="text-2xl font-bold mb-2">Create Account</h1>
-        <p class="text-slate-400 mb-6 text-sm">Register to start your financial journey.</p>
-        
-        <form onsubmit="event.preventDefault(); localStorage.setItem('userLoggedIn', 'true'); window.location.href='/dashboard'; return false;" class="space-y-4">
-            <div>
-                <label class="block text-sm text-slate-300 mb-1">Full Name</label>
-                <input type="text" id="name" required placeholder="John Doe" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500">
-            </div>
-            <div>
-                <label class="block text-sm text-slate-300 mb-1">Email address</label>
-                <input type="email" id="email" required placeholder="you@example.com" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500">
-            </div>
-            <div>
-                <label class="block text-sm text-slate-300 mb-1">Password</label>
-                <input type="password" id="password" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-emerald-500">
-            </div>
-            <button type="submit" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold rounded-lg transition-colors cursor-pointer">
-                Create Account
-            </button>
-        </form>
+<body>
+
+  <div class="register-container">
+    <div class="register-header">
+      <h1>Create Account</h1>
+      <p>Already have an Account? <a href="/login.html">Login</a></p>
     </div>
+
+    <form action="#" method="POST">
+      <div class="form-group">
+        <label>Full Name:</label>
+        <input type="text" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Username:</label>
+        <input type="text" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Email Address:</label>
+        <input type="email" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label>Country:</label>
+        <select class="form-control" required>
+          <option value="">Select Country</option>
+          <option value="US">United States</option>
+          <option value="UK">United Kingdom</option>
+          <option value="CA">Canada</option>
+          <option value="AU">Australia</option>
+          <option value="OTHER">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Select Currency:</label>
+        <select class="form-control" required>
+          <option value="USD">USD ($)</option>
+          <option value="EUR">EUR (€)</option>
+          <option value="GBP">GBP (£)</option>
+          <option value="BTC">BTC (₿)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Gender:</label>
+        <select class="form-control" required>
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number:</label>
+        <input type="tel" class="form-control" required>
+      </div>
+
+      <!-- Password Field with Eye Toggle -->
+      <div class="form-group">
+        <label>Password :</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" class="form-control" required>
+          <button type="button" class="toggle-password" onclick="togglePassword('password', this)" aria-label="Toggle password visibility">
+            <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Confirm Password Field with Eye Toggle -->
+      <div class="form-group">
+        <label>Confirm Password:</label>
+        <div class="password-wrapper">
+          <input type="password" id="confirm-password" class="form-control" required>
+          <button type="button" class="toggle-password" onclick="togglePassword('confirm-password', this)" aria-label="Toggle password visibility">
+            <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="terms" required>
+        <label for="terms">I accept the Terms and Conditons.</label>
+      </div>
+
+      <div class="recaptcha-box">
+        <div class="recaptcha-left">
+          <div class="recaptcha-checkbox"></div>
+          <span style="font-size: 14px;">I'm not a robot</span>
+        </div>
+        <div style="font-size: 10px; color: #555; text-align: right;">
+          <strong>reCAPTCHA</strong><br>Privacy - Terms
+        </div>
+      </div>
+
+      <button type="submit" class="btn-register">REGISTER</button>
+    </form>
+  </div>
+
+  <script>
+    function togglePassword(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const isPassword = input.type === "password";
+      input.type = isPassword ? "text" : "password";
+
+      // Toggle SVG icon display between open eye and slashed eye
+      btn.innerHTML = isPassword ? `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        </svg>
+      ` : `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      `;
+    }
+  </script>
+
 </body>
 </html>
