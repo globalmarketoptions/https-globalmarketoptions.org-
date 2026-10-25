@@ -2,27 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Practice Trading | Global Market Options</title>
   <style>
-    * { box-sizing: border-box; }
-    body { background-color: #0b0f19; color: #ffffff; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; width: 100%; overflow: hidden; background-color: #0b0f19; color: #ffffff; font-family: system-ui, -apple-system, sans-serif; }
     
-    /* Header */
-    .top-bar { display: flex; justify-content: space-between; align-items: center; background: #111827; padding: 10px 16px; border-bottom: 1px solid #1f2937; height: 50px; }
-    .logo-area { font-weight: bold; font-size: 15px; color: #fff; }
-    .balance-badge { background: #1f2937; padding: 5px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; color: #10b981; }
+    /* App Layout Container */
+    .app-container { display: flex; flex-direction: column; height: 100vh; width: 100vw; justify-content: space-between; }
     
-    /* Chart Area */
-    .chart-workspace { flex: 1; width: 100%; position: relative; background: #0b0f19; }
+    /* Top Header Bar */
+    .top-bar { display: flex; justify-content: space-between; align-items: center; background: #111827; padding: 10px 14px; border-bottom: 1px solid #1f2937; height: 50px; flex-shrink: 0; }
+    .logo-area { font-weight: bold; font-size: 14px; color: #fff; }
+    .balance-badge { background: #1f2937; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; color: #10b981; }
     
-    /* Compact Control Panel */
-    .control-panel { background: #111827; padding: 10px 16px; border-top: 1px solid #1f2937; display: flex; flex-direction: column; gap: 8px; }
+    /* Chart Area (Dynamically sized so controls fit) */
+    .chart-workspace { height: calc(100vh - 180px); width: 100%; position: relative; background: #0b0f19; }
+    
+    /* Bottom Trade Control Panel */
+    .control-panel { background: #111827; padding: 10px 14px 14px 14px; border-top: 1px solid #1f2937; display: flex; flex-direction: column; gap: 8px; height: 130px; flex-shrink: 0; }
     .control-row { display: flex; justify-content: space-between; gap: 10px; width: 100%; }
-    .control-box { background: #1f2937; padding: 8px 12px; border-radius: 6px; flex: 1; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #9ca3af; }
+    .control-box { background: #1f2937; padding: 6px 12px; border-radius: 6px; flex: 1; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #9ca3af; border: 1px solid #374151; }
     .control-box input { background: transparent; border: none; color: #fff; font-size: 15px; font-weight: bold; width: 50px; text-align: right; outline: none; }
     
-    /* Up/Down Action Buttons */
+    /* Red/Green Action Buttons */
     .action-row { display: flex; gap: 10px; width: 100%; }
     .btn-trade { flex: 1; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; color: #fff; cursor: pointer; text-align: center; }
     .btn-down { background: #ef4444; }
@@ -30,50 +33,52 @@
     .btn-up { background: #10b981; }
     .btn-up:active { background: #059669; }
 
-    /* Pop-up Modal */
+    /* Outcome Pop-up Modal */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
-    .modal-content { background: #111827; padding: 25px; border-radius: 12px; max-width: 380px; width: 100%; text-align: center; border: 1px solid #374151; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .modal-content { background: #111827; padding: 25px; border-radius: 12px; max-width: 360px; width: 100%; text-align: center; border: 1px solid #374151; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
     .spinner { border: 3px solid #374151; border-top: 3px solid #10b981; border-radius: 50%; width: 36px; height: 36px; animation: spin 1s linear infinite; margin: 15px auto; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <div class="top-bar">
-    <div class="logo-area">Global Market Options</div>
-    <div class="balance-badge" id="demoBalance">$9,980.00 Demo account</div>
-  </div>
+  <div class="app-container">
+    <!-- Header -->
+    <div class="top-bar">
+      <div class="logo-area">Global Market Options</div>
+      <div class="balance-badge" id="demoBalance">$9,980.00 Demo account</div>
+    </div>
 
-  <!-- Live Chart Workspace -->
-  <div class="chart-workspace">
-    <div id="tradingview_chart" style="height:100%;width:100%;"></div>
-  </div>
+    <!-- Live Chart Workspace -->
+    <div class="chart-workspace">
+      <div id="tradingview_chart" style="height:100%;width:100%;"></div>
+    </div>
 
-  <!-- Bottom Control Panel -->
-  <div class="control-panel">
-    <div class="control-row">
-      <div class="control-box">
-        <span>Amount ($)</span>
-        <input type="number" id="tradeAmount" value="10">
+    <!-- Bottom Fixed Control Panel -->
+    <div class="control-panel">
+      <div class="control-row">
+        <div class="control-box">
+          <span>Amount ($)</span>
+          <input type="number" id="tradeAmount" value="10">
+        </div>
+        <div class="control-box">
+          <span>Duration</span>
+          <span style="font-weight: bold; color: #38bdf8;">10s</span>
+        </div>
       </div>
-      <div class="control-box">
-        <span>Duration</span>
-        <span style="font-weight: bold; color: #38bdf8;">10s</span>
+      <div class="action-row">
+        <button class="btn-trade btn-down" onclick="executeTrade('DOWN')">Down</button>
+        <button class="btn-trade btn-up" onclick="executeTrade('UP')">Up</button>
       </div>
     </div>
-    <div class="action-row">
-      <button class="btn-trade btn-down" onclick="executeTrade('DOWN')">Down</button>
-      <button class="btn-trade btn-up" onclick="executeTrade('UP')">Up</button>
-    </div>
   </div>
 
-  <!-- Outcome / Win Pop-up Modal -->
+  <!-- Win Outcome Modal -->
   <div class="modal" id="resultModal">
     <div class="modal-content" id="modalBody"></div>
   </div>
 
-  <!-- TradingView Library Script -->
+  <!-- TradingView Library -->
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
   <script type="text/javascript">
     new TradingView.widget({
@@ -130,7 +135,7 @@
     }
   </script>
 
-  <!-- Tawk.to Script -->
+  <!-- Tawk.to Live Chat -->
   <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
