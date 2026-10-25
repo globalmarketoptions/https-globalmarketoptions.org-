@@ -3,20 +3,110 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0B0F17">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg?v=3e1019e">
+  <link rel="apple-touch-icon" href="./favicon.svg?v=3e1019e">
+  <meta name="description" content="Explore stocks, ETFs, crypto, forex, copy trading and market education with Global Market Options.">
   <title>Global Market Options | Markets</title>
+
   <style>
-    body { background-color: #0b0f19; color: #ffffff; font-family: system-ui, sans-serif; margin: 0; padding: 0; text-align: center; }
-    .container { padding: 50px 20px; }
-    h1 { font-size: 32px; margin-bottom: 20px; }
-    p { color: #9ca3af; font-size: 16px; margin-bottom: 30px; }
-    .btn { background: #2563eb; color: #white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; display: inline-block; }
+    :root {
+      color-scheme: dark;
+      --bg: #0B0F17;
+      --surface: #111923;
+      --surface-hover: #1b2935;
+      --border: #293744;
+      --text: #f3f8f7;
+      --muted: #9cacae;
+      --accent: #10B981;
+      --accent-text: #061b14;
+      --positive: #10B981;
+      --negative: #fb7185;
+      --brand-gold: #F59E0B;
+      --brand-blue: #3B82F6;
+      --container-width: 1200px;
+      --register-blue: #2f80ed;
+      --register-blue-hover: #4b93f1;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; min-width: 320px; background: var(--bg); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif; line-height: 1.5; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .container { width: min(var(--container-width), calc(100% - 40px)); margin-inline: auto; }
+    
+    .site-header { position: relative; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--border); }
+    .nav-container { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 850; letter-spacing: 0.055em; }
+    .brand-label { display: inline-block; max-width: 225px; line-height: 1.25; }
+    .brand-mark { width: 210px; height: 38px; display: block; object-fit: contain; }
+    .desktop-nav { display: flex; align-items: center; justify-content: center; gap: 28px; margin-left: auto; }
+    .desktop-nav a { color: var(--muted); font-size: 14px; font-weight: 550; }
+    .desktop-nav a:hover { color: var(--text); }
+
+    .hero { position: relative; isolation: isolate; overflow: hidden; padding: 112px 0 96px; min-height: 560px; display: flex; align-items: center; text-align: center; background: #07111e; }
+    .hero .container { position: relative; z-index: 1; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 22px; padding: 7px 12px; border: 1px solid #285447; border-radius: 999px; background: #112820; color: var(--accent); font-size: 12px; font-weight: 700; }
+    .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+    h1 { max-width: 850px; margin: 0 auto; font-size: clamp(36px, 6vw, 66px); line-height: 1.08; letter-spacing: -0.055em; }
+    .hero-copy { max-width: 650px; margin: 24px auto 0; color: var(--muted); font-size: clamp(15px, 2vw, 18px); line-height: 1.8; }
+    .hero-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+
+    .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; padding: 12px 22px; border-radius: 9px; font-size: 14px; font-weight: 750; cursor: pointer; }
+    .button-primary { background: var(--accent); color: var(--accent-text); }
+    .button-register { background: var(--register-blue); color: #fff; }
+    .button-secondary { border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+
+    .bitcoin-education { padding: 80px 0; text-align: center; }
+    .bitcoin-education h2 { font-size: 32px; margin-bottom: 24px; }
+    
+    footer { padding: 28px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; text-align: center; }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Global Market Options</h1>
-    <p>Your gateway to global financial markets and professional asset management.</p>
-    <a href="practice-trading.html" class="btn">Launch Practice Trading</a>
-  </div>
+  <header class="site-header">
+    <div class="container nav-container">
+      <a class="brand" href="/">
+        <span class="brand-label">GLOBAL MARKET OPTIONS COMPANY</span>
+      </a>
+      <nav class="desktop-nav">
+        <a href="/">Home</a>
+        <a href="/practice-trading.html">Practice Trading</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> Welcome to Global Market Options</p>
+        <h1>Experience The Difference</h1>
+        <p class="hero-copy">Explore global markets, follow key currency pairs, and access your account and practice trading workspace from one place.</p>
+        <div class="hero-actions">
+          <a class="button button-register" href="/register.html">REGISTER ACCOUNT</a>
+          <a class="button button-secondary" href="/login.html">LOGIN</a>
+          <a class="button button-primary" href="/practice-trading.html">PRACTICE TRADING</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="bitcoin-education">
+      <div class="container">
+        <h2>How the Bitcoin Network Works</h2>
+        <div style="max-width: 700px; margin: 0 auto;">
+          <img src="https://images.squarespace-cdn.com/content/v1/5e834b6b6ec42d0752528eb3/1587053535263-K8O1Y0ZJ5K0O0Z0Z0Z0Z/bitcoin+network.png" alt="How the Bitcoin Network Works" style="width: 100%; border-radius: 8px;">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <span>© 2005 Global Market Options Company • support@globalmarketoptions.org</span>
+    </div>
+  </footer>
 </body>
 </html>
