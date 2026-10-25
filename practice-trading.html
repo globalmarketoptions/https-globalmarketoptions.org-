@@ -5,101 +5,126 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Practice Trading | Global Market Options</title>
   <style>
-    body { background-color: #0b0f19; color: #ffffff; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 20px; text-align: center; }
-    .card { background: #111827; border-radius: 12px; padding: 30px; max-width: 480px; margin: 40px auto; border: 1px solid #1f2937; text-align: left; }
-    .title { font-size: 22px; font-weight: bold; margin-bottom: 6px; color: #f9fafb; }
-    .subtitle { font-size: 14px; color: #9ca3af; margin-bottom: 24px; line-height: 1.5; }
-    .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; font-weight: 600; margin-bottom: 6px; }
-    .balance { font-size: 32px; color: #10b981; font-weight: bold; margin-bottom: 20px; }
-    .form-group { margin-bottom: 16px; }
-    select, input { width: 100%; padding: 12px; background-color: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 15px; box-sizing: border-box; }
-    .btn-submit { background: #059669; color: #fff; border: none; padding: 14px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
-    .btn-submit:hover { background: #10b981; }
+    body { background-color: #12161f; color: #ffffff; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
     
-    /* Execution Modal */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 9999; }
-    .modal-content { background: #1f2937; padding: 30px; border-radius: 12px; max-width: 400px; width: 90%; text-align: center; border: 1px solid #374151; }
-    .spinner { border: 4px solid #374151; border-top: 4px solid #10b981; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .status-text { color: #38bdf8; font-size: 15px; font-weight: 500; margin-top: 15px; }
+    /* Top Bar */
+    .top-bar { display: flex; justify-content: space-between; align-items: center; background: #1a202c; padding: 12px 20px; border-bottom: 1px solid #2d3748; }
+    .logo-area { font-weight: bold; font-size: 16px; color: #fff; display: flex; align-items: center; gap: 8px; }
+    .balance-badge { background: #2d3748; padding: 6px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; color: #10b981; }
+    
+    /* Chart Container */
+    .chart-workspace { flex: 1; width: 100%; position: relative; background: #0b0f19; }
+    
+    /* Control Panel */
+    .control-panel { background: #1a202c; padding: 15px 20px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid #2d3748; }
+    .control-row { display: flex; justify-content: space-between; gap: 15px; align-items: center; max-width: 600px; margin: 0 auto; width: 100%; }
+    .control-box { background: #2d3748; padding: 10px 15px; border-radius: 8px; flex: 1; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+    .control-box input { background: transparent; border: none; color: #fff; font-size: 16px; font-weight: bold; width: 60px; text-align: right; outline: none; }
+    
+    /* Action Buttons */
+    .action-row { display: flex; gap: 15px; max-width: 600px; margin: 0 auto; width: 100%; }
+    .btn-trade { flex: 1; padding: 16px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; color: #fff; cursor: pointer; text-align: center; }
+    .btn-down { background: #ef4444; }
+    .btn-down:hover { background: #dc2626; }
+    .btn-up { background: #10b981; }
+    .btn-up:hover { background: #059669; }
+
+    /* Modal Overlay */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 9999; }
+    .modal-content { background: #1a202c; padding: 30px; border-radius: 12px; max-width: 380px; width: 90%; text-align: center; border: 1px solid #2d3748; }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="label">PRACTICE TRADING WORKSPACE</div>
-    <div class="title">Institutional Signal Execution</div>
-    <div class="subtitle">Execute real-time algorithmic trades using high-frequency institutional signal feeds. Test execution speed, leverage entries, and live position management.</div>
-
-    <div class="label">AVAILABLE PRACTICE BALANCE</div>
-    <div class="balance" id="practiceBalance">$110.00</div>
-
-    <div class="form-group">
-      <div class="label">MARKET</div>
-      <select id="marketSelect">
-        <option value="BTC/USD">BTC/USD</option>
-        <option value="ETH/USD">ETH/USD</option>
-        <option value="EUR/USD">EUR/USD</option>
-        <option value="NASDAQ:AAPL">AAPL / USD</option>
-      </select>
+  <!-- Top Navigation / Balance Header -->
+  <div class="top-bar">
+    <div class="logo-area">
+      <span>Global Market Options</span>
     </div>
-
-    <div class="form-group">
-      <div class="label">ORDER TYPE</div>
-      <select>
-        <option value="Buy">Buy / Long</option>
-        <option value="Sell">Sell / Short</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <div class="label">PRACTICE ORDER AMOUNT (USD)</div>
-      <input type="number" value="10" id="orderAmount">
-    </div>
-
-    <button class="btn-submit" onclick="startSignalExecution()">Place Practice Trade</button>
+    <div class="balance-badge" id="demoBalance">$9,980.00 Demo account</div>
   </div>
 
-  <!-- Signal Execution & Result Modal -->
-  <div class="modal" id="signalModal">
-    <div class="modal-content" id="modalBody">
-      <!-- Dynamic signal execution steps will load here -->
+  <!-- TradingView Chart Area -->
+  <div class="chart-workspace">
+    <div id="tradingview_chart" style="height:100%;width:100%;"></div>
+  </div>
+
+  <!-- Bottom Interactive Trade Controls -->
+  <div class="control-panel">
+    <div class="control-row">
+      <div class="control-box">
+        <span>Amount ($)</span>
+        <input type="number" id="tradeAmount" value="10">
+      </div>
+      <div class="control-box">
+        <span>Duration</span>
+        <span style="font-weight: bold; color: #38bdf8;">10s</span>
+      </div>
+    </div>
+    <div class="action-row">
+      <button class="btn-trade btn-down" onclick="executeTrade('DOWN')">Down</button>
+      <button class="btn-trade btn-up" onclick="executeTrade('UP')">Up</button>
     </div>
   </div>
 
-  <script>
-    function startSignalExecution() {
-      const modal = document.getElementById('signalModal');
+  <!-- Result Modal -->
+  <div class="modal" id="resultModal">
+    <div class="modal-content" id="modalBody"></div>
+  </div>
+
+  <!-- TradingView Script -->
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script type="text/javascript">
+    new TradingView.widget({
+      "autosize": true,
+      "symbol": "NASDAQ:AAPL",
+      "interval": "1",
+      "timezone": "Etc/UTC",
+      "theme": "dark",
+      "style": "1",
+      "locale": "en",
+      "toolbar_bg": "#f1f3f6",
+      "enable_publishing": false,
+      "allow_symbol_change": true,
+      "container_id": "tradingview_chart"
+    });
+
+    function executeTrade(direction) {
+      const amount = parseFloat(document.getElementById('tradeAmount').value) || 10;
+      const modal = document.getElementById('resultModal');
       const body = document.getElementById('modalBody');
-      const market = document.getElementById('marketSelect').value;
       modal.style.display = 'flex';
 
-      // Step 1: Analyzing Signal
       body.innerHTML = `
-        <h3 style="color: #f9fafb;">Analyzing Market Order...</h3>
-        <div class="spinner"></div>
-        <p class="status-text">Scanning High-Frequency Signal Matrix for ${market}...</p>
+        <h3 style="color: #38bdf8; margin-top:0;">Trade Placed (${direction})</h3>
+        <p style="color: #94a3b8; font-size: 15px;">Monitoring 10-second market tick...</p>
+        <div style="font-size: 28px; font-weight: bold; color: #fff; margin: 20px 0;" id="countdown">10</div>
       `;
 
-      // Step 2: Routing Order
-      setTimeout(() => {
-        body.innerHTML = `
-          <h3 style="color: #f9fafb;">Routing Order to Liquidity</h3>
-          <div class="spinner"></div>
-          <p class="status-text">Matching Signal Order at Best Market Bid/Ask...</p>
-        `;
-      }, 1500);
+      let timeLeft = 10;
+      let timer = setInterval(() => {
+        timeLeft--;
+        if(document.getElementById('countdown')) {
+          document.getElementById('countdown').innerText = timeLeft;
+        }
+        if(timeLeft <= 0) {
+          clearInterval(timer);
+          const profit = (amount * 0.93).toFixed(2);
+          const currentBal = 9980 + parseFloat(profit);
+          document.getElementById('demoBalance').innerText = `$${currentBal.toFixed(2)} Demo account`;
+          
+          body.innerHTML = `
+            <h3 style="color: #10b981; margin-top:0;">🎉 Trade Successful!</h3>
+            <p style="font-size: 18px; font-weight: bold; color: #fff; margin: 15px 0;">Profit Realized: +$${profit}</p>
+            <p style="color: #94a3b8; font-size: 13px;">Demo session trade successfully closed.</p>
+            <button onclick="closeModal()" style="background: #2563eb; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%;">Continue Trading</button>
+          `;
+        }
+      }, 1000);
+    }
 
-      // Step 3: Trade Success
-      setTimeout(() => {
-        document.getElementById('practiceBalance').innerText = "$210.00";
-        body.innerHTML = `
-          <h3 style="color: #10b981; font-size: 24px;">🎉 Trade Signal Executed!</h3>
-          <p style="font-size: 20px; font-weight: bold; color: #f9fafb; margin: 15px 0;">+$100.00 Profit Realized</p>
-          <p style="color: #9ca3af; font-size: 14px; line-height: 1.5;">Your practice position hit target TP. Top up your live trading account to apply these signal strategies on real funds.</p>
-          <button class="btn-submit" onclick="window.location.href='/dashboard.html'" style="margin-top: 15px;">Top Up Account Now</button>
-        `;
-      }, 3200);
+    function closeModal() {
+      document.getElementById('resultModal').style.display = 'none';
     }
   </script>
 
