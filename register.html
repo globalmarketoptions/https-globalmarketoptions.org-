@@ -43,20 +43,20 @@
       <p>Already have an Account? <a href="/login.html">Login</a></p>
     </div>
 
-    <form action="#" method="POST">
+    <form id="registration-form" action="#" method="POST">
       <div class="form-group">
         <label>Full Name:</label>
-        <input type="text" class="form-control" required>
+        <input type="text" id="fullname" class="form-control" required>
       </div>
 
       <div class="form-group">
         <label>Username:</label>
-        <input type="text" class="form-control" required>
+        <input type="text" id="username" class="form-control" required>
       </div>
 
       <div class="form-group">
         <label>Email Address:</label>
-        <input type="email" class="form-control" required>
+        <input type="email" id="email" class="form-control" required>
       </div>
 
       <!-- Complete World Country List -->
@@ -95,7 +95,6 @@
           <option value="China">China</option>
           <option value="Colombia">Colombia</option>
           <option value="Costa Rica">Costa Rica</option>
-
           <option value="Croatia">Croatia</option>
           <option value="Cyprus">Cyprus</option>
           <option value="Czech Republic">Czech Republic</option>
@@ -140,7 +139,6 @@
           <option value="Mexico">Mexico</option>
           <option value="Monaco">Monaco</option>
           <option value="Mongolia">Mongolia</option>
-
           <option value="Morocco">Morocco</option>
           <option value="Nepal">Nepal</option>
           <option value="Netherlands">Netherlands</option>
@@ -188,7 +186,7 @@
 
       <div class="form-group">
         <label>Select Currency:</label>
-        <select class="form-control" required>
+        <select class="form-control" id="currency" required>
           <option value="USD">USD ($)</option>
           <option value="EUR">EUR (€)</option>
           <option value="GBP">GBP (£)</option>
@@ -199,7 +197,7 @@
 
       <div class="form-group">
         <label>Gender:</label>
-        <select class="form-control" required>
+        <select class="form-control" id="gender" required>
           <option value="">Select Gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
@@ -209,7 +207,7 @@
 
       <div class="form-group">
         <label>Phone Number:</label>
-        <input type="tel" class="form-control" required>
+        <input type="tel" id="phone" class="form-control" required>
       </div>
 
       <!-- Password Field with Eye Toggle -->
@@ -260,6 +258,7 @@
   </div>
 
   <script>
+    // Password Visibility Toggle
     function togglePassword(inputId, btn) {
       const input = document.getElementById(inputId);
       const isPassword = input.type === "password";
@@ -277,6 +276,48 @@
         </svg>
       `;
     }
+
+    // Single Email Constraint & Registration Storage
+    document.getElementById('registration-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const pass = document.getElementById('password').value;
+      const confirmPass = document.getElementById('confirm-password').value;
+
+      if (pass !== confirmPass) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      const email = document.getElementById('email').value.toLowerCase().trim();
+      let registeredUsers = JSON.parse(localStorage.getItem('gmo_users') || '[]');
+
+      // Check if the email address is already registered
+      const existingUser = registeredUsers.find(user => user.email === email);
+      if (existingUser) {
+        alert("An account with this email address already exists.");
+        return;
+      }
+
+      // Store new account
+      const newUser = {
+        fullname: document.getElementById('fullname').value,
+        username: document.getElementById('username').value,
+        email: email,
+        country: document.getElementById('country-select').value,
+        currency: document.getElementById('currency').value,
+        gender: document.getElementById('gender').value,
+        phone: document.getElementById('phone').value,
+        password: pass,
+        registeredAt: new Date().toISOString()
+      };
+
+      registeredUsers.push(newUser);
+      localStorage.setItem('gmo_users', JSON.stringify(registeredUsers));
+
+      alert("Account created successfully! Redirecting to login...");
+      window.location.href = '/login.html';
+    });
   </script>
 
 </body>
