@@ -1,24 +1,260 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0b1220"><meta name="description" content="Contact | Global Market Options"><title>Contact | Global Market Options</title><link rel="stylesheet" href="/styles.css"></head>
-<body class="gmo-page"><div class="gmo-ticker" aria-label="Live foreign exchange market ticker"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>{"symbols":[{"proName":"FX:EURUSD","title":"EUR/USD"},{"proName":"FX:GBPUSD","title":"GBP/USD"}],"showSymbolLogo":false,"isTransparent":true,"displayMode":"adaptive","colorTheme":"dark","locale":"en"}</script></div></div>
- <div class="gmo-network"><div class="gmo-container gmo-network-inner"><span class="gmo-dot" aria-hidden="true"></span><strong>Ethereum Mainnet</strong><span>•</span><span>Gas price</span><strong id="gmo-gas-price">Loading…</strong><a href="https://etherscan.io/gastracker" target="_blank" rel="noopener noreferrer">Live gas tracker ↗</a></div></div>
- <header class="gmo-header"><div class="gmo-container gmo-header-inner"><a class="gmo-brand" href="/index.html"><span class="gmo-brand-mark" aria-hidden="true">GMO</span><span>GLOBAL MARKET OPTIONS COMPANY</span></a><nav class="gmo-nav" aria-label="Public navigation"><a href="/index.html">Home</a>
-      <a href="/about.html">About Us</a>
-      <a href="/contact.html" aria-current="page">Contact</a>
-      <a href="/faqs.html">FAQs</a>
-      <a href="/crypto-trading.html">Crypto Trading</a>
-      <a href="/forex-trading.html">Forex Trading</a>
-      <a href="/stocks-etfs.html">Stocks & ETFs</a>
-      <a href="/copy-trading.html">Copy Trading</a>
-      <a href="/smart-portfolios.html">Smart Portfolios</a>
-      <a href="/crude-oil.html">Crude Oil</a>
-      <a href="/real-estate.html">Real Estate</a>
-      <a href="/fees.html">Fees</a>
-      <a href="/privacy.html">Privacy Policy</a>
-      <a href="/terms.html">Terms of Service</a>
-      <a href="/risk-disclosure.html">Risk Disclosure</a></nav><div class="gmo-header-actions"><a class="gmo-btn" href="/login.html">Sign In</a><a class="gmo-btn gmo-btn-primary" href="/login.html">Create Account →</a></div></div></header><section class="gmo-hero"><div class="gmo-container"><p class="gmo-eyebrow">Get in touch</p><h1>Contact Global Market Options</h1><p class="gmo-lead">For account questions or support with a request, sign in and use the account portal so your enquiry can be associated with the right account.</p><div class="gmo-actions"><a class="gmo-btn gmo-btn-primary" href="/login.html">Sign In / Create Account →</a><a class="gmo-btn" href="/dashboard.html">Open Customer Portal</a></div></div></section>
-<main class="gmo-main"><div class="gmo-container"><div class="gmo-grid"><article class="gmo-card"><span class="gmo-pill">01</span><h2>Account support</h2><p>Sign in to review your profile, transaction requests, and any pending deposit review.</p></article>
-<article class="gmo-card"><span class="gmo-pill">02</span><h2>General enquiries</h2><p>Use the contact details provided through your verified account or official company communications. Avoid sending passwords, seed phrases, or private keys.</p></article>
-<article class="gmo-card"><span class="gmo-pill">03</span><h2>Security</h2><p>We will never ask you to disclose your password, recovery phrase, or one-time authentication code by email.</p></article></div><div class="gmo-notice"><strong>Risk reminder:</strong> Market activity involves risk and may result in losses. This website content is general information, not a guarantee of performance or personalized investment advice.</div></div></main><footer class="gmo-footer"><div class="gmo-container gmo-footer-inner"><div>© 2026 Global Market Options Company. Market information is provided for general purposes only.</div><nav class="gmo-footer-links" aria-label="Legal links"><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Service</a><a href="/risk-disclosure.html">Risk Disclosure</a><a href="/contact.html">Contact</a></nav></div></footer><script>
-(()=>{const out=document.getElementById("gmo-gas-price");if(!out)return;async function refresh(){try{const r=await fetch("https://ethereum-rpc.publicnode.com",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_gasPrice",params:[]})});if(!r.ok)throw 0;const j=await r.json();if(!j.result||!/^0x[0-9a-f]+$/i.test(j.result))throw 0;out.textContent=(Number(BigInt(j.result))/1e9).toFixed(2)+" Gwei"}catch(_){out.textContent="See live tracker"}}refresh();setInterval(refresh,30000)})();
-</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Global Market Options</title>
+  <style>
+    :root {
+      --bg: #030712;
+      --card-bg: #0b1329;
+      --border: #1e293b;
+      --text: #ffffff;
+      --muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 40px;
+    }
+
+    /* Header */
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      height: 32px;
+    }
+
+    /* Page Content */
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    /* Outer Contact Card */
+    .contact-card-outer {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Inner Visual Container */
+    .contact-card-inner {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.8), rgba(3, 7, 18, 0.9)), url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80') center/cover;
+      border-radius: 12px;
+      padding: 32px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .contact-header-text {
+      margin-bottom: 30px;
+    }
+
+    .contact-header-text h2 {
+      font-size: 26px;
+      letter-spacing: 2px;
+      font-weight: 800;
+      color: #e2e8f0;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .contact-header-text p {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* Info Items */
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 13px;
+    }
+
+    .info-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+    }
+
+    .info-item a {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-brand {
+      margin-bottom: 12px;
+    }
+
+    .footer-email {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .copyright {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 30px;
+    }
+
+    .footer-section {
+      margin-bottom: 24px;
+    }
+
+    .footer-section h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-section a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .footer-section a:hover {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="/" class="brand">
+      <img src="/brand-logo.svg" alt="Global Market Options" class="brand-mark">
+    </a>
+  </header>
+
+  <main class="container">
+    <h1>Contact Us</h1>
+
+    <div class="contact-card-outer">
+      <div class="contact-card-inner">
+        <div class="contact-header-text">
+          <h2>CONTACT US</h2>
+          <p>Get in touch with us</p>
+        </div>
+
+        <div class="info-list">
+          <div class="info-item">
+            <div class="info-icon">✉</div>
+            <a href="mailto:support@globalmarketoptions.org">support@globalmarketoptions.org</a>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">📍</div>
+            <span>1 Little New St, London EC4A 3TR, United Kingdom</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-brand">
+        <a href="/" class="brand">
+          <img src="/brand-logo.svg" alt="Global Market Options" class="brand-mark">
+        </a>
+      </div>
+      <div class="footer-email">✉ support@globalmarketoptions.org</div>
+      <div class="copyright">© Global Market Options. All Rights Reserved.</div>
+
+      <div class="footer-section">
+        <h3>Top Instruments</h3>
+        <ul>
+          <li><a href="/stocks-etfs.html">Tesla</a></li>
+          <li><a href="/stocks-etfs.html">Apple</a></li>
+          <li><a href="/stocks-etfs.html">Nvidia</a></li>
+          <li><a href="/stocks-etfs.html">Microsoft</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Learn More</h3>
+        <ul>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/contact.html">Contact Us</a></li>
+          <li><a href="/faq.html">What is Leverage</a></li>
+          <li><a href="/copy-trading.html">How Copy Trading Works</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Privacy</h3>
+        <ul>
+          <li><a href="/cookie-policy.html">Cookie Policy</a></li>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+          <li><a href="/terms.html">Terms &amp; Conditions</a></li>
+          <li><a href="/risk-disclosure.html">General Risk Disclosure</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+</body>
+</html>
