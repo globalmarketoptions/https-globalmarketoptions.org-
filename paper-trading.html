@@ -36,4 +36,17 @@ $("paper-reset").addEventListener("click",()=>{if(!confirm("Reset the local demo
 $("graduation-request").addEventListener("click",()=>{if(state.balance<100){$("graduation-note").textContent="Your simulated balance must reach $100.00 before requesting review. Practice results are not real funds.";return;}$("graduation-note").textContent="Review requested locally. To proceed, make a real deposit through the secure deposit page and contact support for manual eligibility review. No practice profit has been credited.";});render();const out=$("gmo-gas-price");async function gas(){try{const r=await fetch("https://ethereum-rpc.publicnode.com",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_gasPrice",params:[]})});if(!r.ok)throw 0;const j=await r.json();if(!j.result)throw 0;out.textContent=(Number(BigInt(j.result))/1e9).toFixed(2)+" Gwei"}catch(_){out.textContent="See live tracker"}}gas();setInterval(gas,30000);
 })();
 </script>
+<!-- Start of Tawk.to Script -->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6ad0796de35a9734cc152afd/1k4v5klpe';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!-- End of Tawk.to Script -->
 </body></html>

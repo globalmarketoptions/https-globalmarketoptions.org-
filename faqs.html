@@ -22,4 +22,17 @@
 <article class="gmo-card"><span class="gmo-pill">03</span><h2>Does practice trading use real funds?</h2><p>Practice or paper trading should use simulated balances and must not be confused with live trading. Confirm the mode displayed before submitting an order.</p></article>
 <article class="gmo-card"><span class="gmo-pill">04</span><h2>Are trading results guaranteed?</h2><p>No. Prices and market conditions change, and losses are possible. Review the Risk Disclosure before using financial products.</p></article></div><div class="gmo-notice"><strong>Risk reminder:</strong> Market activity involves risk and may result in losses. This website content is general information, not a guarantee of performance or personalized investment advice.</div></div></main><footer class="gmo-footer"><div class="gmo-container gmo-footer-inner"><div>© 2026 Global Market Options Company. Market information is provided for general purposes only.</div><nav class="gmo-footer-links" aria-label="Legal links"><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Service</a><a href="/risk-disclosure.html">Risk Disclosure</a><a href="/contact.html">Contact</a></nav></div></footer><script>
 (()=>{const out=document.getElementById("gmo-gas-price");if(!out)return;async function refresh(){try{const r=await fetch("https://ethereum-rpc.publicnode.com",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_gasPrice",params:[]})});if(!r.ok)throw 0;const j=await r.json();if(!j.result||!/^0x[0-9a-f]+$/i.test(j.result))throw 0;out.textContent=(Number(BigInt(j.result))/1e9).toFixed(2)+" Gwei"}catch(_){out.textContent="See live tracker"}}refresh();setInterval(refresh,30000)})();
-</script></body></html>
+</script><!-- Start of Tawk.to Script -->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6ad0796de35a9734cc152afd/1k4v5klpe';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!-- End of Tawk.to Script -->
+</body></html>
