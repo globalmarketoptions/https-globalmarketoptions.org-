@@ -1,25 +1,39 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0b1220"><meta name="description" content="Risk Disclosure | Global Market Options"><title>Risk Disclosure | Global Market Options</title><link rel="stylesheet" href="/styles.css"></head>
-<body class="gmo-page"><div class="gmo-ticker" aria-label="Live foreign exchange market ticker"><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>{"symbols":[{"proName":"FX:EURUSD","title":"EUR/USD"},{"proName":"FX:GBPUSD","title":"GBP/USD"}],"showSymbolLogo":false,"isTransparent":true,"displayMode":"adaptive","colorTheme":"dark","locale":"en"}</script></div></div>
- <div class="gmo-network"><div class="gmo-container gmo-network-inner"><span class="gmo-dot" aria-hidden="true"></span><strong>Ethereum Mainnet</strong><span>•</span><span>Gas price</span><strong id="gmo-gas-price">Loading…</strong><a href="https://etherscan.io/gastracker" target="_blank" rel="noopener noreferrer">Live gas tracker ↗</a></div></div>
- <header class="gmo-header"><div class="gmo-container gmo-header-inner"><a class="gmo-brand" href="/index.html"><span class="gmo-brand-mark" aria-hidden="true">GMO</span><span>GLOBAL MARKET OPTIONS COMPANY</span></a><nav class="gmo-nav" aria-label="Public navigation"><a href="/index.html">Home</a>
-      <a href="/about.html">About Us</a>
-      <a href="/contact.html">Contact</a>
-      <a href="/faqs.html">FAQs</a>
-      <a href="/crypto-trading.html">Crypto Trading</a>
-      <a href="/forex-trading.html">Forex Trading</a>
-      <a href="/stocks-etfs.html">Stocks & ETFs</a>
-      <a href="/copy-trading.html">Copy Trading</a>
-      <a href="/smart-portfolios.html">Smart Portfolios</a>
-      <a href="/crude-oil.html">Crude Oil</a>
-      <a href="/real-estate.html">Real Estate</a>
-      <a href="/fees.html">Fees</a>
-      <a href="/privacy.html">Privacy Policy</a>
-      <a href="/terms.html">Terms of Service</a>
-      <a href="/risk-disclosure.html" aria-current="page">Risk Disclosure</a></nav><div class="gmo-header-actions"><a class="gmo-btn" href="/login.html">Sign In</a><a class="gmo-btn gmo-btn-primary" href="/login.html">Create Account →</a></div></div></header><section class="gmo-hero"><div class="gmo-container"><p class="gmo-eyebrow">Important information</p><h1>Understand the risks before trading</h1><p class="gmo-lead">Trading and investing can result in partial or total loss of capital. Do not trade with money you cannot afford to lose.</p><div class="gmo-actions"><a class="gmo-btn gmo-btn-primary" href="/login.html">Sign In / Create Account →</a><a class="gmo-btn" href="/dashboard.html">Open Customer Portal</a></div></div></section>
-<main class="gmo-main"><div class="gmo-container"><div class="gmo-grid"><article class="gmo-card"><span class="gmo-pill">01</span><h2>Market and liquidity risk</h2><p>Prices can gap or move sharply, and it may not be possible to close a position at the expected price.</p></article>
-<article class="gmo-card"><span class="gmo-pill">02</span><h2>Leverage and derivatives</h2><p>Leverage increases exposure and can amplify losses. Derivatives may be complex and unsuitable for many investors.</p></article>
-<article class="gmo-card"><span class="gmo-pill">03</span><h2>Cryptoasset and operational risk</h2><p>Digital assets involve volatility, custody, blockchain, smart-contract, cyber, and regulatory risks. Transfers may be irreversible.</p></article>
-<article class="gmo-card"><span class="gmo-pill">04</span><h2>No advice or guarantee</h2><p>Information on this site is general and may not reflect your circumstances. No result or return is guaranteed. Consider independent professional advice.</p></article></div><div class="gmo-notice"><strong>Risk reminder:</strong> Market activity involves risk and may result in losses. This website content is general information, not a guarantee of performance or personalized investment advice.</div></div></main><footer class="gmo-footer"><div class="gmo-container gmo-footer-inner"><div>© 2026 Global Market Options Company. Market information is provided for general purposes only.</div><nav class="gmo-footer-links" aria-label="Legal links"><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms of Service</a><a href="/risk-disclosure.html">Risk Disclosure</a><a href="/contact.html">Contact</a></nav></div></footer><script>
-(()=>{const out=document.getElementById("gmo-gas-price");if(!out)return;async function refresh(){try{const r=await fetch("https://ethereum-rpc.publicnode.com",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_gasPrice",params:[]})});if(!r.ok)throw 0;const j=await r.json();if(!j.result||!/^0x[0-9a-f]+$/i.test(j.result))throw 0;out.textContent=(Number(BigInt(j.result))/1e9).toFixed(2)+" Gwei"}catch(_){out.textContent="See live tracker"}}refresh();setInterval(refresh,30000)})();
-</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>General Risk Disclosure - Global Market Options</title>
+  <style>
+    :root { --bg: #030712; --card-bg: #0b1329; --border: #1e293b; --text: #ffffff; --muted: #94a3b8; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.6; padding-bottom: 40px; }
+    .site-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+    .brand { font-size: 18px; font-weight: 700; color: #fff; text-decoration: none; }
+    .container { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: 24px; }
+    .card { background-color: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px 20px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .card h2 { font-size: 18px; font-weight: 700; color: #fff; margin-top: 10px; }
+    .card p { font-size: 14px; color: #cbd5e1; }
+    footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="site-header"><a href="/" class="brand">Global Market Options</a></header>
+  <main class="container">
+    <h1>General Risk Disclosure</h1>
+    <div class="card">
+      <p>Trading and investing in financial instruments, cryptocurrencies, stocks, and commodities involve substantial risk of loss and are not suitable for every investor.</p>
+      <div>
+        <h2>Market Volatility &amp; Capital Loss</h2>
+        <p>Market prices can fluctuate rapidly. You may sustain a total loss of invested capital. Past performance is never a guarantee or indicator of future results.</p>
+      </div>
+      <div>
+        <h2>Simulated Results Limitation</h2>
+        <p>Any simulated or demo trading results have inherent limitations. Unlike actual trading records, simulated results do not represent actual financial execution or liquidity risks.</p>
+      </div>
+    </div>
+    <footer><p>&copy; 2005 Global Market Options. All rights reserved.</p></footer>
+  </main>
+</body>
+</html>
