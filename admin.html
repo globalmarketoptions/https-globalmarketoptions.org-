@@ -18,6 +18,8 @@
     th { color: #64748b; font-size: 11px; text-transform: uppercase; }
     .action-btn { color: #38bdf8; background: none; border: none; cursor: pointer; text-decoration: none; font-size: 12px; margin-right: 10px; display: inline-block; font-weight: 500; }
     .action-btn:hover { text-decoration: underline; color: #7dd3fc; }
+    .proton-btn { color: #a78bfa; background: #1e1b4b; border: 1px solid #4338ca; padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 11px; text-decoration: none; display: inline-block; }
+    .proton-btn:hover { background: #312e81; color: #c4b5fd; }
     .email-btn { color: #38bdf8; background: #0b0f19; border: 1px solid #334155; padding: 6px 10px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer; text-align: left; }
     .email-btn:hover { background: #1e293b; }
     .management-panel { background: #151e32; border: 1px solid #1e293b; border-radius: 8px; padding: 15px; margin-top: 15px; }
@@ -99,9 +101,14 @@
 
       cachedUsers = users;
 
-      tableBody.innerHTML = users.map(user => `
+      tableBody.innerHTML = users.map(user => {
+        const email = user.email || '';
+        // Proton Mail composer deep link: opens web proton mail composer with recipient pre-filled
+        const protonComposeUrl = `https://mail.proton.me/u/0/composer?to=${encodeURIComponent(email)}&subject=${encodeURIComponent("Global Market Options - Account Notification")}`;
+
+        return `
         <tr>
-          <td><button class="email-btn" onclick="selectClient('${user.id}')">📂 ${user.email || user.id}</button></td>
+          <td><button class="email-btn" onclick="selectClient('${user.id}')">📂 ${email || user.id}</button></td>
           <td>
             <button class="action-btn" onclick="openAction('Deposit', '${user.id}')">User Deposit</button>
             <button class="action-btn" onclick="openAction('KYC', '${user.id}')">Id Verification</button>
@@ -109,25 +116,34 @@
             <button class="action-btn" onclick="openAction('Trade', '${user.id}')">Create Trade</button>
             <button class="action-btn" onclick="openAction('Withdraw', '${user.id}')">Withdraw Request</button>
             <button class="action-btn" onclick="openAction('TopUp', '${user.id}')">Top Up</button>
+            <a class="proton-btn" href="${protonComposeUrl}" target="_blank">✉️ Notify via Proton</a>
           </td>
         </tr>
-      `).join('');
+      `;
+      }).join('');
     }
 
     function selectClient(userId) {
       const user = cachedUsers.find(u => u.id === userId) || {};
       const panel = document.getElementById('panelContent');
+      const email = user.email || '';
 
       panel.innerHTML = `
         <div class="form-group"><label class="form-label">ID (Do not change)</label><input class="form-input" value="${user.id || userId}" readonly style="color:#94a3b8; background:#070a12;"></div>
         <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" value="${user.full_name || user.name || 'N/A'}" readonly></div>
         <div class="form-group"><label class="form-label">Username</label><input class="form-input" value="${user.username || 'N/A'}" readonly></div>
-        <div class="form-group"><label class="form-label">Client Email</label><input class="form-input" value="${user.email || 'N/A'}" readonly></div>
+        <div class="form-group"><label class="form-label">Client Email</label><input class="form-input" id="clientEmailInput" value="${email}" readonly></div>
         <div class="form-group"><label class="form-label">Country</label><input class="form-input" value="${user.country || 'N/A'}" readonly></div>
         <div class="form-group"><label class="form-label">Select Currency</label><input class="form-input" value="${user.currency || 'N/A'}" readonly></div>
         <div class="form-group"><label class="form-label">Gender</label><input class="form-input" value="${user.gender || 'N/A'}" readonly></div>
         <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" value="${user.phone || user.phone_number || 'N/A'}" readonly></div>
+        <button class="btn-main" style="background:#4338ca;" onclick="copyVisitorEmail('${email}')">📋 Copy Email for Proton Mail</button>
       `;
+    }
+
+    function copyVisitorEmail(email) {
+      navigator.clipboard.writeText(email);
+      alert(`Copied ${email} to clipboard! You can now paste it into gmo.compliance@proton.me`);
     }
 
     async function openAction(type, userId) {
