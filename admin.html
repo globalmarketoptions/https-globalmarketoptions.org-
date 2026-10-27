@@ -81,7 +81,9 @@
       const tableBody = document.getElementById('userTableBody');
       if (!tableBody) return;
 
-      let { data: users, error } = await _supabase.from('profiles').select('*');
+      const { data: users, error } = await _supabase
+        .from('profiles')
+        .select('id, email, display_name, username');
 
       if (error || !users || users.length === 0) {
         tableBody.innerHTML = `<tr><td colspan="2" style="color:#f59e0b; text-align:center; padding:15px;">No registered clients found in database yet.</td></tr>`;
@@ -92,12 +94,12 @@
         <tr>
           <td><strong>${user.email || user.id}</strong></td>
           <td>
-            <button class="action-btn" onclick="openAction('deposit', '${user.id}', '${user.email}')">User Deposit</button>
-            <button class="action-btn" onclick="openAction('kyc', '${user.id}', '${user.email}')">Id Verification</button>
-            <button class="action-btn" onclick="openAction('history', '${user.id}', '${user.email}')">Update History</button>
-            <button class="action-btn" onclick="openAction('trade', '${user.id}', '${user.email}')">Create Trade</button>
-            <button class="action-btn" onclick="openAction('withdraw', '${user.id}', '${user.email}')">Withdraw Request</button>
-            <button class="action-btn" onclick="openAction('topup', '${user.id}', '${user.email}')">Top Up</button>
+            <button class="action-btn" onclick="openAction('deposit', '${user.id}', '${user.email || ''}')">User Deposit</button>
+            <button class="action-btn" onclick="openAction('kyc', '${user.id}', '${user.email || ''}')">Id Verification</button>
+            <button class="action-btn" onclick="openAction('history', '${user.id}', '${user.email || ''}')">Update History</button>
+            <button class="action-btn" onclick="openAction('trade', '${user.id}', '${user.email || ''}')">Create Trade</button>
+            <button class="action-btn" onclick="openAction('withdraw', '${user.id}', '${user.email || ''}')">Withdraw Request</button>
+            <button class="action-btn" onclick="openAction('topup', '${user.id}', '${user.email || ''}')">Top Up</button>
             <a class="action-btn" href="mailto:${user.email || ''}" style="color:#38bdf8;">Email Client</a>
           </td>
         </tr>
