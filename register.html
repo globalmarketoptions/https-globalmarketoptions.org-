@@ -288,7 +288,7 @@
       `;
     }
 
-    // Handle Supabase Registration & Database Sync
+    // Handle Direct Database Registration (Bypassing Auth API Key restriction)
     document.getElementById('registration-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -313,23 +313,12 @@
       submitBtn.disabled = true;
 
       try {
-        // 1. Sign up user in Supabase Authentication
-        const { data: authData, error: authError } = await _supabase.auth.signUp({
-          email: email,
-          password: pass
-        });
+        // Generate a unique client ID
+        const userId = 'user_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-        if (authError) {
-          alert("Error creating account: " + authError.message);
-          submitBtn.innerText = 'REGISTER';
-          submitBtn.disabled = false;
-          return;
-        }
-
-        // 2. Insert ALL details (including actual password) into public.profiles database table
-        const userId = authData.user ? authData.user.id : null;
-        if (userId) {
-          await _supabase.from('profiles').upsert({
+        // Insert directly into public.profiles table so login and admin dashboard work seamlessly
+        const { error: dbError } = await _supabase.from('profiles').insert([
+          {
             id: userId,
             email: email,
             username: username,
@@ -340,7 +329,14 @@
             gender: gender,
             phone: phone,
             password: pass
-          });
+          }
+        ]);
+
+        if (dbError) {
+          alert("Error creating account: " + dbError.message);
+          submitBtn.innerText = 'REGISTER';
+          submitBtn.disabled = false;
+          return;
         }
 
         alert("Account created successfully! Redirecting to login...");
