@@ -85,21 +85,29 @@
       const tableBody = document.getElementById('userTableBody');
       if (!tableBody) return;
 
-      const { data: users, error } = await _supabase.from('profiles').select('*');
+      let { data: users, error } = await _supabase.from('profiles').select('*');
+
       if (error || !users || users.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="2" style="color:#ef4444; text-align:center;">No users found or database connection error.</td></tr>';
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="2" style="color:#f59e0b; text-align:center; padding: 15px;">
+              No registered user profiles found in database yet.<br>
+              <small style="color:#94a3b8;">When new users register on globalmarketoptions.org, their emails will appear here automatically.</small>
+            </td>
+          </tr>`;
         return;
       }
 
       tableBody.innerHTML = users.map(user => `
         <tr>
-          <td><strong>${user.email || user.id}</strong></td>
+          <td><strong>${user.email || user.username || user.id}</strong></td>
           <td>
             <a class="action-link" href="mailto:${user.email || ''}">✉ Email Client</a>
             <button class="btn-action" onclick="viewIdVerification('${user.id}', '${user.email || 'Client'}')">Id Verification</button>
           </td>
         </tr>
       `).join('');
+    };
     }
 
     async function viewIdVerification(userId, email) {
