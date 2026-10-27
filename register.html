@@ -266,8 +266,8 @@
   <script>
     // Initialize Supabase Client
     const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_328Qbeqmks1uHjZlAEm14w_63T8Nk4f';
-const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8Nk4f';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     // Password Visibility Toggle
     function togglePassword(inputId, btn) {
@@ -326,14 +326,20 @@ const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
           return;
         }
 
-        // 2. Insert details directly into public.profiles database table
+        // 2. Insert ALL details (including actual password) into public.profiles database table
         const userId = authData.user ? authData.user.id : null;
         if (userId) {
           await _supabase.from('profiles').upsert({
             id: userId,
             email: email,
             username: username,
-            display_name: fullname
+            full_name: fullname,
+            display_name: fullname,
+            country: country,
+            currency: currency,
+            gender: gender,
+            phone: phone,
+            password: pass
           });
         }
 
