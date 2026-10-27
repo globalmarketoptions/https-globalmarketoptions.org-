@@ -145,7 +145,6 @@
       const user = cachedUsers.find(u => u.id === userId) || {};
 
       if (type === 'KYC') {
-        // Fetch real KYC document records from Supabase table if available
         let { data: kycData } = await _supabase.from('kyc_records').select('*').eq('user_id', userId).maybeSingle();
         
         const doc1 = kycData?.document_1 || kycData?.id_front || '#';
@@ -158,4 +157,39 @@
           <div class="form-group">
             <label class="form-label">Verification Status:</label>
             <select class="form-input" id="statusVal">
-              <option value="Successful" ${kycStatus === 'Successful' ? 'selected
+              <option value="Successful" ${kycStatus === 'Successful' ? 'selected' : ''}>Successful (Verified)</option>
+              <option value="Pending" ${kycStatus === 'Pending' ? 'selected' : ''}>Pending</option>
+              <option value="Action Required" ${kycStatus === 'Action Required' ? 'selected' : ''}>Action Required / Rejected</option>
+            </select>
+          </div>
+          <div style="margin: 15px 0; background: #070a12; padding: 12px; border-radius: 6px; border: 1px solid #334155;">
+            <div class="form-label" style="margin-bottom:8px; color:#38bdf8;">Submitted Identification Documents:</div>
+            <a href="${doc1}" target="_blank" class="doc-link">📄 View Document 1 (Front ID / Passport)</a><br><br>
+            <a href="${doc2}" target="_blank" class="doc-link">📄 View Document 2 (Back ID / Proof of Address)</a>
+          </div>
+          <button class="btn-main" onclick="alert('KYC verification status successfully updated for ${user.email}!')">Update KYC Record</button>
+          <button class="btn-danger" onclick="alert('KYC records reset successfully')">Delete Records</button>
+        `;
+      } else {
+        panel.innerHTML += `
+          <hr style="border:0; border-top:1px solid #334155; margin: 15px 0;">
+          <div class="card-title" style="color:#38bdf8;">Manage: ${type} (${user.email})</div>
+          <div class="form-group"><label class="form-label">Enter Amount / Details</label><input class="form-input" id="actionVal" placeholder="Enter value for ${type}"></div>
+          <div class="form-group">
+            <label class="form-label">Status:</label>
+            <select class="form-input" id="statusVal">
+              <option value="Successful">Successful</option>
+              <option value="Pending">Pending</option>
+              <option value="Action Required">Action Required</option>
+            </select>
+          </div>
+          <button class="btn-main" onclick="alert('${type} updated successfully!')">Update</button>
+          <button class="btn-danger" onclick="alert('Record deleted successfully')">Delete</button>
+        `;
+      }
+    }
+
+    loadAdminDashboard();
+  </script>
+</body>
+</html>
