@@ -1,130 +1,155 @@
-<!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1220">
-<title>Admin Dashboard | Global Market Options</title>
-<style>
-:root{color-scheme:dark;--bg:#0b1220;--panel:#111b2d;--line:#25334a;--text:#f3f6fc;--muted:#9caec6;--accent:#64e5b1;--warn:#fbbf24;--danger:#ff8585}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,sans-serif}a{color:inherit}.wrap{width:min(1250px,calc(100% - 32px));margin:auto}
-header{border-bottom:1px solid var(--line)}.nav{min-height:72px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.brand{font-weight:900;text-decoration:none}.nav-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-main{padding:26px 0 50px}h1{font-size:clamp(1.8rem,4vw,2.4rem);margin:0;letter-spacing:-.04em}h2{font-size:1.15rem;margin:0 0 14px}.muted{color:var(--muted)}.status{margin:16px 0;padding:12px 14px;border:1px solid var(--line);border-radius:9px;color:var(--muted);overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0}.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:18px;min-width:0}.metric{font-size:1.6rem;font-weight:850}
-button{font:inherit;cursor:pointer;border:0;border-radius:7px;padding:8px 11px;background:var(--accent);color:#071a14;font-weight:800}button.secondary{background:#19263b;color:var(--text);border:1px solid var(--line)}button.danger{background:#48252d;color:#ffe1e1;border:1px solid #75404a}button:disabled{opacity:.45;cursor:not-allowed}
-.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;vertical-align:top;padding:11px 9px;border-bottom:1px solid var(--line);font-size:.85rem}th{color:var(--muted);font-weight:700}td .actions{display:flex;gap:6px;flex-wrap:wrap}.notice{color:var(--muted);font-size:.84rem;margin:0 0 14px}.pill{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:2px 8px;white-space:nowrap;font-size:.75rem}.empty{color:var(--muted);padding:16px 0}
-@media(max-width:780px){.grid{grid-template-columns:1fr}.card{padding:14px}}
-</style></head><body>
-<header><div class="wrap nav"><a class="brand" href="/index.html">GLOBAL MARKET OPTIONS · ADMIN</a><div class="nav-right"><span id="admin-email" class="muted"></span><a href="/dashboard.html">User dashboard</a><button class="secondary" id="sign-out" type="button">Sign out</button></div></div></header>
-<main class="wrap">
-<h1>Admin dashboard</h1><p class="muted">Authorized account and request review.</p>
-<p class="status" id="admin-status" role="status" aria-live="polite">Checking your administrator access…</p>
-<div class="grid"><section class="card"><div class="muted">Registered profiles (latest 100)</div><div class="metric" id="user-count">—</div></section><section class="card"><div class="muted">Requests awaiting review</div><div class="metric" id="request-count">—</div></section><section class="card"><div class="muted">KYC awaiting review</div><div class="metric" id="kyc-count">—</div></section></div>
-<section class="card"><h2>Registered users</h2><div class="table-wrap"><table><thead><tr><th>User ID</th><th>Email</th><th>Display name</th><th>Created</th></tr></thead><tbody id="users-body"><tr><td colspan="4">Loading…</td></tr></tbody></table></div></section>
-<section class="card" style="margin-top:18px"><h2>Pending transaction requests</h2><p class="notice">Changing a request status only records a review decision. It does not send, receive, release, or transfer funds. Verify payment independently before recording completion.</p><div class="table-wrap"><table><thead><tr><th>Request ID</th><th>User</th><th>Type</th><th>Payment method</th><th>Amount</th><th>Reference / proof ID</th><th>Status</th><th>Created</th><th>Review action</th></tr></thead><tbody id="requests-body"><tr><td colspan="9">Loading…</td></tr></tbody></table></div></section>
-<section class="card" style="margin-top:18px"><h2>Identity verification reviews</h2><p class="notice">This table contains review status only. Identity document uploads and secure document storage must be configured separately.</p><div class="table-wrap"><table><thead><tr><th>Record ID</th><th>User</th><th>Status</th><th>Submitted</th><th>Review action</th></tr></thead><tbody id="kyc-body"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></section>
-<section class="card" style="margin-top:18px"><h2>Payment instructions</h2><p class="notice">Configure verified business-owned wallet addresses and bank details. These are instructions only; activation does not process payments. Double-check network and beneficiary details before enabling.</p><form id="payment-form"><div class="form-row"><div><label for="payment-code">Unique code</label><input id="payment-code" required maxlength="40" placeholder="BTC_MAIN"></div><div><label for="payment-label">Display label</label><input id="payment-label" required maxlength="120" placeholder="Bitcoin wallet"></div></div><div class="form-row"><div><label for="payment-kind">Method</label><select id="payment-kind"><option value="CRYPTO">Cryptocurrency</option><option value="BANK">Bank transfer</option></select></div><div><label for="payment-currency">Currency</label><select id="payment-currency"><option>BTC</option><option>ETH</option><option>USDT</option><option>USD</option><option>EUR</option></select></div></div><div class="form-row"><div><label for="payment-network">Network (required for USDT)</label><input id="payment-network" maxlength="80" placeholder="Exact network, e.g. ERC-20"></div><div><label for="payment-address">Crypto wallet address</label><input id="payment-address" maxlength="500" placeholder="Public receiving address"></div></div><div class="form-row"><div><label for="payment-bank">Bank name</label><input id="payment-bank" maxlength="500"></div><div><label for="payment-account-name">Beneficiary / account name</label><input id="payment-account-name" maxlength="500"></div></div><div class="form-row"><div><label for="payment-iban">IBAN</label><input id="payment-iban" maxlength="500"></div><div><label for="payment-account-number">Account number</label><input id="payment-account-number" maxlength="500"></div></div><div class="form-row"><div><label for="payment-swift">SWIFT / BIC</label><input id="payment-swift" maxlength="500"></div><div><label for="payment-reference">Payment reference</label><input id="payment-reference" maxlength="500"></div></div><div><label for="payment-extra">Additional instructions</label><input id="payment-extra" maxlength="500"></div><label><input id="payment-active" type="checkbox" style="width:auto"> Make instructions visible to signed-in users</label><button id="payment-save" type="submit">Save payment instructions</button></form><div id="payment-methods-admin" class="notice">Loading methods…</div></section>
-<section class="card" style="margin-top:18px"><h2>Trade requests awaiting review</h2><p class="notice">Approval here is an internal workflow decision only. No live broker/exchange order is sent because no provider integration is configured.</p><div class="table-wrap"><table><thead><tr><th>Request</th><th>User</th><th>Market</th><th>Action</th><th>Amount</th><th>Created</th><th>Review</th></tr></thead><tbody id="trade-intents-body"><tr><td colspan="7">Loading…</td></tr></tbody></table></div></section>
-</main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/supabase-config.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solo Admin Dashboard - Global Market Options</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #0b0f19; color: #f1f5f9; padding: 20px; font-size: 14px; }
+    .header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid #1e293b; margin-bottom: 24px; }
+    .brand { font-size: 20px; font-weight: bold; color: #38bdf8; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .card { background-color: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 20px; margin-bottom: 24px; overflow-x: auto; }
+    h2 { font-size: 16px; margin-bottom: 16px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th { padding: 12px; border-bottom: 1px solid #374151; color: #9ca3af; font-size: 12px; }
+    td { padding: 12px; border-bottom: 1px solid #1f2937; }
+    a.action-link { color: #38bdf8; text-decoration: none; margin-right: 12px; font-size: 13px; font-weight: 500; display: inline-block; }
+    a.action-link:hover { text-decoration: underline; color: #7dd3fc; }
+    a.email-btn { color: #10b981; font-weight: 600; }
+    .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; }
+    .badge-pending { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .badge-approved { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .btn { padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; margin-top: 10px; }
+    .btn:hover { background: #1d4ed8; }
+    input, select { padding: 8px; background: #030712; border: 1px solid #374151; color: #fff; border-radius: 4px; margin-bottom: 10px; width: 100%; max-width: 300px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="brand">Global Market Options — Admin Management</div>
+    <div id="adminStatus">Connected to Live Database</div>
+  </div>
+
+  <!-- Registered Users Control Panel -->
+  <div class="card">
+    <h2>Registered Clients & Quick Actions</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>User Email</th>
+          <th>Quick Actions</th>
+        </tr>
+      </thead>
+      <tbody id="userTableBody">
+        <tr><td colspan="2" style="color: #6b7280;">Loading client records...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Verification Document Review Modal/Section -->
+  <div class="card" id="verificationSection">
+    <h2>KYC & ID Verification Status</h2>
+    <div id="kycContent">Select "Id Verification" on a client above to manage documents.</div>
+  </div>
+</div>
+
 <script>
-(() => {
- const $=id=>document.getElementById(id),status=$("admin-status"),config=window.SUPABASE_CONFIG||{};
- const adminMain=document.querySelector("main");
- if(adminMain) adminMain.hidden=true;
- const ready=Boolean(window.supabase&&config.url&&config.anonKey&&!config.url.includes("YOUR_")&&!config.anonKey.includes("YOUR_"));
- const client=ready?window.supabase.createClient(config.url,config.anonKey):null;
- const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
- const date=v=>v?new Date(v).toLocaleString():"—";
- async function api(path,options={}){
-  const {data:{session}}=await client.auth.getSession();if(!session)throw new Error("Session expired. Sign in again.");
-  const response=await fetch(path,{...options,headers:{"Content-Type":"application/json","Authorization":"Bearer "+session.access_token,...(options.headers||{})}});
-  const payload=await response.json().catch(()=>({error:"Unexpected server response."}));
-  if(!response.ok)throw new Error(payload.error||"Request failed.");return payload;
- }
- async function load(){
-  const [usersResult,requestsResult,kycResult,paymentResult,tradeResult]=await Promise.all([api("/api/admin/users"),api("/api/admin/transactions"),api("/api/admin/kyc"),api("/api/payment-instructions"),api("/api/admin/trade-intents")]);
-  const users=usersResult.users||[],requests=requestsResult.transactions||[],kyc=kycResult.records||[],payments=paymentResult.methods||[],tradeIntents=tradeResult.intents||[],emails=new Map(users.map(u=>[u.id,u.email||u.id]));
-  $("admin-email").textContent=client.auth.getUser?((await client.auth.getUser()).data.user?.email||"Administrator"):"Administrator";
-  $("user-count").textContent=users.length;$("request-count").textContent=requests.length;$("kyc-count").textContent=kyc.length;
-  $("users-body").innerHTML=users.length?users.map(u=>"<tr><td><code>"+esc(u.id)+"</code></td><td>"+esc(u.email||"—")+"</td><td>"+esc(u.display_name||"—")+"</td><td>"+esc(date(u.created_at))+"</td></tr>").join(""):"<tr><td colspan='4'>No user profiles found.</td></tr>";
-  $("requests-body").innerHTML=requests.length?requests.map(t=>"<tr><td><code>"+esc(t.id)+"</code></td><td>"+esc(emails.get(t.user_id)||t.user_id)+"</td><td>"+esc(t.type)+"</td><td>"+esc(t.payment_method_code||"—")+"</td><td>"+esc(t.amount)+" "+esc(t.currency)+"</td><td>"+esc(t.reference||"—")+"</td><td><span class='pill'>"+esc(t.status)+"</span></td><td>"+esc(date(t.created_at))+"</td><td><div class='actions'><button data-id='"+esc(t.id)+"' data-status='UNDER_REVIEW' class='secondary'>Review</button><button data-id='"+esc(t.id)+"' data-status='COMPLETED'>Mark completed</button><button data-id='"+esc(t.id)+"' data-status='REJECTED' class='danger'>Reject</button></div></td></tr>").join(""):"<tr><td colspan='9'>No pending requests.</td></tr>";
-  $("requests-body").querySelectorAll("button[data-id]").forEach(button=>button.addEventListener("click",()=>updateRequest(button)));
-  $("kyc-body").innerHTML=kyc.length?kyc.map(k=>"<tr><td><code>"+esc(k.id)+"</code></td><td>"+esc(emails.get(k.user_id)||k.user_id)+"</td><td><span class='pill'>"+esc(k.status)+"</span></td><td>"+esc(date(k.created_at))+"</td><td><div class='actions'><button data-doc-id='"+esc(k.id)+"' class='secondary'>View document</button><button data-kyc-id='"+esc(k.id)+"' data-status='UNDER_REVIEW' class='secondary'>Review</button><button data-kyc-id='"+esc(k.id)+"' data-status='APPROVED'>Approve KYC</button><button data-kyc-id='"+esc(k.id)+"' data-status='REJECTED' class='danger'>Reject</button></div></td></tr>").join(""):"<tr><td colspan='5'>No pending KYC reviews.</td></tr>";
-  $("kyc-body").querySelectorAll("button[data-kyc-id]").forEach(button=>button.addEventListener("click",()=>updateKyc(button)));
-  $("kyc-body").querySelectorAll("button[data-doc-id]").forEach(button=>button.addEventListener("click",()=>viewKycDocument(button)));
-  $("payment-methods-admin").innerHTML=payments.length?payments.map(p=>"<div style='border-bottom:1px solid var(--line);padding:8px 0'><strong>"+esc(p.label)+"</strong> · "+esc(p.kind)+" · "+esc(p.currency)+(p.network?" · "+esc(p.network):"")+" <span class='pill'>ACTIVE</span></div>").join(""):"No active payment methods.";
-  $("trade-intents-body").innerHTML=tradeIntents.length?tradeIntents.map(t=>"<tr><td><code>"+esc(t.id)+"</code></td><td>"+esc(emails.get(t.user_id)||t.user_id)+"</td><td>"+esc(t.market)+"</td><td>"+esc(t.side)+"</td><td>"+esc(t.amount)+" "+esc(t.currency)+"</td><td>"+esc(date(t.created_at))+"</td><td><div class='actions'><button data-trade-id='"+esc(t.id)+"' data-status='APPROVED'>Approve request</button><button data-trade-id='"+esc(t.id)+"' data-status='REJECTED' class='danger'>Reject</button></div></td></tr>").join(""):"<tr><td colspan='7'>No trade requests awaiting review.</td></tr>";
-  $("trade-intents-body").querySelectorAll("button[data-trade-id]").forEach(button=>button.addEventListener("click",()=>updateTradeIntent(button)));
-  status.textContent="Administrator verified. Data loaded from the protected server API.";
- }
- async function viewKycDocument(button){
-  button.disabled=true;
-  const popup=window.open("about:blank","_blank");
-  try{const result=await api("/api/admin/kyc-document?id="+encodeURIComponent(button.dataset.docId));if(popup)popup.location.href=result.url;else status.textContent="Popup blocked. Allow popups and click View document again.";}
-  catch(error){if(popup)popup.close();status.textContent=error.message;}
-  finally{button.disabled=false;}
- }
- async function updateTradeIntent(button){
-  const nextStatus=button.dataset.status;
-  if(nextStatus==="APPROVED"&&!confirm("Record internal approval? This does not execute a trade."))return;
-  if(nextStatus==="REJECTED"&&!confirm("Reject this trade request?"))return;
-  button.disabled=true;
-  try{await api("/api/admin/trade-intents",{method:"PATCH",body:JSON.stringify({id:button.dataset.tradeId,status:nextStatus,notes:"Reviewed in admin panel."})});await load();status.textContent="Trade request review saved. No live order was executed.";}
-  catch(error){status.textContent=error.message;button.disabled=false;}
- }
- $("payment-form").addEventListener("submit",async event=>{
-  event.preventDefault();const button=$("payment-save");button.disabled=true;status.textContent="Saving payment instructions…";
-  const kind=$("payment-kind").value;
-  const instructions={
-   address:$("payment-address").value.trim(),bankName:$("payment-bank").value.trim(),
-   accountName:$("payment-account-name").value.trim(),iban:$("payment-iban").value.trim(),
-   accountNumber:$("payment-account-number").value.trim(),swiftBic:$("payment-swift").value.trim(),
-   reference:$("payment-reference").value.trim(),additionalInfo:$("payment-extra").value.trim()
-  };
-  try{
-   const result=await api("/api/payment-instructions",{method:"POST",body:JSON.stringify({code:$("payment-code").value,kind,currency:$("payment-currency").value,network:$("payment-network").value,label:$("payment-label").value,instructions,is_active:$("payment-active").checked})});
-   $("payment-form").reset();await load();status.textContent="Payment instructions saved. Verify the details before enabling them.";
-  }catch(error){status.textContent=error.message;}
-  finally{button.disabled=false;}
- });
- async function updateKyc(button){
-  const id=button.dataset.kycId,nextStatus=button.dataset.status;
-  if(nextStatus==="APPROVED"&&!confirm("Approve this KYC status? Confirm that identity checks were completed using your approved process."))return;
-  if(nextStatus==="REJECTED"&&!confirm("Reject this KYC record?"))return;
-  button.disabled=true;status.textContent="Saving KYC review…";
-  try{await api("/api/admin/kyc",{method:"PATCH",body:JSON.stringify({id,status:nextStatus,notes:""})});await load();status.textContent="KYC status updated and audit logged.";}
-  catch(error){status.textContent=error.message;button.disabled=false;}
- }
- async function updateRequest(button){
-  const id=button.dataset.id,nextStatus=button.dataset.status;
-  let notes="";
-  if(nextStatus==="COMPLETED"&&!confirm("Record this request as completed? This only changes the review status; it does not transfer funds."))return;
-  if(nextStatus==="REJECTED"&&!confirm("Reject this request?"))return;
-  if(nextStatus==="UNDER_REVIEW")notes="Moved to manual review.";
-  button.disabled=true;status.textContent="Saving review decision…";
-  try{await api("/api/admin/transactions",{method:"PATCH",body:JSON.stringify({id,status:nextStatus,notes})});await load();status.textContent="Review decision saved. No funds were transferred.";}
-  catch(error){status.textContent=error.message;button.disabled=false;}
- }
- $("sign-out").addEventListener("click",async()=>{if(client)await client.auth.signOut();location.assign("/login.html");});
- (async()=>{
-  if(!ready){status.textContent="Supabase is not configured. Add the public URL and anon key to supabase-config.js.";return;}
-  const {data:{session}}=await client.auth.getSession();if(!session){location.replace("/login.html");return;}
-  try{await load();if(adminMain)adminMain.hidden=false;}
-  catch(error){
-   status.textContent=error.message==="Administrator access required."?"Administrator access required. This page is restricted to approved administrators.":error.message;
-   if(error.message!=="Administrator access required."){$("users-body").innerHTML="<tr><td colspan='4'>Admin data unavailable.</td></tr>";$("requests-body").innerHTML="<tr><td colspan='7'>Admin data unavailable.</td></tr>";}
+  // 1. Initialize Supabase (Replace with your actual Supabase URL & Anon Key)
+  const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
+  const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  async function loadAdminDashboard() {
+    const tableBody = document.getElementById('userTableBody');
+    
+    // Fetch profiles from public.profiles
+    const { data: users, error } = await _supabase.from('profiles').select('*');
+
+    if (error || !users || users.length === 0) {
+      tableBody.innerHTML = '<tr><td colspan="2" style="color: #ef4444;">No users found or database connection error.</td></tr>';
+      return;
+    }
+
+    tableBody.innerHTML = '';
+    users.forEach(user => {
+      const email = user.email || 'No email registered';
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="color: #38bdf8; font-weight: 500;">${email}</td>
+        <td>
+          <a class="action-link" href="#" onclick="viewUserDeposits('${user.id}')">User Deposit</a>
+          <a class="action-link" href="#" onclick="viewIdVerification('${user.id}', '${email}')">Id Verification</a>
+          <a class="action-link" href="#" onclick="viewHistory('${user.id}')">Update History</a>
+          <a class="action-link" href="#" onclick="createTrade('${user.id}')">Create Trade</a>
+          <a class="action-link" href="#" onclick="viewWithdrawals('${user.id}')">Withdraw Request</a>
+          <a class="action-link" href="#" onclick="topUpUser('${user.id}')">Top Up</a>
+          <a class="action-link email-btn" href="mailto:${email}?subject=Notice%20from%20Global%20Market%20Options">✉ Email Client</a>
+        </td>
+      `;
+      tableBody.appendChild(tr);
+    });
   }
-  client.auth.onAuthStateChange((_event,session)=>{if(!session)location.replace("/login.html");});
- })();
-})();
-</script><!-- Start of Tawk.to Script -->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/6ad0796de35a9734cc152afd/1k4v5klpe';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
+
+  // Action Handlers
+  async function viewIdVerification(userId, email) {
+    const kycBox = document.getElementById('kycContent');
+    kycBox.innerHTML = 'Fetching verification details...';
+
+    const { data: kyc } = await _supabase.from('kyc_records').select('*').eq('user_id', userId).single();
+
+    if (!kyc) {
+      kycBox.innerHTML = `<p style="color:#94a3b8;">No ID submitted for <strong>${email}</strong> yet.</p>`;
+      return;
+    }
+
+    kycBox.innerHTML = `
+      <div style="max-width: 500px;">
+        <p><strong>User:</strong> ${email}</p>
+        <p style="margin-top: 8px;"><strong>Status:</strong> <span class="badge badge-pending">${kyc.status}</span></p>
+        <div style="margin: 12px 0;">
+          <a href="${kyc.document_path || '#'}" target="_blank" style="color: #38bdf8; text-decoration: underline;">View Document 1</a>
+        </div>
+        <label>Update Status:</label>
+        <select id="kycStatusSelect">
+          <option value="APPROVED" ${kyc.status === 'APPROVED' ? 'selected' : ''}>Approved / Successful</option>
+          <option value="UNDER_REVIEW" ${kyc.status === 'UNDER_REVIEW' ? 'selected' : ''}>Under Review</option>
+          <option value="REJECTED" ${kyc.status === 'REJECTED' ? 'selected' : ''}>Rejected</option>
+        </select>
+        <button class="btn" onclick="updateKycStatus('${kyc.id}')">Update Status</button>
+      </div>
+    `;
+  }
+
+  async function updateKycStatus(kycId) {
+    const newStatus = document.getElementById('kycStatusSelect').value;
+    await _supabase.from('kyc_records').update({ status: newStatus }).eq('id', kycId);
+    alert('KYC Status updated successfully!');
+  }
+
+  function createTrade(userId) {
+    const amount = prompt("Enter Trade Amount ($):");
+    if (amount) {
+      _supabase.from('trades').insert([{ user_id: userId, amount: parseFloat(amount), status: 'IN_PROGRESS' }])
+        .then(() => alert('Trade Created Successfully!'));
+    }
+  }
+
+  function topUpUser(userId) {
+    const amount = prompt("Enter Top Up Amount ($):");
+    if (amount) {
+      _supabase.from('transactions').insert([{ user_id: userId, type: 'DEPOSIT', amount: parseFloat(amount), currency: 'USD', status: 'COMPLETED' }])
+        .then(() => alert('Account Topped Up!'));
+    }
+  }
+
+  // Initial Load
+  loadAdminDashboard();
 </script>
-<!-- End of Tawk.to Script -->
-</body></html>
+
+</body>
+</html>
