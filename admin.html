@@ -10,34 +10,27 @@
     body { background-color: #0b0f19; color: #f1f5f9; padding: 20px; font-size: 14px; }
     .header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid #1e293b; margin-bottom: 24px; }
     .brand { font-size: 20px; font-weight: bold; color: #38bdf8; }
-    .container { max-width: 1200px; margin: 0 auto; }
-    .card { background-color: #111827; border: 1px solid #1f2937; border-radius: 8px; padding: 20px; margin-bottom: 24px; overflow-x: auto; }
-    h2 { font-size: 16px; margin-bottom: 16px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+    .status { color: #10b981; font-weight: 500; }
+    .card { background: #151e32; border: 1px solid #1e293b; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
+    .card-title { font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
     table { width: 100%; border-collapse: collapse; text-align: left; }
-    th { padding: 12px; border-bottom: 1px solid #374151; color: #9ca3af; font-size: 12px; }
-    td { padding: 12px; border-bottom: 1px solid #1f2937; }
-    a.action-link { color: #38bdf8; text-decoration: none; margin-right: 12px; font-size: 13px; font-weight: 500; display: inline-block; }
-    a.action-link:hover { text-decoration: underline; color: #7dd3fc; }
-    a.email-btn { color: #10b981; font-weight: 600; }
-    .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; }
-    .badge-pending { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
-    .badge-approved { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-    .btn { padding: 8px 16px; background: #2563eb; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; margin-top: 10px; }
-    .btn:hover { background: #1d4ed8; }
-    input, select { padding: 8px; background: #030712; border: 1px solid #374151; color: #fff; border-radius: 4px; margin-bottom: 10px; width: 100%; max-width: 300px; }
+    th, td { padding: 12px; border-bottom: 1px solid #1e293b; }
+    th { color: #64748b; font-size: 12px; text-transform: uppercase; }
+    .action-link { color: #38bdf8; text-decoration: none; margin-right: 12px; font-weight: 500; display: inline-block; margin-top: 4px; }
+    .action-link:hover { text-decoration: underline; }
+    .btn-action { background: #0284c7; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+    .btn-action:hover { background: #0369a1; }
   </style>
 </head>
 <body>
 
-<div class="container">
   <div class="header">
     <div class="brand">Global Market Options — Admin Management</div>
-    <div id="adminStatus">Connected to Live Database</div>
+    <div class="status">● Connected to Live Database</div>
   </div>
 
-  <!-- Registered Users Control Panel -->
   <div class="card">
-    <h2>Registered Clients & Quick Actions</h2>
+    <div class="card-title">Registered Clients & Quick Actions</div>
     <table>
       <thead>
         <tr>
@@ -46,166 +39,86 @@
         </tr>
       </thead>
       <tbody id="userTableBody">
-        <tr><td colspan="2" style="color: #6b7280;">Loading client records...</td></tr>
+        <tr>
+          <td colspan="2" style="color:#94a3b8; text-align:center;">Loading client records...</td>
+        </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- Verification Document Review Modal/Section -->
-  <div class="card" id="verificationSection">
-    <h2>KYC & ID Verification Status</h2>
-    <div id="kycContent">Select "Id Verification" on a client above to manage documents.</div>
+  <div class="card">
+    <div class="card-title">KYC & ID Verification Status</div>
+    <div id="kycContent" style="color:#94a3b8;">
+      Select "Id Verification" on a client above to manage documents.
+    </div>
   </div>
-</div>
 
-<script>
-  // 1. Initialize Supabase (Replace with your actual Supabase URL & Anon Key)
-  const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8Nk4f';
-  async function loadAdminDashboard() {<script>
-  // 1. Initialize Supabase
-  const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8Nk4f';
-  const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  <script>
+    // 1. Initialize Supabase
+    const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8Nk4f';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // --- Solo Admin Access Gate ---
-  const ADMIN_PASSWORD = "1983";
+    // --- Solo Admin Access Gate ---
+    const ADMIN_PASSWORD = "1983";
 
-  function verifyAdminAccess() {
-    const sessionAuth = sessionStorage.getItem("admin_authenticated");
-    if (sessionAuth === "true") return true;
+    function verifyAdminAccess() {
+      const sessionAuth = sessionStorage.getItem("admin_authenticated");
+      if (sessionAuth === "true") return true;
 
-    const enteredPassword = prompt("🔐 Restricted Solo Admin Portal\nPlease enter your Admin Password:");
-    if (enteredPassword === ADMIN_PASSWORD) {
-      sessionStorage.setItem("admin_authenticated", "true");
-      return true;
-    } else {
-      alert("❌ Access Denied: Incorrect Password.");
-      document.body.innerHTML = "<h2 style='color:red; text-align:center; margin-top:50px;'>403 - Unauthorized Access Denied</h2>";
-      return false;
-    }
-  }
-
-  if (!verifyAdminAccess()) {
-    throw new Error("Unauthorized access block triggered.");
-  }
-
-  async function loadAdminDashboard() {
-    const tableBody = document.getElementById('userTableBody');
-    if (!tableBody) return;
-
-    // Fetch profiles from public.profiles
-    const { data: users, error } = await _supabase.from('profiles').select('*');
-    if (error || !users || users.length === 0) {
-      tableBody.innerHTML = '<tr><td colspan="2" style="color:#ef4444; text-align:center;">No users found or database connection error.</td></tr>';
-      return;
+      const enteredPassword = prompt("🔐 Restricted Solo Admin Portal\nPlease enter your Admin Password:");
+      if (enteredPassword === ADMIN_PASSWORD) {
+        sessionStorage.setItem("admin_authenticated", "true");
+        return true;
+      } else {
+        alert("❌ Access Denied: Incorrect Password.");
+        document.body.innerHTML = "<h2 style='color:red; text-align:center; margin-top:50px;'>403 - Unauthorized Access Denied</h2>";
+        return false;
+      }
     }
 
-    tableBody.innerHTML = users.map(user => `
-      <tr>
-        <td><strong>${user.email || user.id}</strong></td>
-        <td>
-          <a href="mailto:${user.email}" style="color:#38bdf8; margin-right:10px;">Email Client</a>
-          <button onclick="selectUser('${user.id}')" style="background:#0284c7; color:#fff; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">Manage KYC</button>
-        </td>
-      </tr>
-    `).join('');
-  }
-
-  function selectUser(userId) {
-    const kycContent = document.getElementById('kycContent');
-    if (kycContent) {
-      kycContent.innerHTML = `<p style="color:#38bdf8;">Viewing verification documents for Client ID: <strong>${userId}</strong></p>`;
-    }
-  }
-
-  loadAdminDashboard();
-</script>
-    const tableBody = document.getElementById('userTableBody');
-    
-    // Fetch profiles from public.profiles
-    const { data: users, error } = await _supabase.from('profiles').select('*');
-
-    if (error || !users || users.length === 0) {
-      tableBody.innerHTML = '<tr><td colspan="2" style="color: #ef4444;">No users found or database connection error.</td></tr>';
-      return;
+    if (!verifyAdminAccess()) {
+      throw new Error("Unauthorized access block triggered.");
     }
 
-    tableBody.innerHTML = '';
-    users.forEach(user => {
-      const email = user.email || 'No email registered';
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td style="color: #38bdf8; font-weight: 500;">${email}</td>
-        <td>
-          <a class="action-link" href="#" onclick="viewUserDeposits('${user.id}')">User Deposit</a>
-          <a class="action-link" href="#" onclick="viewIdVerification('${user.id}', '${email}')">Id Verification</a>
-          <a class="action-link" href="#" onclick="viewHistory('${user.id}')">Update History</a>
-          <a class="action-link" href="#" onclick="createTrade('${user.id}')">Create Trade</a>
-          <a class="action-link" href="#" onclick="viewWithdrawals('${user.id}')">Withdraw Request</a>
-          <a class="action-link" href="#" onclick="topUpUser('${user.id}')">Top Up</a>
-          <a class="action-link email-btn" href="mailto:${email}?subject=Notice%20from%20Global%20Market%20Options">✉ Email Client</a>
-        </td>
-      `;
-      tableBody.appendChild(tr);
-    });
-  }
+    async function loadAdminDashboard() {
+      const tableBody = document.getElementById('userTableBody');
+      if (!tableBody) return;
 
-  // Action Handlers
-  async function viewIdVerification(userId, email) {
-    const kycBox = document.getElementById('kycContent');
-    kycBox.innerHTML = 'Fetching verification details...';
+      const { data: users, error } = await _supabase.from('profiles').select('*');
+      if (error || !users || users.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="2" style="color:#ef4444; text-align:center;">No users found or database connection error.</td></tr>';
+        return;
+      }
 
-    const { data: kyc } = await _supabase.from('kyc_records').select('*').eq('user_id', userId).single();
-
-    if (!kyc) {
-      kycBox.innerHTML = `<p style="color:#94a3b8;">No ID submitted for <strong>${email}</strong> yet.</p>`;
-      return;
+      tableBody.innerHTML = users.map(user => `
+        <tr>
+          <td><strong>${user.email || user.id}</strong></td>
+          <td>
+            <a class="action-link" href="mailto:${user.email || ''}">✉ Email Client</a>
+            <button class="btn-action" onclick="viewIdVerification('${user.id}', '${user.email || 'Client'}')">Id Verification</button>
+          </td>
+        </tr>
+      `).join('');
     }
 
-    kycBox.innerHTML = `
-      <div style="max-width: 500px;">
+    async function viewIdVerification(userId, email) {
+      const kycBox = document.getElementById('kycContent');
+      kycBox.innerHTML = 'Fetching verification details...';
+
+      const { data: kyc } = await _supabase.from('kyc_records').select('*').eq('user_id', userId).single();
+      if (!kyc) {
+        kycBox.innerHTML = `<p style="color:#f59e0b;">No ID submitted for <strong>${email}</strong> yet.</p>`;
+        return;
+      }
+
+      kycBox.innerHTML = `
         <p><strong>User:</strong> ${email}</p>
-        <p style="margin-top: 8px;"><strong>Status:</strong> <span class="badge badge-pending">${kyc.status}</span></p>
-        <div style="margin: 12px 0;">
-          <a href="${kyc.document_path || '#'}" target="_blank" style="color: #38bdf8; text-decoration: underline;">View Document 1</a>
-        </div>
-        <label>Update Status:</label>
-        <select id="kycStatusSelect">
-          <option value="APPROVED" ${kyc.status === 'APPROVED' ? 'selected' : ''}>Approved / Successful</option>
-          <option value="UNDER_REVIEW" ${kyc.status === 'UNDER_REVIEW' ? 'selected' : ''}>Under Review</option>
-          <option value="REJECTED" ${kyc.status === 'REJECTED' ? 'selected' : ''}>Rejected</option>
-        </select>
-        <button class="btn" onclick="updateKycStatus('${kyc.id}')">Update Status</button>
-      </div>
-    `;
-  }
-
-  async function updateKycStatus(kycId) {
-    const newStatus = document.getElementById('kycStatusSelect').value;
-    await _supabase.from('kyc_records').update({ status: newStatus }).eq('id', kycId);
-    alert('KYC Status updated successfully!');
-  }
-
-  function createTrade(userId) {
-    const amount = prompt("Enter Trade Amount ($):");
-    if (amount) {
-      _supabase.from('trades').insert([{ user_id: userId, amount: parseFloat(amount), status: 'IN_PROGRESS' }])
-        .then(() => alert('Trade Created Successfully!'));
+        <p><strong>Status:</strong> <span style="color:#38bdf8;">${kyc.status || 'Pending'}</span></p>
+      `;
     }
-  }
 
-  function topUpUser(userId) {
-    const amount = prompt("Enter Top Up Amount ($):");
-    if (amount) {
-      _supabase.from('transactions').insert([{ user_id: userId, type: 'DEPOSIT', amount: parseFloat(amount), currency: 'USD', status: 'COMPLETED' }])
-        .then(() => alert('Account Topped Up!'));
-    }
-  }
-
-  // Initial Load
-  loadAdminDashboard();
-</script>
-
+    loadAdminDashboard();
+  </script>
 </body>
 </html>
