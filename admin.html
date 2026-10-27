@@ -174,7 +174,22 @@
         panel.innerHTML += `
           <hr style="border:0; border-top:1px solid #334155; margin: 15px 0;">
           <div class="card-title" style="color:#38bdf8;">Manage: ${type} (${user.email})</div>
-          <div class="form-group"><label class="form-label">Enter Amount / Details</label><input class="form-input" id="actionVal" placeholder="Enter value for ${type}"></div>
+          
+          <div class="form-group">
+            <label class="form-label">Select Account Balance Section:</label>
+            <select class="form-input" id="balanceSection">
+              <option value="Main Balance">Main Balance</option>
+              <option value="Deposit">Deposit</option>
+              <option value="Withdraw">Withdraw</option>
+              <option value="Bonus">Bonus</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Enter Amount / Details</label>
+            <input class="form-input" id="actionVal" placeholder="Enter amount or details for ${type}">
+          </div>
+
           <div class="form-group">
             <label class="form-label">Status:</label>
             <select class="form-input" id="statusVal">
@@ -183,7 +198,8 @@
               <option value="Action Required">Action Required</option>
             </select>
           </div>
-          <button class="btn-main" onclick="alert('${type} updated successfully!')">Update</button>
+
+          <button class="btn-main" onclick="alert('${type} updated successfully for ' + document.getElementById('balanceSection').value + '!')">Submit ${type.toUpperCase()}</button>
           <button class="btn-danger" onclick="alert('Record deleted successfully')">Delete</button>
         `;
       }
