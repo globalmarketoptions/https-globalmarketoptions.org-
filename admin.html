@@ -16,8 +16,10 @@
     table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; }
     th, td { padding: 12px 10px; border-bottom: 1px solid #1e293b; vertical-align: middle; }
     th { color: #64748b; font-size: 11px; text-transform: uppercase; }
-    .action-btn { color: #38bdf8; background: none; border: none; cursor: pointer; text-decoration: none; font-size: 12px; margin-right: 12px; display: inline-block; font-weight: 500; }
+    .action-btn { color: #38bdf8; background: none; border: none; cursor: pointer; text-decoration: none; font-size: 12px; margin-right: 10px; display: inline-block; font-weight: 500; }
     .action-btn:hover { text-decoration: underline; color: #7dd3fc; }
+    .email-btn { color: #38bdf8; background: #0b0f19; border: 1px solid #334155; padding: 6px 10px; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer; text-align: left; }
+    .email-btn:hover { background: #1e293b; }
     .management-panel { background: #151e32; border: 1px solid #1e293b; border-radius: 8px; padding: 15px; margin-top: 15px; }
     .form-group { margin-bottom: 12px; }
     .form-label { font-size: 11px; color: #94a3b8; margin-bottom: 4px; display: block; font-weight: 500; }
@@ -40,7 +42,7 @@
     <table>
       <thead>
         <tr>
-          <th>User Email</th>
+          <th>User Email (Click to Inspect)</th>
           <th>Quick Actions</th>
         </tr>
       </thead>
@@ -55,7 +57,7 @@
   <div class="management-panel" id="managementPanel">
     <div class="card-title">Client Management Panel</div>
     <div id="panelContent" style="color:#94a3b8; font-size: 12px;">
-      Select any client email above to view their full registration details and manage records.
+      Click any client email above to view their full registration details here.
     </div>
   </div>
 
@@ -99,7 +101,7 @@
 
       tableBody.innerHTML = users.map(user => `
         <tr>
-          <td><a href="#" class="action-btn" onclick="selectClient('${user.id}')" style="font-size:13px; font-weight:bold; color:#38bdf8;">${user.email || user.id}</a></td>
+          <td><button class="email-btn" onclick="selectClient('${user.id}')">📂 ${user.email || user.id}</button></td>
           <td>
             <button class="action-btn" onclick="openAction('Deposit', '${user.id}')">User Deposit</button>
             <button class="action-btn" onclick="openAction('KYC', '${user.id}')">Id Verification</button>
@@ -107,7 +109,6 @@
             <button class="action-btn" onclick="openAction('Trade', '${user.id}')">Create Trade</button>
             <button class="action-btn" onclick="openAction('Withdraw', '${user.id}')">Withdraw Request</button>
             <button class="action-btn" onclick="openAction('TopUp', '${user.id}')">Top Up</button>
-            <a class="action-btn" href="mailto:${user.email || ''}?subject=Global%20Market%20Options%20Notification" style="color:#38bdf8;">Notify Visitor</a>
           </td>
         </tr>
       `).join('');
@@ -118,10 +119,10 @@
       const panel = document.getElementById('panelContent');
 
       panel.innerHTML = `
-        <div class="form-group"><label class="form-label">ID: pls do not change or input a value here</label><input class="form-input" value="${user.id || userId}" readonly style="color:#94a3b8; background:#070a12;"></div>
+        <div class="form-group"><label class="form-label">ID (Do not change)</label><input class="form-input" value="${user.id || userId}" readonly style="color:#94a3b8; background:#070a12;"></div>
         <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" value="${user.full_name || user.name || 'N/A'}" readonly></div>
         <div class="form-group"><label class="form-label">Username</label><input class="form-input" value="${user.username || 'N/A'}" readonly></div>
-        <div class="form-group"><label class="form-label">Client Email: ${user.email || 'N/A'}</label></div>
+        <div class="form-group"><label class="form-label">Client Email</label><input class="form-input" value="${user.email || 'N/A'}" readonly></div>
         <div class="form-group"><label class="form-label">Country</label><input class="form-input" value="${user.country || 'N/A'}" readonly></div>
         <div class="form-group"><label class="form-label">Select Currency</label><input class="form-input" value="${user.currency || 'N/A'}" readonly></div>
         <div class="form-group"><label class="form-label">Gender</label><input class="form-input" value="${user.gender || 'N/A'}" readonly></div>
