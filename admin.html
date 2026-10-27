@@ -62,7 +62,65 @@
   // 1. Initialize Supabase (Replace with your actual Supabase URL & Anon Key)
   const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8Nk4f';
+  async function loadAdminDashboard() {<script>
+  // 1. Initialize Supabase
+  const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8Nk4f';
+  const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // --- Solo Admin Access Gate ---
+  const ADMIN_PASSWORD = "1983";
+
+  function verifyAdminAccess() {
+    const sessionAuth = sessionStorage.getItem("admin_authenticated");
+    if (sessionAuth === "true") return true;
+
+    const enteredPassword = prompt("🔐 Restricted Solo Admin Portal\nPlease enter your Admin Password:");
+    if (enteredPassword === ADMIN_PASSWORD) {
+      sessionStorage.setItem("admin_authenticated", "true");
+      return true;
+    } else {
+      alert("❌ Access Denied: Incorrect Password.");
+      document.body.innerHTML = "<h2 style='color:red; text-align:center; margin-top:50px;'>403 - Unauthorized Access Denied</h2>";
+      return false;
+    }
+  }
+
+  if (!verifyAdminAccess()) {
+    throw new Error("Unauthorized access block triggered.");
+  }
+
   async function loadAdminDashboard() {
+    const tableBody = document.getElementById('userTableBody');
+    if (!tableBody) return;
+
+    // Fetch profiles from public.profiles
+    const { data: users, error } = await _supabase.from('profiles').select('*');
+    if (error || !users || users.length === 0) {
+      tableBody.innerHTML = '<tr><td colspan="2" style="color:#ef4444; text-align:center;">No users found or database connection error.</td></tr>';
+      return;
+    }
+
+    tableBody.innerHTML = users.map(user => `
+      <tr>
+        <td><strong>${user.email || user.id}</strong></td>
+        <td>
+          <a href="mailto:${user.email}" style="color:#38bdf8; margin-right:10px;">Email Client</a>
+          <button onclick="selectUser('${user.id}')" style="background:#0284c7; color:#fff; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">Manage KYC</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function selectUser(userId) {
+    const kycContent = document.getElementById('kycContent');
+    if (kycContent) {
+      kycContent.innerHTML = `<p style="color:#38bdf8;">Viewing verification documents for Client ID: <strong>${userId}</strong></p>`;
+    }
+  }
+
+  loadAdminDashboard();
+</script>
     const tableBody = document.getElementById('userTableBody');
     
     // Fetch profiles from public.profiles
