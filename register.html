@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Account - Global Market Options</title>
+  <!-- Supabase JS Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: #000000; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
@@ -30,7 +32,9 @@
     .checkbox-group label { font-size: 14px; color: #ffffff; cursor: pointer; }
     .recaptcha-box { background: #ffffff; color: #000000; border: 1px solid #d1d5db; border-radius: 4px; padding: 12px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; width: 300px; max-width: 100%; }
     .recaptcha-left { display: flex; align-items: center; gap: 12px; }
-    .recaptcha-checkbox { width: 24px; height: 24px; border: 2px solid #c1c1c1; border-radius: 2px; }
+    .recaptcha-checkbox { width: 24px; height: 24px; border: 2px solid #c1c1c1; border-radius: 2px; cursor: pointer; }
+    .recaptcha-link { color: #555; text-decoration: underline; cursor: pointer; }
+    .recaptcha-link:hover { color: #000; }
     .btn-register { width: 100%; padding: 14px; background-color: #0070f3; color: #ffffff; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
     .btn-register:hover { background-color: #005bb5; }
   </style>
@@ -245,11 +249,13 @@
 
       <div class="recaptcha-box">
         <div class="recaptcha-left">
-          <div class="recaptcha-checkbox"></div>
-          <span style="font-size: 14px;">I'm not a robot</span>
+          <input type="checkbox" class="recaptcha-checkbox" id="recaptcha-check" required>
+          <label for="recaptcha-check" style="font-size: 14px; cursor: pointer;">I'm not a robot</label>
         </div>
         <div style="font-size: 10px; color: #555; text-align: right;">
-          <strong>reCAPTCHA</strong><br>Privacy - Terms
+          <strong>reCAPTCHA</strong><br>
+          <a href="https://policies.google.com/privacy" target="_blank" class="recaptcha-link">Privacy</a> - 
+          <a href="https://policies.google.com/terms" target="_blank" class="recaptcha-link">Terms</a>
         </div>
       </div>
 
@@ -258,6 +264,11 @@
   </div>
 
   <script>
+    // Initialize Supabase Client
+    const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8Nk4f';
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     // Password Visibility Toggle
     function togglePassword(inputId, btn) {
       const input = document.getElementById(inputId);
@@ -277,8 +288,8 @@
       `;
     }
 
-    // Single Email Constraint & Registration Storage
-    document.getElementById('registration-form').addEventListener('submit', function(e) {
+    // Handle Supabase Registration & Database Sync
+    document.getElementById('registration-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
       const pass = document.getElementById('password').value;
@@ -290,33 +301,50 @@
       }
 
       const email = document.getElementById('email').value.toLowerCase().trim();
-      let registeredUsers = JSON.parse(localStorage.getItem('gmo_users') || '[]');
+      const fullname = document.getElementById('fullname').value;
+      const username = document.getElementById('username').value;
+      const country = document.getElementById('country-select').value;
+      const currency = document.getElementById('currency').value;
+      const gender = document.getElementById('gender').value;
+      const phone = document.getElementById('phone').value;
 
-      // Check if the email address is already registered
-      const existingUser = registeredUsers.find(user => user.email === email);
-      if (existingUser) {
-        alert("An account with this email address already exists.");
-        return;
+      const submitBtn = document.querySelector('.btn-register');
+      submitBtn.innerText = 'CREATING ACCOUNT...';
+      submitBtn.disabled = true;
+
+      try {
+        // 1. Sign up user in Supabase Authentication
+        const { data: authData, error: authError } = await _supabase.auth.signUp({
+          email: email,
+          password: pass
+        });
+
+        if (authError) {
+          alert("Error creating account: " + authError.message);
+          submitBtn.innerText = 'REGISTER';
+          submitBtn.disabled = false;
+          return;
+        }
+
+        // 2. Insert details directly into public.profiles database table
+        const userId = authData.user ? authData.user.id : null;
+        if (userId) {
+          await _supabase.from('profiles').upsert({
+            id: userId,
+            email: email,
+            username: username,
+            display_name: fullname
+          });
+        }
+
+        alert("Account created successfully! Redirecting to login...");
+        window.location.href = '/login.html';
+
+      } catch (err) {
+        alert("An error occurred during registration. Please try again.");
+        submitBtn.innerText = 'REGISTER';
+        submitBtn.disabled = false;
       }
-
-      // Store new account
-      const newUser = {
-        fullname: document.getElementById('fullname').value,
-        username: document.getElementById('username').value,
-        email: email,
-        country: document.getElementById('country-select').value,
-        currency: document.getElementById('currency').value,
-        gender: document.getElementById('gender').value,
-        phone: document.getElementById('phone').value,
-        password: pass,
-        registeredAt: new Date().toISOString()
-      };
-
-      registeredUsers.push(newUser);
-      localStorage.setItem('gmo_users', JSON.stringify(registeredUsers));
-
-      alert("Account created successfully! Redirecting to login...");
-      window.location.href = '/login.html';
     });
   </script>
 
