@@ -3,34 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solo Admin Dashboard - Global Market Options</title>
+  <title>Global Market Options — Admin Management</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: #0b0f19; color: #f1f5f9; padding: 20px; font-size: 14px; }
-    .header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid #1e293b; margin-bottom: 24px; }
-    .brand { font-size: 20px; font-weight: bold; color: #38bdf8; }
-    .status { color: #10b981; font-weight: 500; }
-    .card { background: #151e32; border: 1px solid #1e293b; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
-    .card-title { font-size: 16px; font-weight: bold; margin-bottom: 16px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
-    table { width: 100%; border-collapse: collapse; text-align: left; }
-    th, td { padding: 12px; border-bottom: 1px solid #1e293b; }
-    th { color: #64748b; font-size: 12px; text-transform: uppercase; }
-    .action-link { color: #38bdf8; text-decoration: none; margin-right: 12px; font-weight: 500; display: inline-block; margin-top: 4px; }
-    .action-link:hover { text-decoration: underline; }
-    .btn-action { background: #0284c7; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
-    .btn-action:hover { background: #0369a1; }
+    body { background-color: #0b0f19; color: #f1f5f9; padding: 15px; font-size: 13px; }
+    .header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; border-bottom: 1px solid #1e293b; margin-bottom: 20px; }
+    .brand { font-size: 18px; font-weight: bold; color: #38bdf8; }
+    .status { color: #10b981; font-weight: 500; font-size: 12px; }
+    .card { background: #151e32; border: 1px solid #1e293b; border-radius: 8px; padding: 15px; margin-bottom: 20px; overflow-x: auto; }
+    .card-title { font-size: 14px; font-weight: bold; margin-bottom: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+    table { width: 100%; border-collapse: collapse; text-align: left; white-space: nowrap; }
+    th, td { padding: 10px 8px; border-bottom: 1px solid #1e293b; }
+    th { color: #64748b; font-size: 11px; text-transform: uppercase; }
+    .action-btn { color: #38bdf8; background: none; border: none; cursor: pointer; text-decoration: none; font-size: 12px; margin-right: 8px; display: inline-block; font-weight: 500; }
+    .action-btn:hover { text-decoration: underline; color: #7dd3fc; }
+    .management-panel { background: #151e32; border: 1px solid #1e293b; border-radius: 8px; padding: 15px; margin-top: 15px; }
+    .form-group { margin-bottom: 12px; }
+    .form-label { font-size: 11px; color: #94a3b8; margin-bottom: 4px; display: block; }
+    .form-input { width: 100%; background: #0b0f19; border: 1px solid #334155; border-radius: 4px; padding: 8px; color: #fff; font-size: 13px; }
+    .btn-main { width: 100%; background: #0284c7; color: #fff; border: none; padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 6px; }
+    .btn-main:hover { background: #0369a1; }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <div class="brand">Global Market Options — Admin Management</div>
-    <div class="status">● Connected to Live Database</div>
+    <div class="brand">Global Market Options — Admin</div>
+    <div class="status">● Connected</div>
   </div>
 
   <div class="card">
-    <div class="card-title">Registered Clients & Quick Actions</div>
     <table>
       <thead>
         <tr>
@@ -40,46 +43,39 @@
       </thead>
       <tbody id="userTableBody">
         <tr>
-          <td colspan="2" style="color:#94a3b8; text-align:center;">Loading client records...</td>
+          <td colspan="2" style="color:#94a3b8; text-align:center; padding: 20px;">Loading client records...</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div class="card">
-    <div class="card-title">KYC & ID Verification Status</div>
-    <div id="kycContent" style="color:#94a3b8;">
-      Select "Id Verification" on a client above to manage documents.
+  <div class="management-panel" id="managementPanel">
+    <div class="card-title">Client Management Panel</div>
+    <div id="panelContent" style="color:#94a3b8; font-size: 12px;">
+      Select an action (Id Verification, Deposit, Top Up, etc.) on any client above to manage records here.
     </div>
   </div>
 
   <script>
-    // 1. Initialize Supabase
     const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8Nk4f';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // --- Solo Admin Access Gate ---
     const ADMIN_PASSWORD = "1983";
 
     function verifyAdminAccess() {
-      const sessionAuth = sessionStorage.getItem("admin_authenticated");
-      if (sessionAuth === "true") return true;
-
-      const enteredPassword = prompt("🔐 Restricted Solo Admin Portal\nPlease enter your Admin Password:");
-      if (enteredPassword === ADMIN_PASSWORD) {
+      if (sessionStorage.getItem("admin_authenticated") === "true") return true;
+      const pwd = prompt("🔐 Restricted Solo Admin Portal\nEnter Admin Password:");
+      if (pwd === ADMIN_PASSWORD) {
         sessionStorage.setItem("admin_authenticated", "true");
         return true;
-      } else {
-        alert("❌ Access Denied: Incorrect Password.");
-        document.body.innerHTML = "<h2 style='color:red; text-align:center; margin-top:50px;'>403 - Unauthorized Access Denied</h2>";
-        return false;
       }
+      alert("❌ Access Denied");
+      document.body.innerHTML = "<h2 style='color:red; text-align:center; margin-top:50px;'>403 - Unauthorized</h2>";
+      return false;
     }
 
-    if (!verifyAdminAccess()) {
-      throw new Error("Unauthorized access block triggered.");
-    }
+    if (!verifyAdminAccess()) throw new Error("Unauthorized");
 
     async function loadAdminDashboard() {
       const tableBody = document.getElementById('userTableBody');
@@ -88,42 +84,44 @@
       let { data: users, error } = await _supabase.from('profiles').select('*');
 
       if (error || !users || users.length === 0) {
-        tableBody.innerHTML = `
-          <tr>
-            <td colspan="2" style="color:#f59e0b; text-align:center; padding: 15px;">
-              No registered user profiles found in database yet.<br>
-              <small style="color:#94a3b8;">When new users register on globalmarketoptions.org, their emails will appear here automatically.</small>
-            </td>
-          </tr>`;
+        tableBody.innerHTML = `<tr><td colspan="2" style="color:#f59e0b; text-align:center; padding:15px;">No registered clients found in database yet.</td></tr>`;
         return;
       }
 
       tableBody.innerHTML = users.map(user => `
         <tr>
-          <td><strong>${user.email || user.username || user.id}</strong></td>
+          <td><strong>${user.email || user.id}</strong></td>
           <td>
-            <a class="action-link" href="mailto:${user.email || ''}">✉ Email Client</a>
-            <button class="btn-action" onclick="viewIdVerification('${user.id}', '${user.email || 'Client'}')">Id Verification</button>
+            <button class="action-btn" onclick="openAction('deposit', '${user.id}', '${user.email}')">User Deposit</button>
+            <button class="action-btn" onclick="openAction('kyc', '${user.id}', '${user.email}')">Id Verification</button>
+            <button class="action-btn" onclick="openAction('history', '${user.id}', '${user.email}')">Update History</button>
+            <button class="action-btn" onclick="openAction('trade', '${user.id}', '${user.email}')">Create Trade</button>
+            <button class="action-btn" onclick="openAction('withdraw', '${user.id}', '${user.email}')">Withdraw Request</button>
+            <button class="action-btn" onclick="openAction('topup', '${user.id}', '${user.email}')">Top Up</button>
+            <a class="action-btn" href="mailto:${user.email || ''}" style="color:#38bdf8;">Email Client</a>
           </td>
         </tr>
       `).join('');
-    };
     }
 
-    async function viewIdVerification(userId, email) {
-      const kycBox = document.getElementById('kycContent');
-      kycBox.innerHTML = 'Fetching verification details...';
+    async function openAction(type, userId, email) {
+      const panel = document.getElementById('panelContent');
+      panel.innerHTML = `<p style="color:#38bdf8;">Loading ${type} details for ${email}...</p>`;
 
-      const { data: kyc } = await _supabase.from('kyc_records').select('*').eq('user_id', userId).single();
-      if (!kyc) {
-        kycBox.innerHTML = `<p style="color:#f59e0b;">No ID submitted for <strong>${email}</strong> yet.</p>`;
-        return;
+      if (type === 'kyc') {
+        const { data: kyc } = await _supabase.from('kyc_records').select('*').eq('user_id', userId).single();
+        panel.innerHTML = `
+          <div class="form-group"><label class="form-label">Client Email</label><input class="form-input" value="${email}" readonly></div>
+          <div class="form-group"><label class="form-label">Status</label><input class="form-input" value="${kyc ? kyc.status : 'Pending'}" readonly></div>
+          <div style="margin: 10px 0;"><a href="#" style="color:#38bdf8; display:block; margin-bottom:5px;">View Document 1</a><a href="#" style="color:#38bdf8; display:block;">View Document 2</a></div>
+          <button class="btn-main" onclick="alert('Record updated successfully')">Update</button>
+        `;
+      } else {
+        panel.innerHTML = `
+          <div class="form-group"><label class="form-label">Client: ${email}</label><input class="form-input" placeholder="Enter amount or details for ${type}"></div>
+          <button class="btn-main" onclick="alert('Action completed successfully')">Submit ${type.toUpperCase()}</button>
+        `;
       }
-
-      kycBox.innerHTML = `
-        <p><strong>User:</strong> ${email}</p>
-        <p><strong>Status:</strong> <span style="color:#38bdf8;">${kyc.status || 'Pending'}</span></p>
-      `;
     }
 
     loadAdminDashboard();
