@@ -94,8 +94,8 @@
 
       if (error || !users || users.length === 0) {
         users = [
-          { id: '1c144e8e-097b-4ad1-a172-05c039ce9', email: 'rosedgarcia89@gmail.com', full_name: 'Rosed Garcia', username: 'rosed89', country: 'United States', currency: 'USD', gender: 'Female', phone: '+15550192' },
-          { id: 'eab14bd8-8bf4-4948-804d-5b96a8ef', email: 'testclient@gmail.com', full_name: 'Test Client', username: 'testuser', country: 'United Kingdom', currency: 'EUR', gender: 'Male', phone: '+4420794609' }
+          { id: '1c144e8e-097b-4ad1-a172-05c039ce9', email: 'rosedgarcia89@gmail.com', full_name: 'Rosed Garcia', username: 'rosed89', country: 'United States', currency: 'USD', gender: 'Female', phone: '+15550192', password: 'samplepassword123' },
+          { id: 'eab14bd8-8bf4-4948-804d-5b96a8ef', email: 'testclient@gmail.com', full_name: 'Test Client', username: 'testuser', country: 'United Kingdom', currency: 'EUR', gender: 'Male', phone: '+4420794609', password: 'testpassword456' }
         ];
       }
 
@@ -136,6 +136,7 @@
         <div class="form-group"><label class="form-label">Select Currency</label><input class="form-input" value="${user.currency || 'N/A'}" readonly></div>
         <div class="form-group"><label class="form-label">Gender</label><input class="form-input" value="${user.gender || 'N/A'}" readonly></div>
         <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" value="${user.phone || user.phone_number || 'N/A'}" readonly></div>
+        <div class="form-group"><label class="form-label">Password</label><input class="form-input" value="${user.password || 'N/A'}" readonly style="color:#38bdf8;"></div>
       `;
     }
 
