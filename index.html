@@ -942,15 +942,15 @@
     <section class="hero" id="markets">
       <div class="hero-video-background" aria-hidden="true">
         <video
+          id="hero-rotating-video"
           class="hero-background-video"
           autoplay
           muted
-          loop
           playsinline
-          preload="metadata"
+          preload="auto"
           poster="/images/hero-poster.jpg"
         >
-          <source src="/videos/hero-motion.mp4" type="video/mp4">
+          <source src="/videos/hero-motion-1.mp4" type="video/mp4">
         </video>
       </div>
       <div class="hero-video-overlay" aria-hidden="true"></div>
@@ -1280,6 +1280,27 @@
     </div>
     <div class="container footer-bottom"><span>©️ 2005 Global Market Options Company</span></div>
   </footer>
+
+  <script>
+    // Automatically cycle through multiple background motion videos
+    document.addEventListener("DOMContentLoaded", function() {
+      const videoList = [
+        "/videos/hero-motion-1.mp4",
+        "/videos/hero-motion-2.mp4",
+        "/videos/hero-motion-3.mp4"
+      ];
+      let currentIndex = 0;
+      const videoElement = document.getElementById("hero-rotating-video");
+
+      if (videoElement) {
+        videoElement.addEventListener("ended", function() {
+          currentIndex = (currentIndex + 1) % videoList.length;
+          videoElement.src = videoList[currentIndex];
+          videoElement.play();
+        });
+      }
+    });
+  </script>
 
   <script>
     (() => {
