@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /crypto.html
+Disallow: /stocks.html
+Disallow: /contact.html
+Allow: /
