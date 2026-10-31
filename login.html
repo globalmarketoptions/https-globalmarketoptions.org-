@@ -95,7 +95,7 @@
       `;
     }
 
-    // Handle Supabase Login Authentication
+    // Handle Direct Profiles Table Login Check
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const email = document.getElementById('login-email').value.toLowerCase().trim();
@@ -108,20 +108,23 @@
       submitBtn.disabled = true;
 
       try {
-        const { data, error } = await _supabase.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
+        const { data, error } = await _supabase
+          .from('profiles')
+          .select('*')
+          .eq('email', email)
+          .eq('password', password)
+          .single();
 
-        if (error) {
-          errorBox.innerText = error.message.includes('Invalid') ? 'Invalid credentials or account does not exist.' : error.message;
+        if (error || !data) {
+          errorBox.innerText = 'Invalid credentials or account does not exist.';
           errorBox.style.display = 'block';
           submitBtn.innerText = 'Sign In';
           submitBtn.disabled = false;
           return;
         }
 
-        // Successfully logged in
+        // Successfully logged in - save session and redirect
+        localStorage.setItem('user', JSON.stringify(data));
         window.location.href = '/dashboard.html';
 
       } catch (err) {
