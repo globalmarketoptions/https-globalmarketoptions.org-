@@ -265,10 +265,8 @@
   </div>
 
   <script>
-    // Initialize Supabase Client with corrected root endpoint
     const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_328Qbeqmks1uHjZlAEm14w_63T8Nk4f';
-    const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8NK4f';
 
     // Password Visibility Toggle
     function togglePassword(inputId, btn) {
@@ -289,7 +287,7 @@
       `;
     }
 
-    // Handle Direct Database Registration (Bypassing Auth API Key restriction)
+    // Handle Direct REST API Registration (Bypassing SDK key errors)
     document.getElementById('registration-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -314,12 +312,17 @@
       submitBtn.disabled = true;
 
       try {
-        // Generate a unique client ID
         const userId = 'user_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-        // Insert directly into public.profiles table so login and admin dashboard work seamlessly
-        const { error: dbError } = await _supabase.from('profiles').insert([
-          {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/profiles`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({
             id: userId,
             email: email,
             username: username,
@@ -330,11 +333,12 @@
             gender: gender,
             phone: phone,
             password: pass
-          }
-        ]);
+          })
+        });
 
-        if (dbError) {
-          alert("Error creating account: " + dbError.message);
+        if (!response.ok) {
+          const errData = await response.json();
+          alert("Error creating account: " + (errData.message || response.statusText));
           submitBtn.innerText = 'REGISTER';
           submitBtn.disabled = false;
           return;
