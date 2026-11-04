@@ -254,7 +254,7 @@
   </div>
 
   <script>
-    // Initialize Supabase Client using standard safe public connectivity
+    // Browser-safe public publishable key
     const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8Nk4f';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -280,7 +280,7 @@
       submitBtn.disabled = true;
 
       try {
-        const userId = 'user_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        const userId = 'user_' + Math.random().toString(36).substring(2, 10);
         
         const { error: dbError } = await _supabase.from('profiles').insert([
           {
