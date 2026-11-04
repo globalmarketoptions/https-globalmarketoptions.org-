@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Account - Global Market Options</title>
-  <!-- Supabase JS Library -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: #000000; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
@@ -20,7 +18,6 @@
     .form-control:focus { border-color: #3b82f6; }
     select.form-control { appearance: auto; background-color: #ffffff; color: #000000; }
     
-    /* Password field with eye toggle */
     .password-wrapper { position: relative; width: 100%; }
     .password-wrapper .form-control { padding-right: 42px; }
     .toggle-password { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666666; display: flex; align-items: center; justify-content: center; background: none; border: none; padding: 0; }
@@ -63,7 +60,6 @@
         <input type="email" id="email" class="form-control" required>
       </div>
 
-      <!-- Complete World Country List -->
       <div class="form-group">
         <label>Country:</label>
         <select class="form-control" id="country-select" required>
@@ -214,30 +210,22 @@
         <input type="tel" id="phone" class="form-control" required>
       </div>
 
-      <!-- Password Field with Eye Toggle -->
       <div class="form-group">
         <label>Password :</label>
         <div class="password-wrapper">
           <input type="password" id="password" class="form-control" required>
-          <button type="button" class="toggle-password" onclick="togglePassword('password', this)" aria-label="Toggle password visibility">
-            <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
+          <button type="button" class="toggle-password" onclick="togglePassword('password', this)">
+            <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
           </button>
         </div>
       </div>
 
-      <!-- Confirm Password Field with Eye Toggle -->
       <div class="form-group">
         <label>Confirm Password:</label>
         <div class="password-wrapper">
           <input type="password" id="confirm-password" class="form-control" required>
-          <button type="button" class="toggle-password" onclick="togglePassword('confirm-password', this)" aria-label="Toggle password visibility">
-            <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
+          <button type="button" class="toggle-password" onclick="togglePassword('confirm-password', this)">
+            <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
           </button>
         </div>
       </div>
@@ -264,30 +252,12 @@
   </div>
 
   <script>
-    const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZ1AEm14w_3T8Nk4f';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    // Password Visibility Toggle
     function togglePassword(inputId, btn) {
       const input = document.getElementById(inputId);
       const isPassword = input.type === "password";
       input.type = isPassword ? "text" : "password";
-
-      btn.innerHTML = isPassword ? `
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-          <line x1="1" y1="1" x2="23" y2="23"></line>
-        </svg>
-      ` : `
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        </svg>
-      `;
     }
 
-    // Handle Registration using official SDK (RLS policy is now active)
     document.getElementById('registration-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -299,38 +269,30 @@
         return;
       }
 
-      const email = document.getElementById('email').value.toLowerCase().trim();
-      const fullname = document.getElementById('fullname').value;
-      const username = document.getElementById('username').value;
-      const country = document.getElementById('country-select').value;
-      const currency = document.getElementById('currency').value;
-      const gender = document.getElementById('gender').value;
-      const phone = document.getElementById('phone').value;
-
       const submitBtn = document.querySelector('.btn-register');
       submitBtn.innerText = 'CREATING ACCOUNT...';
       submitBtn.disabled = true;
 
       try {
-        const userId = 'user_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-
-        const { error: dbError } = await _supabase.from('profiles').insert([
-          {
-            id: userId,
-            email: email,
-            username: username,
-            full_name: fullname,
-            display_name: fullname,
-            country: country,
-            currency: currency,
-            gender: gender,
-            phone: phone,
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: document.getElementById('email').value.toLowerCase().trim(),
+            username: document.getElementById('username').value,
+            full_name: document.getElementById('fullname').value,
+            country: document.getElementById('country-select').value,
+            currency: document.getElementById('currency').value,
+            gender: document.getElementById('gender').value,
+            phone: document.getElementById('phone').value,
             password: pass
-          }
-        ]);
+          })
+        });
 
-        if (dbError) {
-          alert("Error creating account: " + dbError.message);
+        const data = await response.json();
+
+        if (!response.ok) {
+          alert("Error creating account: " + (data.error || 'Unknown error'));
           submitBtn.innerText = 'REGISTER';
           submitBtn.disabled = false;
           return;
@@ -346,19 +308,5 @@
       }
     });
   </script>
-
-<!-- Start of Tawk.to Script -->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/6ad0796de35a9734cc152afd/1k4v5klpe';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!-- End of Tawk.to Script -->
 </body>
 </html>
