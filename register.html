@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Account - Global Market Options</title>
-  <!-- Supabase JS Library -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: #000000; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
@@ -254,10 +252,6 @@
   </div>
 
   <script>
-    const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoYnh1YnFmZ3l4cmtla3l6dGF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0MjU2NjUsImV4cCI6MjEwODAwMTY2NX0.4FvRKprJkDipCf-GpvGjYzo-R--6Ri36LDM7r2Gq4N4';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
     function togglePassword(inputId, btn) {
       const input = document.getElementById(inputId);
       input.type = input.type === "password" ? "text" : "password";
@@ -279,11 +273,10 @@
       submitBtn.disabled = true;
 
       try {
-        const userId = 'user_' + Math.random().toString(36).substring(2, 10);
-        
-        const { error: dbError } = await _supabase.from('profiles').insert([
-          {
-            id: userId,
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             email: document.getElementById('email').value.toLowerCase().trim(),
             username: document.getElementById('username').value,
             full_name: document.getElementById('fullname').value,
@@ -292,11 +285,13 @@
             gender: document.getElementById('gender').value,
             phone: document.getElementById('phone').value,
             password: pass
-          }
-        ]);
+          })
+        });
 
-        if (dbError) {
-          alert("Error creating account: " + dbError.message);
+        const data = await response.json();
+
+        if (!response.ok) {
+          alert("Error creating account: " + (data.error || 'Registration failed'));
           submitBtn.innerText = 'REGISTER';
           submitBtn.disabled = false;
           return;
