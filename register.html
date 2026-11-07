@@ -253,6 +253,9 @@
   </div>
 
   <script>
+    const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8NK4f';
+
     function togglePassword(inputId, btn) {
       const input = document.getElementById(inputId);
       input.type = input.type === "password" ? "text" : "password";
@@ -274,13 +277,22 @@
       submitBtn.disabled = true;
 
       try {
-        const response = await fetch('/api/register', {
+        const userId = 'user_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/profiles`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Prefer': 'return=minimal'
+          },
           body: JSON.stringify({
+            id: userId,
             email: document.getElementById('email').value.toLowerCase().trim(),
             username: document.getElementById('username').value,
             full_name: document.getElementById('fullname').value,
+            display_name: document.getElementById('fullname').value,
             country: document.getElementById('country-select').value,
             currency: document.getElementById('currency').value,
             gender: document.getElementById('gender').value,
@@ -289,10 +301,9 @@
           })
         });
 
-        const data = await response.json();
-
         if (!response.ok) {
-          alert("Error creating account: " + (data.error || 'Registration failed'));
+          const errText = await response.text();
+          alert("Error creating account: " + errText);
           submitBtn.innerText = 'REGISTER';
           submitBtn.disabled = false;
           return;
