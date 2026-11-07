@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Global Market Options</title>
+  <!-- Official Supabase JS SDK CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: #000000; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
@@ -69,6 +70,10 @@
   </div>
 
   <script>
+    const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8NK4f';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     // Password Visibility Toggle
     function togglePassword(inputId, btn) {
       const input = document.getElementById(inputId);
@@ -88,7 +93,7 @@
       `;
     }
 
-    // Handle Login via Serverless API Backend Route (/api/login)
+    // Handle Login directly via Supabase client
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const email = document.getElementById('login-email').value.toLowerCase().trim();
@@ -101,16 +106,15 @@
       submitBtn.disabled = true;
 
       try {
-        const response = await fetch('/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
+        const { data, error } = await supabaseClient
+          .from('profiles')
+          .select('*')
+          .eq('email', email)
+          .eq('password', password)
+          .single();
 
-        const data = await response.json();
-
-        if (!response.ok) {
-          errorBox.innerText = data.error || 'Invalid credentials or account does not exist.';
+        if (error || !data) {
+          errorBox.innerText = 'Invalid credentials or account does not exist.';
           errorBox.style.display = 'block';
           submitBtn.innerText = 'Sign In';
           submitBtn.disabled = false;
@@ -118,7 +122,7 @@
         }
 
         // Successfully logged in - save session and redirect
-        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('user', JSON.stringify(data));
         window.location.href = '/dashboard.html';
 
       } catch (err) {
