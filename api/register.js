@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const userId = 'user_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    const userId = 'user_' + Math.random().toString(36).substring(2, 15);
     const supabaseUrl = 'https://vhbxubqfgyxrkekyztay.supabase.co';
     const supabaseKey = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8NK4f';
 
@@ -34,14 +34,14 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         id: userId,
         email: email.toLowerCase().trim(),
-        username,
-        full_name: full_name || username,
-        display_name: full_name || username,
-        country: country || 'Not Specified',
+        username: username.trim(),
+        full_name: full_name ? full_name.trim() : username.trim(),
+        display_name: full_name ? full_name.trim() : username.trim(),
+        country: country || 'Nigeria',
         currency: currency || 'USD',
-        gender: gender || 'Other',
+        gender: gender || 'Male',
         phone: phone || '',
-        password
+        password: password
       })
     });
 
