@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Account - Global Market Options</title>
+  <!-- Official Supabase JS SDK CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: #000000; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
@@ -253,6 +255,10 @@
   </div>
 
   <script>
+    const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8NK4f';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     function togglePassword(inputId, btn) {
       const input = document.getElementById(inputId);
       input.type = input.type === "password" ? "text" : "password";
@@ -274,25 +280,30 @@
       submitBtn.disabled = true;
 
       try {
-        const response = await fetch('/api/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: document.getElementById('email').value.toLowerCase().trim(),
-            username: document.getElementById('username').value,
-            full_name: document.getElementById('fullname').value,
-            country: document.getElementById('country-select').value,
-            currency: document.getElementById('currency').value,
-            gender: document.getElementById('gender').value,
-            phone: document.getElementById('phone').value,
-            password: pass
-          })
-        });
+        const userId = 'user_' + Math.random().toString(36).substring(2, 15);
+        const emailVal = document.getElementById('email').value.toLowerCase().trim();
+        const usernameVal = document.getElementById('username').value.trim();
+        const fullnameVal = document.getElementById('fullname').value.trim();
 
-        const data = await response.json();
+        const { error } = await supabaseClient
+          .from('profiles')
+          .insert([
+            {
+              id: userId,
+              email: emailVal,
+              username: usernameVal,
+              full_name: fullnameVal,
+              display_name: fullnameVal,
+              country: document.getElementById('country-select').value,
+              currency: document.getElementById('currency').value,
+              gender: document.getElementById('gender').value,
+              phone: document.getElementById('phone').value,
+              password: pass
+            }
+          ]);
 
-        if (!response.ok) {
-          alert("Error: " + (data.error || 'Registration failed'));
+        if (error) {
+          alert("Error: " + error.message);
           submitBtn.innerText = 'REGISTER';
           submitBtn.disabled = false;
           return;
@@ -302,7 +313,7 @@
         window.location.href = '/login.html';
 
       } catch (err) {
-        alert("Network Error: " + err.message);
+        alert("Error: " + err.message);
         submitBtn.innerText = 'REGISTER';
         submitBtn.disabled = false;
       }
