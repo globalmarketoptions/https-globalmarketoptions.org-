@@ -285,7 +285,7 @@
             'Content-Type': 'application/json',
             'apikey': SUPABASE_KEY,
             'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Prefer': 'return=minimal'
+            'Prefer': 'return=representation'
           },
           body: JSON.stringify({
             id: userId,
@@ -301,9 +301,10 @@
           })
         });
 
+        const responseData = await response.text();
+
         if (!response.ok) {
-          const errText = await response.text();
-          alert("Error creating account: " + errText);
+          alert("Supabase Error: " + responseData);
           submitBtn.innerText = 'REGISTER';
           submitBtn.disabled = false;
           return;
@@ -313,7 +314,7 @@
         window.location.href = '/login.html';
 
       } catch (err) {
-        alert("An error occurred during registration. Please try again.");
+        alert("Network Error: " + err.message);
         submitBtn.innerText = 'REGISTER';
         submitBtn.disabled = false;
       }
