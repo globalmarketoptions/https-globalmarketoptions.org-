@@ -1,15 +1,6 @@
 {
-  "headers": [
-    {
-      "source": "/register",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store, no-cache, must-revalidate, proxy-revalidate"
-        }
-      ]
-    }
-  ],
+  "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" }
   ]
