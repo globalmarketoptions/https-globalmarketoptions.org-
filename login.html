@@ -93,10 +93,11 @@
       `;
     }
 
-    // Handle Login directly via Supabase client
+    // Handle Login checking both Auth and Profiles table
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const email = document.getElementById('login-email').value.toLowerCase().trim();
+      const password = document.getElementById('login-password').value;
       const errorBox = document.getElementById('error-box');
       const submitBtn = document.getElementById('btn-submit');
 
@@ -105,23 +106,36 @@
       submitBtn.disabled = true;
 
       try {
-        const { data, error } = await supabaseClient
+        // 1. First, try logging in via Supabase Auth (since register.html uses Auth)
+        const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        if (!authError && authData.session) {
+          localStorage.setItem('user', JSON.stringify(authData.user));
+          window.location.href = '/dashboard.html';
+          return;
+        }
+
+        // 2. Fallback: check profiles table by email if Auth fails
+        const { data: profileData, error: profileError } = await supabaseClient
           .from('profiles')
           .select('*')
           .eq('email', email)
           .maybeSingle();
 
-        if (error || !data) {
-          errorBox.innerText = 'Invalid credentials or account does not exist.';
-          errorBox.style.display = 'block';
-          submitBtn.innerText = 'Sign In';
-          submitBtn.disabled = false;
+        if (!profileError && profileData) {
+          localStorage.setItem('user', JSON.stringify(profileData));
+          window.location.href = '/dashboard.html';
           return;
         }
 
-        // Successfully logged in - save session and redirect
-        localStorage.setItem('user', JSON.stringify(data));
-        window.location.href = '/dashboard.html';
+        // If neither matched
+        errorBox.innerText = 'Invalid credentials or account does not exist.';
+        errorBox.style.display = 'block';
+        submitBtn.innerText = 'Sign In';
+        submitBtn.disabled = false;
 
       } catch (err) {
         errorBox.innerText = 'An unexpected error occurred. Please try again.';
