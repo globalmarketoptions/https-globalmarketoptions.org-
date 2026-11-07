@@ -262,7 +262,7 @@
     }
 
     document.getElementById('registration-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
+      e.preventDefault(); // Absolute top of submission listener to prevent page resets/wiping
 
       const pass = document.getElementById('password').value;
       const confirmPass = document.getElementById('confirm-password').value;
@@ -321,20 +321,7 @@
         submitBtn.innerText = 'REGISTER';
         submitBtn.disabled = false;
       }
-    });const response = await fetch('/api/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: emailVal,
-            username: usernameVal,
-            full_name: fullnameVal,
-            country: document.getElementById('country-select').value,
-            currency: document.getElementById('currency').value,
-            gender: document.getElementById('gender').value,
-            phone: document.getElementById('phone').value,
-            password: pass
-          })
-        });
+    });
   </script>
 </body>
 </html>
