@@ -2,6 +2,7 @@
   "name": "globalmarketoptions-interface",
   "version": "1.1.0",
   "private": true,
+  "type": "module",
   "description": "Global Market Options multi-page interface and protected Supabase API",
   "engines": {
     "node": "24.x"
