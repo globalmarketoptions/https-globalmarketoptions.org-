@@ -29,196 +29,789 @@
       --register-blue-hover: #4b93f1;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       min-width: 320px;
       background: var(--bg);
       color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.5;
     }
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; }
-    button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-    .container { width: min(var(--container-width), calc(100% - 40px)); margin-inline: auto; }
 
-    /* Modal Overlay Styles */
-    #auth-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      overflow-y: auto;
+    a {
+      color: inherit;
+      text-decoration: none;
     }
-    .modal-box {
-      background: #111923;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 30px;
+
+    button {
+      font: inherit;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .container {
+      width: min(var(--container-width), calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    /* 1. Market ticker: cards are centered in the full-width bar. */
+    .ticker-bar {
       width: 100%;
-      max-width: 480px;
-      position: relative;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      overflow: hidden;
+      background: #0B0F17;
+      border-bottom: 1px solid var(--border);
     }
-    .modal-close {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      background: none;
-      border: none;
+
+    .tradingview-widget-container,
+    .tradingview-widget-container__widget {
+      width: 100%;
+      min-height: 46px;
+    }
+
+    .network-bar {
+      background: #0B0F17;
+      border-bottom: 1px solid var(--border);
       color: var(--muted);
-      font-size: 24px;
+      font-size: 12px;
+    }
+
+    .network-inner {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-block: 7px;
+    }
+
+    .network-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--positive);
+      box-shadow: 0 0 0 3px rgba(93, 225, 173, 0.12);
+    }
+
+    .network-inner strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .network-separator {
+      width: 1px;
+      height: 16px;
+      background: var(--border);
+      margin-inline: 4px;
+    }
+
+    .network-inner a {
+      color: var(--accent);
+      margin-left: 4px;
+    }
+
+    .ticker-container {
+      width: 100%;
+      max-width: var(--container-width);
+      margin-inline: auto;
+      padding-inline: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ticker-list {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: center;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .ticker-card {
+      min-width: 145px;
+      display: flex;
+      flex: 0 1 175px;
+      flex-direction: column;
+      gap: 3px;
+      padding: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .ticker-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .ticker-symbol {
+      font-size: 13px;
+      font-weight: 750;
+      letter-spacing: 0.02em;
+    }
+
+    .ticker-name {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .ticker-price {
+      font-size: 14px;
+      font-weight: 650;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ticker-change {
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .positive {
+      color: var(--positive);
+    }
+
+    .negative {
+      color: var(--negative);
+    }
+
+    .ticker-disclaimer {
+      margin: 8px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 11px;
+    }
+
+    /* 2. Main navigation: no desktop sign-in or account buttons. */
+    .site-header {
+      position: relative;
+      z-index: 10;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-container {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: 0.055em;
+    }
+
+    .brand-label {
+      display: inline-block;
+      max-width: 225px;
+      line-height: 1.25;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .header-action {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .header-action-primary {
+      border-color: var(--register-blue);
+      background: var(--register-blue);
+      color: white;
+    }
+
+    .header-action-primary:hover {
+      background: var(--register-blue-hover);
+    }
+
+    .brand-mark {
+      width: 210px;
+      height: 38px;
+      display: block;
+      flex-shrink: 0;
+      object-fit: contain;
+      object-position: left center;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      margin-left: auto;
+    }
+
+    .desktop-nav a {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 550;
+      transition: color 150ms ease;
+    }
+
+    .desktop-nav a:hover {
+      color: var(--text);
+    }
+
+    .nav-dropdown {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .nav-dropdown > summary {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 550;
+      cursor: pointer;
+      list-style: none;
+      white-space: nowrap;
+    }
+
+    .nav-dropdown > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .nav-dropdown > summary::after {
+      content: "⌄";
+      margin-left: 5px;
+      color: var(--muted);
+    }
+
+    .nav-dropdown[open] > summary {
+      color: var(--text);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      z-index: 30;
+      top: calc(100% + 12px);
+      left: 0;
+      display: grid;
+      gap: 2px;
+      min-width: 210px;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      box-shadow: 0 18px 45px #0006;
+    }
+
+    .nav-dropdown-menu a {
+      padding: 9px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .nav-dropdown-menu a:hover {
+      background: var(--surface-hover);
+    }
+
+    /* Mobile menu icon stays visible on small screens. */
+    .mobile-menu-button {
+      width: 44px;
+      height: 44px;
+      display: none;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      padding: 9px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      color: var(--text);
       cursor: pointer;
     }
-    .modal-close:hover { color: #fff; }
-    .modal-box h2 { margin-bottom: 20px; font-size: 24px; text-align: center; }
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
-    .form-control { width: 100%; padding: 10px 12px; background: #0b0f19; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 14px; outline: none; }
-    .form-control:focus { border-color: var(--accent); }
-    select.form-control { appearance: auto; background: #0b0f19; color: #fff; }
-    .btn-submit-modal { width: 100%; padding: 12px; background: var(--register-blue); color: #fff; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; margin-top: 10px; }
-    .btn-submit-modal:hover { background: var(--register-blue-hover); }
 
-    /* 1. Market ticker */
-    .ticker-bar { width: 100%; min-height: 48px; display: flex; align-items: center; justify-content: center; padding: 0; overflow: hidden; background: #0B0F17; border-bottom: 1px solid var(--border); }
-    .tradingview-widget-container, .tradingview-widget-container__widget { width: 100%; min-height: 46px; }
-    .network-bar { background: #0B0F17; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 12px; }
-    .network-inner { min-height: 38px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; padding-block: 7px; }
-    .network-status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--positive); box-shadow: 0 0 0 3px rgba(93, 225, 173, 0.12); }
-    .network-inner strong { color: var(--text); font-weight: 700; }
-    .network-separator { width: 1px; height: 16px; background: var(--border); margin-inline: 4px; }
-    .network-inner a { color: var(--accent); margin-left: 4px; }
-    .ticker-container { width: 100%; max-width: var(--container-width); margin-inline: auto; padding-inline: 20px; display: flex; align-items: center; justify-content: center; }
-    .ticker-list { width: 100%; display: flex; flex-wrap: wrap; align-items: stretch; justify-content: center; gap: 10px; margin: 0; padding: 0; list-style: none; }
-    .ticker-card { min-width: 145px; display: flex; flex: 0 1 175px; flex-direction: column; gap: 3px; padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
-    .ticker-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .ticker-symbol { font-size: 13px; font-weight: 750; letter-spacing: 0.02em; }
-    .ticker-name { color: var(--muted); font-size: 11px; }
-    .ticker-price { font-size: 14px; font-weight: 650; font-variant-numeric: tabular-nums; }
-    .ticker-change { font-size: 11px; font-weight: 650; }
-    .positive { color: var(--positive); }
-    .negative { color: var(--negative); }
-    .ticker-disclaimer { margin: 8px 0 0; color: var(--muted); text-align: center; font-size: 11px; }
+    .mobile-menu-button span {
+      width: 20px;
+      height: 2px;
+      display: block;
+      border-radius: 2px;
+      background: currentColor;
+      transition: transform 160ms ease, opacity 160ms ease;
+    }
 
-    /* 2. Main navigation */
-    .site-header { position: relative; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--border); }
-    .nav-container { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-    .brand { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; font-size: 13px; font-weight: 850; letter-spacing: 0.055em; }
-    .brand-label { display: inline-block; max-width: 225px; line-height: 1.25; }
-    .header-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-    .header-action { min-height: 40px; display: inline-flex; align-items: center; justify-content: center; padding: 9px 14px; border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 13px; font-weight: 750; white-space: nowrap; cursor: pointer; }
-    .header-action-primary { border-color: var(--register-blue); background: var(--register-blue); color: white; }
-    .header-action-primary:hover { background: var(--register-blue-hover); }
-    .brand-mark { width: 210px; height: 38px; display: block; flex-shrink: 0; object-fit: contain; object-position: left center; }
-    .desktop-nav { display: flex; align-items: center; justify-content: center; gap: 28px; margin-left: auto; }
-    .desktop-nav a { color: var(--muted); font-size: 14px; font-weight: 550; transition: color 150ms ease; }
-    .desktop-nav a:hover { color: var(--text); }
-    .nav-dropdown { position: relative; flex-shrink: 0; }
-    .nav-dropdown > summary { color: var(--muted); font-size: 13px; font-weight: 550; cursor: pointer; list-style: none; white-space: nowrap; }
-    .nav-dropdown > summary::-webkit-details-marker { display: none; }
-    .nav-dropdown > summary::after { content: "⌄"; margin-left: 5px; color: var(--muted); }
-    .nav-dropdown[open] > summary { color: var(--text); }
-    .nav-dropdown-menu { position: absolute; z-index: 30; top: calc(100% + 12px); left: 0; display: grid; gap: 2px; min-width: 210px; padding: 8px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); box-shadow: 0 18px 45px #0006; }
-    .nav-dropdown-menu a { padding: 9px 10px; border-radius: 6px; white-space: nowrap; }
-    .nav-dropdown-menu a:hover { background: var(--surface-hover); }
+    .mobile-menu-button[aria-expanded="true"] span:first-child {
+      transform: translateY(7px) rotate(45deg);
+    }
 
-    .mobile-menu-button { width: 44px; height: 44px; display: none; flex-shrink: 0; align-items: center; justify-content: center; flex-direction: column; gap: 5px; padding: 9px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text); cursor: pointer; }
-    .mobile-menu-button span { width: 20px; height: 2px; display: block; border-radius: 2px; background: currentColor; transition: transform 160ms ease, opacity 160ms ease; }
-    .mobile-menu-button[aria-expanded="true"] span:first-child { transform: translateY(7px) rotate(45deg); }
-    .mobile-menu-button[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
-    .mobile-menu-button[aria-expanded="true"] span:last-child { transform: translateY(-7px) rotate(-45deg); }
-    .mobile-nav { display: none; max-height: calc(100vh - 150px); overflow-y: auto; padding: 8px 20px 20px; border-top: 1px solid var(--border); }
-    .mobile-nav.open { display: grid; gap: 4px; }
-    .mobile-nav a { padding: 12px; border-radius: 8px; color: var(--muted); }
-    .mobile-nav a:hover { background: var(--surface-hover); color: var(--text); }
+    .mobile-menu-button[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
 
-    /* Hero section */
-    .hero { position: relative; isolation: isolate; overflow: hidden; padding: 112px 0 96px; min-height: 560px; display: flex; align-items: center; text-align: center; background: #07111e; }
-    .hero-video-background, .hero-video-overlay { position: absolute; inset: 0; pointer-events: none; }
-    .hero-video-background { z-index: -2; overflow: hidden; }
-    .hero-background-video { width: 100%; height: 100%; display: block; object-fit: cover; opacity: 0.48; }
-    .hero-video-overlay { z-index: -1; background: linear-gradient(90deg, rgba(5, 12, 24, 0.82), rgba(5, 12, 24, 0.42), rgba(5, 12, 24, 0.82)), linear-gradient(180deg, rgba(5, 12, 24, 0.25), #0b1220 100%); }
-    .hero .container { position: relative; z-index: 1; }
-    .hero h1 { max-width: 900px; text-transform: none; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 22px; padding: 7px 12px; border: 1px solid #285447; border-radius: 999px; background: #112820; color: var(--accent); font-size: 12px; font-weight: 700; }
-    .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
-    h1 { max-width: 850px; margin: 0 auto; font-size: clamp(36px, 6vw, 66px); line-height: 1.08; letter-spacing: -0.055em; }
-    .hero-copy { max-width: 650px; margin: 24px auto 0; color: var(--muted); font-size: clamp(15px, 2vw, 18px); line-height: 1.8; }
-    .hero-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
-    .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; padding: 12px 22px; border: 1px solid transparent; border-radius: 9px; font-size: 14px; font-weight: 750; cursor: pointer; transition: transform 150ms ease, background 150ms ease; }
-    .button:hover { transform: translateY(-1px); }
-    .button-primary { background: var(--accent); color: var(--accent-text); }
-    .button-primary:hover { background: #7ceabd; }
-    .button-register { background: var(--register-blue); border-color: var(--register-blue); color: #fff; }
-    .button-register:hover { background: var(--register-blue-hover); }
-    .button-secondary { border-color: var(--border); background: var(--surface); color: var(--text); }
-    .button-secondary:hover { background: var(--surface-hover); }
+    .mobile-menu-button[aria-expanded="true"] span:last-child {
+      transform: translateY(-7px) rotate(-45deg);
+    }
 
-    .practice-section { padding: 12px 0 76px; }
-    .practice-card { padding: 34px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border: 1px solid var(--border); border-radius: 18px; background: linear-gradient(120deg, #15263a, #111b2d); }
-    .practice-copy { max-width: 650px; }
-    .practice-copy h2 { margin: 0; font-size: clamp(22px, 3vw, 30px); letter-spacing: -0.035em; }
-    .practice-copy p { margin: 10px 0 0; color: var(--muted); font-size: 14px; line-height: 1.8; }
-    .practice-action { flex-shrink: 0; }
+    .mobile-nav {
+      display: none;
+      max-height: calc(100vh - 150px);
+      overflow-y: auto;
+      padding: 8px 20px 20px;
+      border-top: 1px solid var(--border);
+    }
 
-    .features { padding: 20px 0 90px; }
-    .section-heading { max-width: 700px; margin: 0 auto 36px; text-align: center; }
-    .section-heading h2 { margin: 0; font-size: clamp(27px, 4vw, 40px); letter-spacing: -0.04em; }
-    .section-heading p { margin: 14px 0 0; color: var(--muted); line-height: 1.8; }
-    .feature-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-    .feature-card { min-height: 205px; padding: 24px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
-    .feature-icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 11px; background: #1e3542; color: var(--accent); font-size: 21px; }
-    .feature-card h3 { margin: 18px 0 8px; font-size: 17px; }
-    .feature-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .mobile-nav.open {
+      display: grid;
+      gap: 4px;
+    }
 
-    /* Image sections styling for certificate, broker, plans, etc. */
-    .media-showcase { padding: 40px 0; border-top: 1px solid var(--border); text-align: center; }
-    .media-showcase img { max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0; border: 1px solid var(--border); }
+    .mobile-nav a {
+      padding: 12px;
+      border-radius: 8px;
+      color: var(--muted);
+    }
 
-    footer { padding: 28px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; }
-    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-    .footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
-    .footer-links a:hover { color: var(--text); }
+    .mobile-nav a:hover {
+      background: var(--surface-hover);
+      color: var(--text);
+    }
+
+    /* Hero section: video-led brand layout with a dark contrast overlay. */
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 112px 0 96px;
+      min-height: 560px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      background: #07111e;
+    }
+
+    .hero-video-background,
+    .hero-video-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hero-video-background {
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .hero-background-video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      opacity: 0.48;
+    }
+
+    .hero-video-overlay {
+      z-index: -1;
+      background:
+        linear-gradient(90deg, rgba(5, 12, 24, 0.82), rgba(5, 12, 24, 0.42), rgba(5, 12, 24, 0.82)),
+        linear-gradient(180deg, rgba(5, 12, 24, 0.25), #0b1220 100%);
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      max-width: 900px;
+      text-transform: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 22px;
+      padding: 7px 12px;
+      border: 1px solid #285447;
+      border-radius: 999px;
+      background: #112820;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: clamp(36px, 6vw, 66px);
+      line-height: 1.08;
+      letter-spacing: -0.055em;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      margin: 24px auto 0;
+      color: var(--muted);
+      font-size: clamp(15px, 2vw, 18px);
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .button {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 22px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      font-size: 14px;
+      font-weight: 750;
+      cursor: pointer;
+      transition: transform 150ms ease, background 150ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button-primary {
+      background: var(--accent);
+      color: var(--accent-text);
+    }
+
+    .button-primary:hover {
+      background: #7ceabd;
+    }
+
+    .button-register {
+      background: var(--register-blue);
+      border-color: var(--register-blue);
+      color: #fff;
+    }
+
+    .button-register:hover {
+      background: var(--register-blue-hover);
+    }
+
+    .button-secondary {
+      border-color: var(--border);
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .button-secondary:hover {
+      background: var(--surface-hover);
+    }
+
+    /* Practice Trading section styling. */
+    .practice-section {
+      padding: 12px 0 76px;
+    }
+
+    .practice-card {
+      padding: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: linear-gradient(120deg, #15263a, #111b2d);
+    }
+
+    .practice-copy {
+      max-width: 650px;
+    }
+
+    .practice-copy h2 {
+      margin: 0;
+      font-size: clamp(22px, 3vw, 30px);
+      letter-spacing: -0.035em;
+    }
+
+    .practice-copy p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .practice-action {
+      flex-shrink: 0;
+    }
+
+    /* Feature cards */
+    .features {
+      padding: 20px 0 90px;
+    }
+
+    .section-heading {
+      max-width: 700px;
+      margin: 0 auto 36px;
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(27px, 4vw, 40px);
+      letter-spacing: -0.04em;
+    }
+
+    .section-heading p {
+      margin: 14px 0 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .feature-card {
+      min-height: 205px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: #1e3542;
+      color: var(--accent);
+      font-size: 21px;
+    }
+
+    .feature-card h3 {
+      margin: 18px 0 8px;
+      font-size: 17px;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .risk-notice {
+      margin: 0 auto 38px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    footer {
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
 
     @media (max-width: 900px) {
-      .ticker-list { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; }
-      .ticker-card { flex: 0 0 155px; }
-      .desktop-nav { gap: 18px; }
-      .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ticker-list {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scrollbar-width: thin;
+      }
+
+      .ticker-card {
+        flex: 0 0 155px;
+      }
+
+      .desktop-nav {
+        gap: 18px;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
+
     @media (max-width: 680px) {
-      .container { width: calc(100% - 32px); }
-      .ticker-bar { min-height: 72px; }
-      .ticker-container { padding-inline: 12px; }
-      .nav-container { min-height: 70px; }
-      .brand { font-size: 11px; gap: 8px; }
-      .brand-label { max-width: 175px; }
-      .brand-mark { width: 38px; height: 34px; font-size: 12px; }
-      .desktop-nav, .header-actions { display: none; }
-      .mobile-menu-button { display: inline-flex; }
-      .hero { min-height: 500px; padding: 76px 0 64px; }
-      .practice-card { align-items: flex-start; flex-direction: column; padding: 24px; }
-      .practice-action, .practice-action .button { width: 100%; }
-      .feature-grid { grid-template-columns: 1fr; }
+      .container {
+        width: calc(100% - 32px);
+      }
+
+      .ticker-bar {
+        min-height: 72px;
+      }
+
+      .ticker-container {
+        padding-inline: 12px;
+      }
+
+      .nav-container {
+        min-height: 70px;
+      }
+
+      .brand {
+        font-size: 11px;
+        gap: 8px;
+      }
+
+      .brand-label {
+        max-width: 175px;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 34px;
+        font-size: 12px;
+      }
+
+      .desktop-nav,
+      .header-actions {
+        display: none;
+      }
+
+      .network-inner {
+        justify-content: flex-start;
+      }
+
+      .mobile-menu-button {
+        display: inline-flex;
+      }
+
+      .hero {
+        min-height: 500px;
+        padding: 76px 0 64px;
+      }
+
+      .hero-copy {
+        font-size: 15px;
+      }
+
+      .practice-section {
+        padding-bottom: 55px;
+      }
+
+      .practice-card {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 24px;
+      }
+
+      .practice-action,
+      .practice-action .button {
+        width: 100%;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .features {
+        padding-bottom: 55px;
+      }
+
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
-  <link rel="stylesheet" href="./styles.css?v=95b475e">
-  <style>
-    .community-chat-stream{overflow:hidden;max-height:390px;min-height:300px;display:flex;flex-direction:column;gap:12px;padding:18px;border-radius:18px}
-    .chat-stream-heading{display:flex;align-items:center;gap:9px;font-size:.86rem;font-weight:700;flex-shrink:0}
-    .chat-stream-status{margin-left:auto;font-size:.65rem;letter-spacing:.08em;color:#64748b;border:1px solid currentColor;border-radius:999px;padding:3px 7px}
-    .chat-stream-messages{display:flex;flex-direction:column;gap:12px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scroll-behavior:smooth;padding:2px 4px 8px;min-height:0}
-    .chat-stream-messages .chat-bubble{flex:0 0 auto;animation:communityMessageIn .32s ease-out}
-    .chat-stream-messages .chat-bubble p{overflow-wrap:anywhere}
-    .chat-stream-messages .chat-avatar-photo{width:40px;height:40px;flex:0 0 40px;object-fit:cover;border-radius:50%}
-    @keyframes communityMessageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-  </style>
+  <link rel="stylesheet" href="./styles.css?v=95b475e"><style>
+.community-chat-stream{overflow:hidden;max-height:390px;min-height:300px;display:flex;flex-direction:column;gap:12px;padding:18px;border-radius:18px}
+.chat-stream-heading{display:flex;align-items:center;gap:9px;font-size:.86rem;font-weight:700;flex-shrink:0}
+.chat-stream-status{margin-left:auto;font-size:.65rem;letter-spacing:.08em;color:#64748b;border:1px solid currentColor;border-radius:999px;padding:3px 7px}
+.chat-stream-messages{display:flex;flex-direction:column;gap:12px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scroll-behavior:smooth;padding:2px 4px 8px;min-height:0}
+.chat-stream-messages .chat-bubble{flex:0 0 auto;animation:communityMessageIn .32s ease-out}
+.chat-stream-messages .chat-bubble p{overflow-wrap:anywhere}
+.chat-stream-messages .chat-avatar-photo{width:40px;height:40px;flex:0 0 40px;object-fit:cover;border-radius:50%}
+@keyframes communityMessageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.chat-stream-messages{scroll-behavior:auto}.chat-stream-messages .chat-bubble{animation:none}}
+</style>
 </head>
 
 <body class="gmo-page">
@@ -269,7 +862,7 @@
           <option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="ar">العربية</option><option value="it">Italiano</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="zh-CN">中文 (简体)</option><option value="zh-TW">中文 (繁體)</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="hi">हिन्दी</option><option value="tr">Türkçe</option><option value="pl">Polski</option><option value="ru">Русский</option><option value="sv">Svenska</option><option value="da">Dansk</option><option value="no">Norsk</option><option value="id">Bahasa Indonesia</option><option value="th">ไทย</option><option value="vi">Tiếng Việt</option>
         </select>
         <a class="header-action login-btn" href="/login.html">Sign In</a>
-        <button class="header-action header-action-primary register-btn" onclick="openAuthModal()">Create Account -&gt;</button>
+        <a class="header-action header-action-primary register-btn" href="/register.html">Create Account -&gt;</a>
       </div>
 
       <button
@@ -293,17 +886,54 @@
         <span class="drawer-title">Explore Global Market Options</span>
         <button class="drawer-close" id="mobile-drawer-close" type="button" aria-label="Close navigation menu">×</button>
       </div>
+      <label class="language-label" for="drawer-language">Language</label>
+      <select class="drawer-language" id="drawer-language" aria-label="Select language">
+        <option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="ar">العربية</option><option value="it">Italiano</option><option value="pt">Português</option><option value="nl">Nederlands</option><option value="zh-CN">中文 (简体)</option><option value="zh-TW">中文 (繁體)</option><option value="ja">日本語</option><option value="ko">한국어</option><option value="hi">हिन्दी</option><option value="tr">Türkçe</option><option value="pl">Polski</option><option value="ru">Русский</option><option value="sv">Svenska</option><option value="da">Dansk</option><option value="no">Norsk</option><option value="id">Bahasa Indonesia</option><option value="th">ไทย</option><option value="vi">Tiếng Việt</option>
+      </select>
       <div class="drawer-group">
         <p class="drawer-group-title">Main menu</p>
         <a href="/"><span class="drawer-icon" aria-hidden="true">⌂</span>Home</a>
         <a href="/faq.html"><span class="drawer-icon" aria-hidden="true">?</span>FAQs</a>
         <a href="/login.html"><span class="drawer-icon" aria-hidden="true">↪</span>Sign In</a>
-        <a href="#" onclick="openAuthModal(); toggleMobileDrawer(event, false); return false;"><span class="drawer-icon" aria-hidden="true">＋</span>Sign Up</a>
+        <a href="/register.html"><span class="drawer-icon" aria-hidden="true">＋</span>Sign Up</a>
         <a href="/contact.html"><span class="drawer-icon" aria-hidden="true">✉</span>Contact</a>
+        <a href="/about.html"><span class="drawer-icon" aria-hidden="true">ⓘ</span>About Us</a>
+      </div>
+      <div class="drawer-group">
+        <p class="drawer-group-title">MARKETS</p>
+        <a href="/forex-trading.html"><span class="drawer-icon" aria-hidden="true">⇄</span>Forex Trading</a>
+        <a href="/crypto-trading.html"><span class="drawer-icon" aria-hidden="true">₿</span>Crypto Trading</a>
+        <a href="/stocks-etfs.html"><span class="drawer-icon" aria-hidden="true">▥</span>Stocks Trading</a>
+        <a href="/copy-trading.html"><span class="drawer-icon" aria-hidden="true">⧉</span>Copy Trading</a>
+        <a href="/crude-oil.html"><span class="drawer-icon" aria-hidden="true">◉</span>Crude Oil</a>
+        <a href="/real-estate.html"><span class="drawer-icon" aria-hidden="true">⌂</span>Real Estate</a>
+        <a href="/crypto-mining.html"><span class="drawer-icon" aria-hidden="true">⛏</span>Crypto Mining <span class="drawer-status-active">Active</span></a>
+      </div>
+      <div class="drawer-group">
+        <p class="drawer-group-title">ACCOUNT &amp; FUNDING</p>
+        <a href="/dashboard.html"><span class="drawer-icon" aria-hidden="true">＋</span>Deposit Funds <span aria-hidden="true">→</span></a>
+        <a href="/dashboard.html"><span class="drawer-icon" aria-hidden="true">↗️</span>Instant Withdrawal <span aria-hidden="true">→</span></a>
+        <a href="/dashboard.html"><span class="drawer-icon" aria-hidden="true">↻</span>Transaction History <span aria-hidden="true">→</span></a>
+        <a href="/dashboard.html"><span class="drawer-icon" aria-hidden="true">✓</span>Account Verification (KYC) <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="drawer-group">
+        <p class="drawer-group-title">Education &amp; Plans</p>
+        <a href="/about.html"><span class="drawer-icon" aria-hidden="true">▤</span>Corporate Transparency</a>
+        <a href="/faq.html"><span class="drawer-icon" aria-hidden="true">₿</span>Bitcoin Beginners Guide</a>
+        <a href="/smart-portfolios.html"><span class="drawer-icon" aria-hidden="true">◇</span> Investment Tiers</a>
+      </div>
+      <div class="drawer-group">
+        <p class="drawer-group-title">MORE</p>
+        <a href="/privacy.html"><span class="drawer-icon" aria-hidden="true">▤</span>Privacy Policy</a>
+        <a href="/cookie-policy.html"><span class="drawer-icon" aria-hidden="true">◌</span>Cookie Policy</a>
+        <a href="/terms.html"><span class="drawer-icon" aria-hidden="true">§</span>Terms of Service</a>
+        <a href="/risk-disclosure.html"><span class="drawer-icon" aria-hidden="true">△</span>General Risk Disclosure</a>
+        <a href="/contact.html"><span class="drawer-icon" aria-hidden="true">☏</span>Live Support &amp; Help Desk <span aria-hidden="true">→</span></a>
       </div>
       <div class="drawer-quick-actions">
         <a class="button button-secondary" href="/login.html">Sign In</a>
-        <button class="button button-register" onclick="openAuthModal()">Create Account / Register →</button>
+        <a class="button button-register" href="/register.html">Create Account / Register →</a>
+        <a class="button button-primary" href="/practice-trading.html">Live Trading Portal</a>
       </div>
     </nav>
   </header>
@@ -311,7 +941,15 @@
   <main>
     <section class="hero" id="markets">
       <div class="hero-video-background" aria-hidden="true">
-        <video class="hero-background-video" autoplay muted loop playsinline preload="metadata" poster="/images/hero-poster.jpg">
+        <video
+          class="hero-background-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster="/images/hero-poster.jpg"
+        >
           <source src="/hero-motion.mp4" type="video/mp4">
         </video>
       </div>
@@ -330,9 +968,9 @@
         </p>
 
         <div class="hero-actions">
-          <button class="button button-register register-btn" onclick="openAuthModal()">
+          <a class="button button-register register-btn" href="/register.html">
             REGISTER ACCOUNT -&gt;
-          </button>
+          </a>
           <a class="button button-secondary" href="/login.html">
             LOGIN
           </a>
@@ -379,106 +1017,255 @@
           <article class="feature-card">
             <div class="feature-icon" aria-hidden="true">↗️</div>
             <h3>Market Overview</h3>
-            <p>Review market instruments and connect a trusted data source for current prices and price movements.</p>
+            <p>
+              Review market instruments and connect a trusted data source
+              for current prices and price movements.
+            </p>
           </article>
+
           <article class="feature-card">
             <div class="feature-icon" aria-hidden="true">◈</div>
             <h3>Digital Assets</h3>
-            <p>Explore digital-asset markets, including Bitcoin, Ethereum, and other supported assets.</p>
+            <p>
+              Explore digital-asset markets, including Bitcoin, Ethereum,
+              and other supported assets.
+            </p>
           </article>
+
           <article class="feature-card">
             <div class="feature-icon" aria-hidden="true">⌁</div>
             <h3>Commodity Markets</h3>
-            <p>Visit the crude-oil market page for available commodity information and trading tools.</p>
+            <p>
+              Visit the crude-oil market page for available commodity
+              information and trading tools.
+            </p>
             <p><a href="/crude-oil.html">Explore crude oil →</a></p>
           </article>
+
           <article class="feature-card">
             <div class="feature-icon" aria-hidden="true">⌂</div>
             <h3>Real Estate</h3>
-            <p>Review available real-estate information, published plan terms, and associated risks.</p>
+            <p>
+              Review available real-estate information, published plan
+              terms, and associated risks.
+            </p>
             <p><a href="/real-estate.html">Explore real estate →</a></p>
           </article>
+
           <article class="feature-card">
             <div class="feature-icon" aria-hidden="true">◎</div>
             <h3>Account Management</h3>
-            <p>Access your account through the configured authentication workflow and review available account services.</p>
+            <p>
+              Access your account through the configured authentication
+              workflow and review available account services.
+            </p>
           </article>
+
           <article class="feature-card">
             <div class="feature-icon" aria-hidden="true">✓</div>
             <h3>Account Security</h3>
-            <p>Use authenticated account workflows and server-side authorization for protected operations.</p>
+            <p>
+              Use authenticated account workflows and server-side
+              authorization for protected operations.
+            </p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Images Section: Certificate, Broker, Bitcoin Network, Plans, Withdrawal -->
-    <section class="media-showcase">
+    <section class="asset-categories section-shell" id="assets">
       <div class="container">
-        <h2>Accreditation &amp; Proof of Reserves</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
-          <div>
-            <img src="./certificate.jpeg" alt="Certificate" loading="lazy">
-            <p>Certificate of Incorporation</p>
-          </div>
-          <div>
-            <img src="./broker.jpeg" alt="Broker" loading="lazy">
-            <p>Broker Accreditation</p>
-          </div>
-          <div>
-            <img src="./bitcoin-network.jpeg" alt="Bitcoin Network" loading="lazy">
-            <p>Bitcoin Network Verification</p>
-          </div>
-          <div>
-            <img src="./plans.jpg" alt="Plans" loading="lazy">
-            <p>Investment &amp; Trading Plans</p>
-          </div>
-          <div>
-            <img src="./withdrawal.jpeg" alt="Withdrawal Proof" loading="lazy">
-            <p>Instant Withdrawal Guarantee</p>
+        <div class="section-heading">
+          <h2>Stocks, ETFs and Beyond</h2>
+          <p>Discover hundreds of assets across multiple categories</p>
+        </div>
+        <div class="asset-badge-grid" aria-label="Available asset categories">
+          <div class="asset-badge"><span class="asset-logo logo-chart">↗️</span><span>Trading</span></div>
+          <div class="asset-badge"><span class="asset-logo logo-ms">▦</span><span>Microsoft</span></div>
+          <div class="asset-badge"><span class="asset-logo logo-tesla">T</span><span>Tesla</span></div>
+          <div class="asset-badge"><span class="asset-logo logo-disney">D</span><span>Disney</span></div>
+          <div class="asset-badge"><span class="asset-logo logo-btc">₿</span><span>Bitcoin <small>BTC</small></span></div>
+          <div class="asset-badge"><span class="asset-logo logo-eth">◆</span><span>Ethereum <small>ETH</small></span></div>
+          <div class="asset-badge"><span class="asset-logo logo-bnb">◆</span><span>BNB</span></div>
+          <div class="asset-badge"><span class="asset-logo logo-shib">犬</span><span>Shiba Inu <small>SHIB</small></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trusted-banner">
+      <div class="container trusted-content">
+        <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Global community</span>
+        <h2>Trusted worldwide</h2>
+        <p>Discover why millions of investors from over 100 countries joined Global Market Options</p>
+        <div class="trusted-stats" aria-label="Platform highlights">
+          <div><strong>100+</strong><span>Countries represented</span></div>
+          <div><strong>Global</strong><span>Markets and insights</span></div>
+          <div><strong>24/7</strong><span>Online account access</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="copy-trading-section section-shell" id="copy-trading">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Copy top investors</h2>
+          <p>Explore investor profiles and learn about different approaches to the markets. Past performance does not predict future results.</p>
+        </div>
+        <div class="investor-grid">
+          <article class="investor-card">
+            <img class="investor-avatar avatar-violet" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&amp;fit=crop&amp;w=320&amp;h=320&amp;q=85" alt="Portrait for Mila Moreau profile" loading="lazy" decoding="async">
+            <div class="investor-name">Mila Moreau</div>
+            <span class="investor-tag">Balanced strategy</span>
+            <div class="investor-return">35.71%</div>
+            <p>Focuses on a diversified approach and disciplined risk awareness.</p>
+            <a class="button button-primary" href="/copy-trading.html">Start Copying</a>
+          </article>
+          <article class="investor-card">
+            <img class="investor-avatar avatar-blue" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&amp;fit=crop&amp;w=320&amp;h=320&amp;q=85" alt="Portrait for Julian Laurent profile" loading="lazy" decoding="async">
+            <div class="investor-name">Julian Laurent</div>
+            <span class="investor-tag">Market momentum</span>
+            <div class="investor-return">Strategy profile</div>
+            <p>Studies market trends and reviews potential opportunities across asset classes.</p>
+            <a class="button button-secondary" href="/copy-trading.html">View Profile</a>
+          </article>
+          <article class="investor-card">
+            <img class="investor-avatar avatar-green" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&amp;fit=crop&amp;w=320&amp;h=320&amp;q=85" alt="Portrait for Sofia Kim profile" loading="lazy" decoding="async">
+            <div class="investor-name">Sofia Kim</div>
+            <span class="investor-tag">Long-term themes</span>
+            <div class="investor-return">Strategy profile</div>
+            <p>Explores longer-term themes while highlighting the importance of diversification.</p>
+            <a class="button button-secondary" href="/copy-trading.html">View Profile</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="smart-portfolio-section section-shell" id="smart-portfolios">
+      <div class="container portfolio-layout">
+        <div>
+          <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Thematic strategies</span>
+          <h2>Smart Portfolios</h2>
+          <p>Explore thematic investment ideas grouped around broad market trends and sectors. Review each portfolio's composition, fees, and risks before making an investment decision.</p>
+          <a class="button button-primary" href="/smart-portfolios.html">Explore Portfolios</a>
+        </div>
+        <div class="portfolio-visual" aria-label="Illustrative diversified portfolio">
+          <div class="portfolio-orbit orbit-one"></div><div class="portfolio-orbit orbit-two"></div>
+          <div class="portfolio-center">GMO<span>PORTFOLIOS</span></div>
+          <span class="portfolio-node node-one">Tech</span><span class="portfolio-node node-two">Global</span><span class="portfolio-node node-three">Energy</span><span class="portfolio-node node-four">Digital</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="community-section section-shell" id="community">
+      <div class="container community-layout">
+        <div class="community-copy">
+          <span class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Learn together</span>
+          <h2>Join the Community</h2>
+          <p>Exchange perspectives, ask thoughtful questions, and learn from different market viewpoints.</p>
+          <h3>Building connections leads to building confidence.</h3>
+          <a class="button button-secondary" href="/contact.html">Connect with us</a>
+        </div>
+        <div class="chat-preview community-chat-stream" id="community-chat-stream" aria-label="Simulated community chat stream" aria-live="polite">
+          <div class="chat-stream-heading"><span class="eyebrow-dot" aria-hidden="true"></span><span>Community conversation</span><span class="chat-stream-status"></span></div>
+          <div class="chat-stream-messages" id="community-chat-messages" tabindex="0">
+            <div class="chat-bubble"><img class="chat-avatar chat-avatar-photo" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&amp;fit=crop&amp;w=160&amp;h=160&amp;q=85" alt="John profile photo" loading="lazy" decoding="async"><p><strong>John</strong><br>What do you think is next for the markets?</p></div>
+            <div class="chat-bubble chat-bubble-reply"><img class="chat-avatar chat-avatar-photo" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&amp;fit=crop&amp;w=160&amp;h=160&amp;q=85" alt="Amy profile photo" loading="lazy" decoding="async"><p><strong>Amy</strong><br>Waiting for earnings before deciding.</p></div>
           </div>
         </div>
       </div>
     </section>
-  </main>
 
-  <!-- Interactive Registration Modal -->
-  <div id="auth-modal">
-    <div class="modal-box">
-      <button class="modal-close" onclick="closeAuthModal()">&times;</button>
-      <h2>Create Account</h2>
-      <form id="modal-registration-form">
-        <div class="form-group">
-          <label>Full Name:</label>
-          <input type="text" id="m-fullname" class="form-control" required>
+    <section class="trust-section section-shell" id="why-us">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Built around trust</h2>
+          <p>Clear information, thoughtful security, and a global perspective.</p>
         </div>
-        <div class="form-group">
-          <label>Username:</label>
-          <input type="text" id="m-username" class="form-control" required>
+        <div class="feature-grid">
+          <article class="feature-card trust-card"><div class="feature-icon" aria-hidden="true">✓</div><h3>Reliable</h3><p>Regulatory requirements vary by jurisdiction. Review our published disclosures and verify any applicable authorisation independently.</p></article>
+          <article class="feature-card trust-card"><div class="feature-icon" aria-hidden="true">◇</div><h3>Secured</h3><p>We aim to use top-tier security practices. Protect your credentials and use only official sign-in channels.</p></article>
+          <article class="feature-card trust-card"><div class="feature-icon" aria-hidden="true">◎</div><h3>Global</h3><p>Providing services around the world, subject to local eligibility and applicable restrictions.</p></article>
         </div>
-        <div class="form-group">
-          <label>Email Address:</label>
-          <input type="email" id="m-email" class="form-control" required>
+      </div>
+    </section>
+
+    <section class="corporate-transparency section-shell" id="corporate-transparency">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Corporate Registration &amp; Transparency</h2>
+          <p>Company document for public reference.</p>
         </div>
-        <div class="form-group">
-          <label>Password:</label>
-          <input type="password" id="m-password" class="form-control" required>
+        <article class="certificate-card certificate-card-visual">
+          <div class="certificate-card-topline">
+            <span class="certificate-status-seal certificate-verified-seal" aria-label="Verified company badge">
+              <span aria-hidden="true">✓</span>
+              <span>VERIFIED<br>COMPANY</span>
+            </span>
+            <div class="certificate-heading">
+              <span class="certificate-kicker">Corporate document</span>
+              <h3>Certificate of Appreciation</h3>
+              <span class="certificate-status-pill certificate-status-active"><span aria-hidden="true">●</span> Status: Verified &amp; Active</span>
+            </div>
+          </div>
+          <figure class="certificate-image-frame certificate-real-image">
+            <img src="/WhatsApp%20Image%202026-10-15%20at%206.20.47%20PM.jpeg" alt="Global Market Options Certificate of Appreciation" class="w-full h-auto rounded-lg shadow-lg border border-yellow-500/30 mx-auto max-w-2xl" loading="lazy" decoding="async">
+          </figure>
+          <div class="certificate-verification certificate-verification-centered">
+            <a class="button button-primary certificate-verify-button" href="/contact.html?subject=Company%20verification#contact-form">Verify Company Record</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-shell" id="crypto-knowledge" style="padding: 40px 0; background-color: #0b0f19;">
+      <div class="container" style="max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; align-items: center;">
+        
+        <!-- Simple and Safe Withdrawal -->
+        <div style="width: 100%; text-align: center;">
+          <h3 style="color: #ffffff; margin-bottom: 15px;">Simple and Safe Withdrawal</h3>
+          <img src="/withdrawal.jpeg" alt="Simple and Safe Withdrawal" style="width: 100%; max-width: 100%; height: auto; display: block; border-radius: 12px; margin: 0 auto;">
         </div>
-        <div class="form-group">
-          <label>Country:</label>
-          <select class="form-control" id="m-country" required>
-            <option value="United States">United States</option>
-            <option value="United Kingdom">United Kingdom</option>
-            <option value="Nigeria">Nigeria</option>
-            <option value="Oman">Oman</option>
-            <option value="Pakistan">Pakistan</option>
-            <option value="Philippines">Philippines</option>
-          </select>
+
+        <!-- Trusted Broker -->
+        <div style="width: 100%; text-align: center;">
+          <h3 style="color: #ffffff; margin-bottom: 15px;">Trusted Broker</h3>
+          <img src="/broker.jpeg" alt="Trusted Broker" style="width: 100%; max-width: 100%; height: auto; display: block; border-radius: 12px; margin: 0 auto;">
         </div>
-        <button type="submit" id="m-submit-btn" class="btn-submit-modal">REGISTER</button>
-      </form>
-    </div>
-  </div>
+
+      </div>
+    </section>
+
+    <!-- Bitcoin Network Section -->
+    <section class="bitcoin-education section-shell" style="padding: 40px 0;">
+      <div class="container">
+        <div class="bitcoin-education-panel bitcoin-diagram-panel">
+          <header class="bitcoin-education-heading">
+            <h2 style="text-align: center; color: #ffffff; margin-bottom: 20px;">How the Bitcoin Network Works</h2>
+          </header>
+          <div class="bitcoin-network-image-wrap" style="text-align: center; margin-top: 20px;">
+            <img src="./bitcoin-network.jpg.jpg" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/globalmarketoptions/https-globalmarketoptions.org/main/bitcoin-network.jpg.jpg';" alt="How the Bitcoin Network Works" style="width: 100%; max-width: 800px; height: auto; border-radius: 12px; display: block; margin: 0 auto; border: 1px solid #1e293b;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Investment Plans Section -->
+    <section class="investment-plans section-shell" id="investment-plans">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Investment Plans</h2>
+          <p>Explore the available plan options.</p>
+        </div>
+        <div class="investment-plans-graphic-wrap">
+          <img src="/plans.jpg" alt="Global Market Options investment plans grid showing the $500 Plan, 1 BTC, 3 BTC, $1000 Platinum, $5000 Platinum, and $10,000 Platinum plans" class="investment-plans-graphic rounded-xl shadow-2xl border border-yellow-500/20 w-full max-w-4xl mx-auto block" loading="lazy" decoding="async">
+        </div>
+        <div class="investment-plans-cta">
+          <a class="button button-primary investment-plans-start-button" href="/register.html">Get Started / Select Plan</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <footer class="site-footer">
     <div class="container footer-columns">
@@ -487,57 +1274,43 @@
         <p>Market information and trading tools for a global audience.</p>
         <a href="mailto:support@globalmarketoptions.org">support@globalmarketoptions.org</a>
       </div>
+      <div class="footer-column"><h3>Top Instruments</h3><a href="/stocks-etfs.html">Tesla</a><a href="/stocks-etfs.html">Apple</a><a href="/stocks-etfs.html">Nvidia</a><a href="/stocks-etfs.html">Microsoft</a></div>
+      <div class="footer-column"><h3>Learn More</h3><a href="/about.html">About Us</a><a href="/contact.html">Contact Us</a><a href="/faq.html">What is Leverage?</a><a href="/copy-trading.html">How Copy Trading Works</a></div>
+      <div class="footer-column"><h3>Privacy &amp; Legal</h3><a href="/cookie-policy.html">Cookie Policy</a><a href="/privacy.html">Privacy Policy</a><a href="/terms.html">Terms &amp; Conditions</a><a href="/risk-disclosure.html">General Risk Disclosure</a></div>
     </div>
     <div class="container footer-bottom"><span>©️ 2005 Global Market Options Company</span></div>
   </footer>
 
   <script>
-    function openAuthModal() {
-      document.getElementById('auth-modal').style.display = 'flex';
-    }
-    function closeAuthModal() {
-      document.getElementById('auth-modal').style.display = 'none';
-    }
+    (() => {
+      const output = document.getElementById("ethereum-gas-price");
+      if (!output) return;
 
-    document.getElementById('modal-registration-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const submitBtn = document.getElementById('m-submit-btn');
-      submitBtn.innerText = 'CREATING ACCOUNT...';
-      submitBtn.disabled = true;
-
-      try {
-        const response = await fetch('/api/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: document.getElementById('m-email').value.toLowerCase().trim(),
-            username: document.getElementById('m-username').value,
-            full_name: document.getElementById('m-fullname').value,
-            country: document.getElementById('m-country').value,
-            currency: 'USD',
-            gender: 'Other',
-            phone: '0000000000',
-            password: document.getElementById('m-password').value
-          })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          alert("Error creating account: " + (data.error || 'Registration failed'));
-          submitBtn.innerText = 'REGISTER';
-          submitBtn.disabled = false;
-          return;
+      async function refreshEthereumGas() {
+        try {
+          const response = await fetch("https://ethereum-rpc.publicnode.com", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              jsonrpc: "2.0",
+              id: 1,
+              method: "eth_gasPrice",
+              params: []
+            })
+          });
+          if (!response.ok) throw new Error("Gas RPC unavailable");
+          const payload = await response.json();
+          if (!payload.result || !/^0x[0-9a-f]+$/i.test(payload.result)) throw new Error("Invalid gas response");
+          const gwei = Number(BigInt(payload.result)) / 1e9;
+          output.textContent = Number.isFinite(gwei) ? gwei.toFixed(2) + " Gwei" : "See live tracker";
+        } catch (_) {
+          output.textContent = "See live tracker";
         }
-
-        alert("Account created successfully! Redirecting to login...");
-        window.location.href = '/login.html';
-      } catch (err) {
-        alert("An error occurred during registration. Please try again.");
-        submitBtn.innerText = 'REGISTER';
-        submitBtn.disabled = false;
       }
-    });
+
+      refreshEthereumGas();
+      window.setInterval(refreshEthereumGas, 30000);
+    })();
   </script>
 
   <script>
@@ -550,11 +1323,63 @@
       const open = typeof forceOpen === "boolean" ? forceOpen : !drawer.classList.contains("open");
       drawer.classList.toggle("open", open);
       drawer.style.display = open ? "flex" : "";
-      if(backdrop) backdrop.hidden = !open;
+      backdrop.hidden = !open;
+      backdrop.classList.toggle("is-visible", open);
       drawer.setAttribute("aria-hidden", String(!open));
+      drawer.inert = !open;
       button.setAttribute("aria-expanded", String(open));
+      button.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
+      document.body.classList.toggle("drawer-open", open);
       return false;
     };
   </script>
+  <script src="./navigation.js?v=5f1a2ec" defer></script>
+
+<div id="google_translate_element" style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true"></div>
+<script>
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'en',autoDisplay:false, includedLanguages:'en,es,fr,de,ar,it,pt,nl,zh-CN,zh-TW,ja,ko,hi,tr,pl,ru,sv,da,no,id,th,vi'},'google_translate_element');setTimeout(()=>{if(window.gmoPendingLanguage){const combo=document.querySelector('.goog-te-combo');if(combo){combo.value=window.gmoPendingLanguage;combo.dispatchEvent(new Event('change'));}}},1000);}
+(()=>{const ss=[document.getElementById("header-language"),document.getElementById("drawer-language")].filter(Boolean);function applyLanguage(lang){ss.forEach(x=>x.value=lang);document.documentElement.lang=lang;try{localStorage.setItem("gmo-language",lang)}catch(e){}const combo=document.querySelector(".goog-te-combo");if(combo){combo.value=lang;combo.dispatchEvent(new Event("change"));}else{window.gmoPendingLanguage=lang;}}ss.forEach(s=>s.addEventListener("change",()=>applyLanguage(s.value)));try{const v=localStorage.getItem("gmo-language");if(v)applyLanguage(v)}catch(e){}})();
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+<script>
+(()=> {
+ const box=document.getElementById('community-chat-messages');
+ if(!box)return;
+ const messages=[
+  {name:'David',text:'Longing BTC here — watching the key level.',avatar:'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'Elena',text:'Forex EUR/USD looking strong this morning.',avatar:'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'John',text:'Keeping an eye on the market reaction after the data.',avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'Amy',text:'I prefer to wait for confirmation before deciding.',avatar:'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'Marcus',text:'Remember to plan your risk before entering a trade.',avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'Sofia',text:'Watching the EUR/USD range for a clearer setup.',avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'Daniel',text:'Volatility is picking up; keeping position sizes modest.',avatar:'https://images.unsplash.com/photo-1504257432389-52343af06ae3?auto=format&fit=crop&w=160&h=160&q=85'},
+  {name:'Nina',text:'A useful reminder that one session does not make a trend.',avatar:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=160&h=160&q=85'}
+ ];
+ let next=0;
+ function appendMessage(){
+  const item=messages[next%messages.length];next++;
+  const row=document.createElement('div');row.className='chat-bubble'+(next%2===0?' chat-bubble-reply':'');
+  const avatar=document.createElement('img');avatar.className='chat-avatar chat-avatar-photo';avatar.src=item.avatar;avatar.alt=item.name+' profile photo';avatar.loading='lazy';avatar.decoding='async';
+  const p=document.createElement('p');const name=document.createElement('strong');name.textContent=item.name;p.append(name,document.createElement('br'),document.createTextNode(item.text));row.append(avatar,p);box.append(row);
+  while(box.children.length>6)box.firstElementChild.remove();
+  box.scrollTo({top:box.scrollHeight,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+ }
+ window.setInterval(appendMessage,4200);
+})();
+</script>
+
+<!-- Start of Tawk.to Script -->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6ad0796de35a9734cc152afd/1k4v5klpe';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!-- End of Tawk.to Script -->
 </body>
 </html>
