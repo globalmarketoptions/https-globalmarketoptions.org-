@@ -277,25 +277,13 @@
       submitBtn.disabled = true;
 
       try {
-        const userId = 'user_' + Math.random().toString(36).substring(2, 15);
-        const emailVal = document.getElementById('email').value.toLowerCase().trim();
-        const usernameVal = document.getElementById('username').value.trim();
-        const fullnameVal = document.getElementById('fullname').value.trim();
-
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/profiles`, {
+        const response = await fetch('/api/register', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Prefer': 'return=minimal'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            id: userId,
-            email: emailVal,
-            username: usernameVal,
-            full_name: fullnameVal,
-            display_name: fullnameVal,
+            email: document.getElementById('email').value.toLowerCase().trim(),
+            username: document.getElementById('username').value,
+            full_name: document.getElementById('fullname').value,
             country: document.getElementById('country-select').value,
             currency: document.getElementById('currency').value,
             gender: document.getElementById('gender').value,
@@ -304,9 +292,10 @@
           })
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
-          const errText = await response.text();
-          alert("Error: " + errText);
+          alert("Error: " + (data.error || 'Registration failed'));
           submitBtn.innerText = 'REGISTER';
           submitBtn.disabled = false;
           return;
@@ -321,19 +310,6 @@
         submitBtn.disabled = false;
       }
     });
-  </script>const response = await fetch('/api/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: document.getElementById('email').value,
-            username: document.getElementById('username').value,
-            full_name: document.getElementById('fullname').value,
-            country: document.getElementById('country-select').value,
-            currency: document.getElementById('currency').value,
-            gender: document.getElementById('gender').value,
-            phone: document.getElementById('phone').value,
-            password: pass
-          })
-        });
+  </script>
 </body>
 </html>
