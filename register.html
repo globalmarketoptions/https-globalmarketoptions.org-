@@ -262,7 +262,7 @@
     }
 
     document.getElementById('registration-form').addEventListener('submit', async function(e) {
-      e.preventDefault(); // Absolute top of submission listener to prevent page resets/wiping
+      e.preventDefault();
 
       const pass = document.getElementById('password').value;
       const confirmPass = document.getElementById('confirm-password').value;
@@ -282,7 +282,6 @@
         const usernameVal = document.getElementById('username').value.trim();
         const fullnameVal = document.getElementById('fullname').value.trim();
 
-        // Direct standard REST API fetch to Supabase using native browser fetch
         const response = await fetch(`${SUPABASE_URL}/rest/v1/profiles`, {
           method: 'POST',
           headers: {
