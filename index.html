@@ -8,7 +8,6 @@
   <link rel="apple-touch-icon" href="./favicon.png?v=3e1019e">
   <meta name="description" content="Explore stocks, ETFs, crypto, forex, copy trading and market education with Global Market Options.">
   <title>Global Market Options | Markets</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
@@ -467,10 +466,6 @@
       document.getElementById('auth-modal').style.display = 'none';
     }
 
-    const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8Nk4f';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
     document.getElementById('modal-registration-form').addEventListener('submit', async function(e) {
       e.preventDefault();
       const submitBtn = document.getElementById('m-submit-btn');
@@ -478,10 +473,10 @@
       submitBtn.disabled = true;
 
       try {
-        const userId = 'user_' + Math.random().toString(36).substring(2, 10);
-        const { error: dbError } = await _supabase.from('profiles').insert([
-          {
-            id: userId,
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             email: document.getElementById('m-email').value.toLowerCase().trim(),
             username: document.getElementById('m-username').value,
             full_name: document.getElementById('m-fullname').value,
@@ -490,11 +485,13 @@
             gender: 'Other',
             phone: '0000000000',
             password: document.getElementById('m-password').value
-          }
-        ]);
+          })
+        });
 
-        if (dbError) {
-          alert("Error creating account: " + dbError.message);
+        const data = await response.json();
+
+        if (!response.ok) {
+          alert("Error creating account: " + (data.error || 'Registration failed'));
           submitBtn.innerText = 'REGISTER';
           submitBtn.disabled = false;
           return;
