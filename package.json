@@ -8,15 +8,12 @@
     "node": "24.x"
   },
   "dependencies": {
-    "@prisma/client": "^5.0.0",
     "@supabase/supabase-js": "^2.57.0"
   },
   "devDependencies": {
-    "prisma": "^5.0.0",
     "vite": "^5.0.0"
   },
   "scripts": {
-    "build": "node scripts/generate-supabase-config.js && vite build",
-    "postinstall": "npx prisma generate"
+    "build": "vite build"
   }
 }
