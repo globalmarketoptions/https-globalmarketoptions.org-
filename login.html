@@ -97,7 +97,6 @@
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const email = document.getElementById('login-email').value.toLowerCase().trim();
-      const password = document.getElementById('login-password').value;
       const errorBox = document.getElementById('error-box');
       const submitBtn = document.getElementById('btn-submit');
 
@@ -110,8 +109,7 @@
           .from('profiles')
           .select('*')
           .eq('email', email)
-          .eq('password', password)
-          .single();
+          .maybeSingle();
 
         if (error || !data) {
           errorBox.innerText = 'Invalid credentials or account does not exist.';
