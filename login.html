@@ -106,7 +106,7 @@
       submitBtn.disabled = true;
 
       try {
-        // 1. First, try logging in via Supabase Auth (since register.html uses Auth)
+        // 1. First, try logging in via Supabase Auth
         const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
           email: email,
           password: password
