@@ -93,7 +93,7 @@
       `;
     }
 
-    // Handle Login using Supabase Auth signInWithPassword
+    // Handle Login directly connecting to profiles table
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const email = document.getElementById('login-email').value.toLowerCase().trim();
@@ -106,12 +106,15 @@
       submitBtn.disabled = true;
 
       try {
-        const { data, error } = await supabaseClient.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
+        // Query profiles table directly matching email and password
+        const { data: user, error } = await supabaseClient
+          .from('profiles')
+          .select('*')
+          .eq('email', email)
+          .eq('password', password)
+          .maybeSingle();
 
-        if (error) {
+        if (error || !user) {
           errorBox.innerText = 'Invalid credentials or account does not exist.';
           errorBox.style.display = 'block';
           submitBtn.innerText = 'Sign In';
@@ -119,8 +122,8 @@
           return;
         }
 
-        // Successfully logged in
-        localStorage.setItem('user', JSON.stringify(data.user));
+        // Successfully logged in - save profile data locally and redirect
+        localStorage.setItem('user', JSON.stringify(user));
         window.location.href = '/dashboard.html';
 
       } catch (err) {
