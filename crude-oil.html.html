@@ -16,15 +16,16 @@
 .site-footer a{color:inherit;text-decoration:none;font-weight:700}
 @media(max-width:760px){.menu-toggle{display:inline-flex}.site-nav{display:none;position:absolute;left:0;right:0;top:100%;padding:12px 18px;background:var(--panel);border:1px solid var(--line);border-radius:0 0 12px 12px;flex-direction:column;align-items:stretch;gap:0}.site-nav.open{display:flex}.site-nav a{padding:11px 4px}.site-footer-inner{align-items:flex-start;flex-direction:column}}
 
-/* Custom Gauge & Live Price Styling */
-.asset-top-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+/* Exact Matching Gauge & Mini Chart Layout */
+.asset-top-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
 .live-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(80,209,154,0.12); border: 1px solid var(--green); color: var(--green); padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; }
 .live-badge::before { content: ""; width: 6px; height: 6px; background: var(--green); border-radius: 50%; box-shadow: 0 0 8px var(--green); }
-.gauge-container { text-align: center; margin: 12px 0 16px; position: relative; }
-.gauge-container img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
-.tech-row { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; font-size: 0.9rem; }
-.badge-status { background: #1c332b; color: var(--green); padding: 3px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 800; border: 1px solid var(--line); }
-.badge-neutral { background: #2f2a1b; color: var(--gold); border-color: #4a3f20; }
+.gauge-wrapper { text-align: center; margin: 8px 0 14px; background: rgba(0,0,0,0.25); border-radius: 10px; padding: 12px 10px 6px; border: 1px solid rgba(41,64,57,0.5); }
+.gauge-top-label { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 2px; text-transform: uppercase; }
+.tech-row-item { display: flex; justify-content: space-between; align-items: center; margin: 12px 0; font-size: 0.9rem; }
+.mini-chart-box { width: 75px; height: 24px; display: flex; align-items: center; }
+.badge-status { background: #2f2a1b; color: var(--gold); padding: 4px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 800; border: 1px solid #4a3f20; }
+.badge-pending { background: #222f28; color: var(--green); border-color: #2e4a3d; }
 </style>
 </head>
 <body>
@@ -89,23 +90,30 @@
 </label>
 <p class="note">Estimated barrels require a verified executable quote. This page does not deduct or credit account balances.</p>
 <h2>Technical summary</h2>
-<div class="asset-top-row" style="margin-top: 8px;">
-<span style="font-size: 0.855rem; color: var(--muted);">Market Indicator Gauge</span>
-<span class="live-badge" id="live-price-badge">Live 69.45 USD</span>
+<div class="asset-top-row" style="margin-top: 10px;">
+<span style="font-size: 0.85rem; color: var(--muted);">Market Indicator Gauge</span>
+<span class="live-badge">Live 69.45 USD</span>
 </div>
-<div class="gauge-container">
-<!-- Visual Technical Summary Gauge Dial -->
-<svg viewBox="0 0 280 140" style="width: 100%; max-height: 120px;">
-  <path d="M 20 130 A 120 120 0 0 1 260 130" fill="none" stroke="#1c332b" stroke-width="18" stroke-linecap="round"/>
-  <path d="M 20 130 A 120 120 0 0 1 80 44" fill="none" stroke="#fa7474" stroke-width="18" stroke-linecap="round"/>
-  <path d="M 80 44 A 120 120 0 0 1 140 10" fill="none" stroke="#eec66f" stroke-width="18" stroke-linecap="round"/>
-  <path d="M 140 10 A 120 120 0 0 1 220 50" fill="none" stroke="#50d19a" stroke-width="18" stroke-linecap="round"/>
-  <path d="M 220 50 A 120 120 0 0 1 260 130" fill="none" stroke="#106f44" stroke-width="18" stroke-linecap="round"/>
-  <!-- Needle pointing to Neutral -->
-  <line x1="140" y1="130" x2="95" y2="55" stroke="#eef7f1" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="140" cy="130" r="7" fill="#eef7f1"/>
+<div class="gauge-wrapper">
+<div class="gauge-top-label">NEUTRAL</div>
+<svg viewBox="0 0 280 135" style="width: 100%; max-height: 110px; display: block; margin: 0 auto;">
+  <!-- Background Arc -->
+  <path d="M 20 120 A 115 115 0 0 1 260 120" fill="none" stroke="#1c332b" stroke-width="16" stroke-linecap="round"/>
+  <!-- Strong Sell (Red) -->
+  <path d="M 20 120 A 115 115 0 0 1 78 40" fill="none" stroke="#fa7474" stroke-width="16" stroke-linecap="round"/>
+  <!-- Sell (Orange/Yellow) -->
+  <path d="M 78 40 A 115 115 0 0 1 120 15" fill="none" stroke="#f0a550" stroke-width="16" stroke-linecap="round"/>
+  <!-- Neutral (Light Green) -->
+  <path d="M 120 15 A 115 115 0 0 1 160 15" fill="none" stroke="#a3e4c1" stroke-width="16" stroke-linecap="round"/>
+  <!-- Buy (Green) -->
+  <path d="M 160 15 A 115 115 0 0 1 222 40" fill="none" stroke="#50d19a" stroke-width="16" stroke-linecap="round"/>
+  <!-- Strong Buy (Dark Green) -->
+  <path d="M 222 40 A 115 115 0 0 1 260 120" fill="none" stroke="#106f44" stroke-width="16" stroke-linecap="round"/>
+  <!-- Needle pointing to Neutral/Sell boundary -->
+  <line x1="140" y1="120" x2="92" y2="48" stroke="#eef7f1" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="140" cy="120" r="6" fill="#eef7f1"/>
 </svg>
-<div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); padding: 0 5px; font-weight: 700;">
+<div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--muted); padding: 2px 4px 0; font-weight: 700;">
 <span>STRONG SELL</span>
 <span>SELL</span>
 <span>NEUTRAL</span>
@@ -113,13 +121,27 @@
 <span>STRONG BUY</span>
 </div>
 </div>
-<div class="tech-row">
+<div class="tech-row-item">
 <span>Moving averages</span>
-<span class="badge-status" id="ma-status">PENDING</span>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <div class="mini-chart-box">
+    <svg viewBox="0 0 70 24" style="width:100%; height:100%;">
+      <path d="M2 18 Q 15 8, 30 15 T 68 5" fill="none" stroke="#fa7474" stroke-width="2"/>
+    </svg>
+  </div>
+  <span class="badge-status badge-pending">PENDING</span>
 </div>
-<div class="tech-row">
+</div>
+<div class="tech-row-item">
 <span>Oscillators</span>
-<span class="badge-status badge-neutral">NEUTRAL</span>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <div class="mini-chart-box">
+    <svg viewBox="0 0 70 24" style="width:100%; height:100%;">
+      <path d="M2 12 Q 18 20, 35 10 T 68 14" fill="none" stroke="#9cb3a9" stroke-width="2"/>
+    </svg>
+  </div>
+  <span class="badge-status">NEUTRAL</span>
+</div>
 </div>
 <div class="buttons">
 <button class="buy" data-side="BUY (LONG)">BUY (LONG)</button>
@@ -164,7 +186,6 @@
 </script>
 <script>
 const $=s=>document.querySelector(s);
-// Configured with your specific deposit wallet details
 const walletAddresses = {
   BTC: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
   ETH: '0x71C_Your_Ethereum_Wallet_Address_Here',
