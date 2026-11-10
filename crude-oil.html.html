@@ -154,7 +154,6 @@
 <button class="sell" data-side="SELL (SHORT)">SELL (SHORT)</button>
 </div>
 <button class="fund" id="fund-account">Deposit / Fund Account</button>
-<p class="note">No payment gateway or trade execution is connected to this interface.</p>
 </aside>
 </div>
 </main>
@@ -193,11 +192,10 @@
 <script>
 const $=s=>document.querySelector(s);
 const walletAddresses = {
-  BTC: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
-  ETH: '0x71C_Your_Ethereum_Wallet_Address_Here',
-  USDT: 'TVbYourTetherUSDTTRC20WalletAddressHere'
-};
-const assetName=s=>s==='TVC:UKOIL'?'Brent Crude (UKOIL)':'WTI Crude (USOIL)';
+  BTC: 'bc1qjp9wkhz99une3dvprtrldkj3atgasl34879s0g',
+  ETH: '0xFFFf213C152e3441bf72C41C2C4E24ad1441d3Bb',
+  USDT: 'TLRU1UEXoVAMpoYi6jfk7zNeDmHUHmF5wK'
+};                                                       const assetName=s=>s==='TVC:UKOIL'?'Brent Crude (UKOIL)':'WTI Crude (USOIL)';
 function loadChart(symbol){if(!window.TradingView)return;$('#tradingview_crude_oil').replaceChildren();new TradingView.widget({autosize:true,symbol,interval:'D',timezone:'Etc/UTC',theme:'dark',style:'1',locale:'en',toolbar_bg:'#0a1512',enable_publishing:false,allow_symbol_change:true,container_id:'tradingview_crude_oil'});}
 function renderOilWallet(){const address=walletAddresses[$('#oil-payment-method').value]||'';$('#oil-wallet-address').textContent=address||'No wallet address is configured for this method.';$('#oil-copy-wallet').disabled=!address;$('#oil-wallet-qr').src=address?`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(address)}`:'';}
 window.addEventListener('load',()=>loadChart($('#asset').value));
@@ -216,7 +214,7 @@ $('#funding form').onsubmit=e=>{e.preventDefault();const address=walletAddresses
 (() => {
  const toggle=document.getElementById("site-menu-toggle"),nav=document.getElementById("site-nav");
  if(toggle&&nav)toggle.addEventListener("click",()=>{
-  const expanded=toggle.getAttribute("aria-expanded")==="true";
+  const expanded=toggle.getAttribute("aria-expanded")==="type"||toggle.getAttribute("aria-expanded")==="true";
   toggle.setAttribute("aria-expanded",String(!expanded));
   toggle.setAttribute("aria-label",expanded?"Open navigation menu":"Close navigation menu");
   nav.classList.toggle("open",!expanded);
