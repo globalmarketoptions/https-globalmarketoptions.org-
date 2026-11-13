@@ -254,11 +254,19 @@
 
   <script>
     const SUPABASE_URL = 'https://vhbxubqfgyxrkekyztay.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoYnh1YnFmZ3l4cmtla3l6dGF5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0MjU2NjUsImV4cCI6MjEwODAwMTY2NX0.4FvRKprJkDipCf-GpvGjYzo-R--6Ri36LDM7r2Gq4N4';
+    const SUPABASE_KEY = 'sb_publishable_328Qbegmks1uHjZlAEm14w_63T8NK4f';
 
     function togglePassword(inputId, btn) {
       const input = document.getElementById(inputId);
       input.type = input.type === "password" ? "text" : "password";
+    }
+
+    function generateUUID() {
+      if (crypto && crypto.randomUUID) return crypto.randomUUID();
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
     }
 
     document.getElementById('registration-form').addEventListener('submit', async function(e) {
@@ -277,10 +285,14 @@
       submitBtn.disabled = true;
 
       try {
-        const userId = 'user_' + Math.random().toString(36).substring(2, 15);
-        const emailVal = document.getElementById('email').value.toLowerCase().trim();
-        const usernameVal = document.getElementById('username').value.trim();
+        const userId = generateUUID();
         const fullnameVal = document.getElementById('fullname').value.trim();
+        const usernameVal = document.getElementById('username').value.trim();
+        const emailVal = document.getElementById('email').value.toLowerCase().trim();
+        const countryVal = document.getElementById('country-select').value;
+        const currencyVal = document.getElementById('currency').value;
+        const genderVal = document.getElementById('gender').value;
+        const phoneVal = document.getElementById('phone').value;
 
         const response = await fetch(`${SUPABASE_URL}/rest/v1/profiles`, {
           method: 'POST',
@@ -292,14 +304,13 @@
           },
           body: JSON.stringify({
             id: userId,
-            email: emailVal,
-            username: usernameVal,
             full_name: fullnameVal,
-            display_name: fullnameVal,
-            country: document.getElementById('country-select').value,
-            currency: document.getElementById('currency').value,
-            gender: document.getElementById('gender').value,
-            phone: document.getElementById('phone').value,
+            username: usernameVal,
+            email: emailVal,
+            country: countryVal,
+            currency: currencyVal,
+            gender: genderVal,
+            phone: phoneVal,
             password: pass
           })
         });
