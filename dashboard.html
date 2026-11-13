@@ -18,16 +18,16 @@
 <main class="shell">
 <div class="welcome" id="welcome" role="status"><strong>Welcome!</strong> Your wallet dashboard is ready.</div>
 <section class="summary-grid" aria-label="Financial summary">
-<section class="balance-card summary-card" aria-label="Total balance"><div><div class="eyebrow">Total Balance</div><div class="balance" id="balance">US$0.00</div><div class="balance-actions"><button class="topup" id="topup" type="button">+ Top Up</button><span class="currency">€0.00</span></div></div><div class="top-ring" role="img" aria-label="Progress indicator 33.5 percent"><div class="ring-content">33.5%<small>PROGRESS</small></div></div></section>
-<section class="summary-metric"><div class="metric-top"><span class="metric-icon">↓</span><span class="status-pill">DEPOSITS</span></div><div class="eyebrow">Deposit</div><div class="metric-value" id="deposit-total">US$0.00</div><a class="metric-link" href="/secured/deposit">Deposit funds <span aria-hidden="true">↗</span></a></section>
-<section class="summary-metric"><div class="metric-top"><span class="metric-icon">↑</span><span class="status-pill">WITHDRAWALS</span></div><div class="eyebrow">Withdraw</div><div class="metric-value" id="withdraw-total">US$0.00</div><a class="metric-link" href="#withdraw-modal" id="withdraw-link">Withdraw funds <span aria-hidden="true">↗</span></a></section>
+<section class="balance-card summary-card" aria-label="Total balance"><div><div class="eyebrow">Total Balance</div><div class="balance" id="balance">US$0.00</div><div class="balance-actions"><button class="topup" id="topup" type="button">+ Top Up</button><span class="currency" id="currency-sub">€0.00</span></div></div><div class="top-ring" role="img" aria-label="Progress indicator 33.5 percent"><div class="ring-content">33.5%<small>PROGRESS</small></div></div></section>
+<section class="summary-metric"><div class="metric-top"><span class="metric-icon">↓</span><span class="status-pill">DEPOSITS</span></div><div class="eyebrow">Deposit</div><div class="metric-value" id="deposit-total">US$0.00</div><a class="metric-link" href="/secured/deposit">Deposit funds <span aria-hidden="true">↗️</span></a></section>
+<section class="summary-metric"><div class="metric-top"><span class="metric-icon">↑</span><span class="status-pill">WITHDRAWALS</span></div><div class="eyebrow">Withdraw</div><div class="metric-value" id="withdraw-total">US$0.00</div><a class="metric-link" href="#withdraw-modal" id="withdraw-link">Withdraw funds <span aria-hidden="true">↗️</span></a></section>
 <section class="summary-metric"><div class="metric-top"><span class="metric-icon gold">✦</span><span class="status-pill">REWARDS</span></div><div class="eyebrow">Bonus</div><div class="metric-value" id="bonus-total">US$0.00</div><span class="currency">Account bonus balance</span></section>
 </section>
 <section class="chart-card" aria-labelledby="market-chart-title"><div class="card-head"><div><h2 id="market-chart-title">Live Markets</h2></div><span class="status-pill"><span class="live-dot"></span> LIVE FEED</span></div><div id="tradingview-chart" style="height:520px;width:100%;margin-top:14px"></div></section>
 <section class="trade-card" aria-labelledby="trade-title"><div class="card-head"><div><h2 id="trade-title">Trade In Progress</h2><p class="eyebrow" style="margin:5px 0 0">7-day activity cycle</p></div><span class="status-pill">IN PROGRESS</span></div><div class="trade-summary"><div><div class="eyebrow">Cycle progress</div><p id="elapsed-label">Tracking your 7-day cycle</p></div><div class="trade-percent" id="trade-percent">0.0%</div></div><div class="track" role="progressbar" aria-label="Seven-day cycle progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="trade-track"><div class="track-fill" id="trade-fill"></div></div><div class="time-row"><span id="cycle-start">Cycle start: initializing</span><span id="cycle-end">Cycle ends: calculating</span></div></section>
 <section class="kyc-card" aria-labelledby="kyc-title"><div class="card-head"><div><h2 id="kyc-title">Identity Verification</h2><p class="eyebrow" style="margin:5px 0 0">KYC document upload</p></div><span class="status-pill" id="kyc-badge">NOT SUBMITTED</span></div><div class="kyc-layout"><p class="kyc-copy">Select your document type and choose a clear image or PDF for identity verification.</p><form class="upload-zone" id="kyc-form"><label for="document-type">Document type</label><select id="document-type" required><option value="">Choose a document</option><option value="passport">Passport</option><option value="national-id">National identity card</option><option value="driving-licence">Driving licence</option><option value="residence-permit">Residence permit</option></select><label for="kyc-file">Choose document file</label><input id="kyc-file" type="file" accept=".jpg,.jpeg,.png,.pdf" required><button class="upload-button" type="submit">Select Document</button><div class="file-status" id="file-status" aria-live="polite"></div></form></div></section>
 <section class="assets-section" aria-labelledby="assets-title"><h2 class="section-title" id="assets-title">Explore Assets</h2><div class="assets-grid">
-<button class="asset" type="button" data-asset="Trading"><span class="asset-icon">↗</span><span><span class="asset-name">Trading</span><span class="asset-type">Markets</span></span></button>
+<button class="asset" type="button" data-asset="Trading"><span class="asset-icon">↗️</span><span><span class="asset-name">Trading</span><span class="asset-type">Markets</span></span></button>
 <button class="asset" type="button" data-asset="Microsoft"><span class="asset-icon">▦</span><span><span class="asset-name">Microsoft</span><span class="asset-type">MSFT</span></span></button>
 <button class="asset" type="button" data-asset="Tesla"><span class="asset-icon">T</span><span><span class="asset-name">Tesla</span><span class="asset-type">TSLA</span></span></button>
 <button class="asset" type="button" data-asset="Disney"><span class="asset-icon">D</span><span><span class="asset-name">Disney</span><span class="asset-type">DIS</span></span></button>
@@ -44,10 +44,45 @@
 (() => {
  const $=id=>document.getElementById(id);
  const show=msg=>{const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(show.timer);show.timer=setTimeout(()=>el.classList.remove('show'),2800);};
- // Default balances are zero and are never increased by this client-side dashboard.
- $('balance').textContent='US$0.00';
- // Display an authenticated user's name if the configured Supabase session is available.
- (async()=>{try{const cfg=window.SUPABASE_CONFIG||{};if(window.supabase&&cfg.url&&cfg.anonKey&&!String(cfg.url).includes('YOUR_')&&!String(cfg.anonKey).includes('YOUR_')){const client=window.supabase.createClient(cfg.url,cfg.anonKey);const {data}=await client.auth.getUser();const u=data&&data.user;if(u){const name=(u.user_metadata&&(u.user_metadata.full_name||u.user_metadata.name))||u.email;$('welcome').textContent='You are logged in as '+name+'!';}}}catch(_){}})();
+
+ // Fetch live balances from Supabase profiles table for the logged-in user
+ (async()=>{
+   try {
+     const cfg = window.SUPABASE_CONFIG || {};
+     if (window.supabase && cfg.url && cfg.anonKey && !String(cfg.url).includes('YOUR_')) {
+       const client = window.supabase.createClient(cfg.url, cfg.anonKey);
+       const { data: authData } = await client.auth.getUser();
+       const u = authData && authData.user;
+       if (u) {
+         const name = (u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || u.email;
+         $('welcome').textContent = 'You are logged in as ' + name + '!';
+
+         // Query profiles table by email or user id
+         const { data: profile, error } = await client
+           .from('profiles')
+           .select('*')
+           .eq('email', u.email)
+           .maybeSingle();
+
+         if (profile && !error) {
+           const curr = profile.currency || 'US$';
+           const main = Number(profile.main_balance || 0);
+           const deposit = Number(profile.deposit_balance || 0);
+           const withdraw = Number(profile.withdraw_balance || 0);
+           const bonus = Number(profile.bonus_balance || 0);
+
+           $('balance').textContent = curr + main.toFixed(2);
+           $('deposit-total').textContent = curr + deposit.toFixed(2);
+           $('withdraw-total').textContent = curr + withdraw.toFixed(2);
+           $('bonus-total').textContent = curr + bonus.toFixed(2);
+         }
+       }
+     }
+   } catch(e) {
+     console.error("Balance fetch error:", e);
+   }
+ })();
+
  // Seven-day display timer only; it does not change balances or authorize trades/withdrawals.
  const key='gmo-dashboard-cycle-start-v1';let start=Number(localStorage.getItem(key));if(!Number.isFinite(start)||start<=0){start=Date.now();localStorage.setItem(key,String(start));}
  const duration=7*24*60*60*1000;
@@ -58,7 +93,6 @@
  $('topup').addEventListener('click',()=>window.location.assign('/secured/deposit'));
  $('kyc-form').addEventListener('submit',event=>{event.preventDefault();const type=$('document-type').value,file=$('kyc-file').files&&$('kyc-file').files[0];if(!type||!file){$('file-status').textContent='Choose a document type and file first.';return;}if(file.size>10*1024*1024){$('file-status').textContent='Please choose a file smaller than 10 MB.';return;}const allowed=['image/jpeg','image/png','application/pdf'];if(file.type&&!allowed.includes(file.type)){$('file-status').textContent='Please choose a JPG, PNG, or PDF file.';return;}$('file-status').textContent='Selected: '+file.name+' ('+type.replaceAll('-',' ')+'). Secure submission requires the identity-verification service.';$('kyc-badge').textContent='DOCUMENT SELECTED';});
  // Live TradingView Advanced Chart widget.
- // TradingView Advanced Chart widget.
  const tv=document.createElement('script');tv.src='https://s3.tradingview.com/tv.js';tv.async=true;tv.onload=()=>{if(window.TradingView)new window.TradingView.widget({autosize:true,symbol:'BINANCE:BTCUSDT',interval:'30',timezone:'Etc/UTC',theme:'dark',style:'1',locale:'en',enable_publishing:false,hide_top_toolbar:false,hide_side_toolbar:false,allow_symbol_change:true,save_image:false,show_popup_button:false,container_id:'tradingview-chart',withdateranges:true,details:false,hotlist:false,calendar:false,studies:[]});};document.head.appendChild(tv);
  const withdrawModal=$('withdraw-modal');
  $('withdraw-link').addEventListener('click',event=>{event.preventDefault();withdrawModal.classList.add('open');$('withdraw-modal-close').focus();});
@@ -93,4 +127,3 @@ s0.parentNode.insertBefore(s1,s0);
 </script>
 <!-- End of Tawk.to Script -->
 </body></html>
-
