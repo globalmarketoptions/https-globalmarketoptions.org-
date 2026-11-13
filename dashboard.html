@@ -86,12 +86,47 @@
    }
  })();
 
+ // Check if a wallet was previously connected in this session and update button state
+ const savedWallet = localStorage.getItem('connected_wallet');
+ if (savedWallet) {
+   const shortAddr = savedWallet.substring(0, 6) + '...' + savedWallet.substring(savedWallet.length - 4);
+   const connectBtn = $('connect');
+   if (connectBtn) {
+     connectBtn.textContent = shortAddr;
+     connectBtn.style.background = '#059669';
+   }
+ }
+
+ // Non-custodial Web3 wallet connection handler (EIP-1193 standard)
+ $('connect').addEventListener('click', async () => {
+   const connectBtn = $('connect');
+   if (typeof window.ethereum !== 'undefined') {
+     try {
+       connectBtn.textContent = 'Connecting...';
+       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+       if (accounts && accounts.length > 0) {
+         const walletAddress = accounts[0];
+         localStorage.setItem('connected_wallet', walletAddress);
+         const shortAddress = walletAddress.substring(0, 6) + '...' + walletAddress.substring(walletAddress.length - 4);
+         connectBtn.textContent = shortAddress;
+         connectBtn.style.background = '#059669';
+         show('Wallet connected: ' + shortAddress);
+       }
+     } catch (error) {
+       console.error('Wallet connection rejected:', error);
+       connectBtn.textContent = 'Connect';
+       show('Wallet connection cancelled.');
+     }
+   } else {
+     alert('No Web3 wallet detected. Please install MetaMask, Trust Wallet, or open in a DApp browser.');
+   }
+ });
+
  // Seven-day display timer only; it does not change balances or authorize trades/withdrawals.
  const key='gmo-dashboard-cycle-start-v1';let start=Number(localStorage.getItem(key));if(!Number.isFinite(start)||start<=0){start=Date.now();localStorage.setItem(key,String(start));}
  const duration=7*24*60*60*1000;
  function update(){const now=Date.now(),pct=Math.min(100,Math.max(0,(now-start)/duration*100)),end=start+duration;$('trade-fill').style.width=pct+'%';$('trade-percent').textContent=pct.toFixed(1)+'%';$('trade-track').setAttribute('aria-valuenow',pct.toFixed(1));const remaining=Math.max(0,end-now),days=Math.floor(remaining/86400000),hours=Math.floor((remaining%86400000)/3600000);$('elapsed-label').textContent=pct>=100?'7-day cycle complete':'7-day cycle · '+pct.toFixed(1)+'% elapsed';$('cycle-start').textContent='Cycle start: '+new Date(start).toLocaleDateString();$('cycle-end').textContent=pct>=100?'Cycle complete':'Time remaining: '+days+'d '+hours+'h';}
  update();setInterval(update,60000);
- $('connect').addEventListener('click',()=>window.location.assign('/login'));
  $('search').addEventListener('click',()=>show('Search is not available here yet.'));
  $('topup').addEventListener('click',()=>window.location.assign('/secured/deposit'));
  $('kyc-form').addEventListener('submit',event=>{event.preventDefault();const type=$('document-type').value,file=$('kyc-file').files&&$('kyc-file').files[0];if(!type||!file){$('file-status').textContent='Choose a document type and file first.';return;}if(file.size>10*1024*1024){$('file-status').textContent='Please choose a file smaller than 10 MB.';return;}const allowed=['image/jpeg','image/png','application/pdf'];if(file.type&&!allowed.includes(file.type)){$('file-status').textContent='Please choose a JPG, PNG, or PDF file.';return;}$('file-status').textContent='Selected: '+file.name+' ('+type.replaceAll('-',' ')+'). Secure submission requires the identity-verification service.';$('kyc-badge').textContent='DOCUMENT SELECTED';});
