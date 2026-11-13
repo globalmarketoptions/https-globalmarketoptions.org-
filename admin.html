@@ -90,7 +90,6 @@
       const tableBody = document.getElementById('userTableBody');
       if (!tableBody) return;
 
-      // Query all real registered user records dynamically from Supabase profiles table
       const { data: users, error } = await _supabase.from('profiles').select('*');
 
       if (error) {
@@ -184,16 +183,15 @@
           <div class="form-group">
             <label class="form-label">Select Account Balance Section:</label>
             <select class="form-input" id="balanceSection">
-              <option value="Main Balance">Main Balance</option>
-              <option value="Deposit">Deposit</option>
-              <option value="Withdraw">Withdraw</option>
-              <option value="Bonus">Bonus</option>
+              <option value="main_balance">Main Balance</option>
+              <option value="deposit_balance">Deposit Balance</option>
+              <option value="bonus_balance">Bonus Balance</option>
             </select>
           </div>
 
           <div class="form-group">
             <label class="form-label">Enter Amount / Details</label>
-            <input class="form-input" id="actionVal" placeholder="Enter amount or details for ${type}">
+            <input type="number" class="form-input" id="actionVal" placeholder="Enter numerical amount for ${type}">
           </div>
 
           <div class="form-group">
@@ -205,10 +203,33 @@
             </select>
           </div>
 
-          <button class="btn-main" onclick="alert('${type} updated successfully for ' + document.getElementById('balanceSection').value + '!')">Submit ${type.toUpperCase()}</button>
-          <button class="btn-danger" onclick="alert('Record deleted successfully')">Delete</button>
+          <button class="btn-main" onclick="submitAdminAction('${type}', '${user.id}')">Submit ${type.toUpperCase()}</button>
+          <button class="btn-danger" onclick="alert('Record action cancelled')">Cancel</button>
         `;
       }
+    }
+
+    async function submitAdminAction(type, userId) {
+      const section = document.getElementById('balanceSection').value;
+      const amount = parseFloat(document.getElementById('actionVal').value);
+      
+      if (isNaN(amount)) {
+        alert("Please enter a valid numeric amount.");
+        return;
+      }
+
+      const { error } = await _supabase
+        .from('profiles')
+        .update({ [section]: amount })
+        .eq('id', userId);
+
+      if (error) {
+        alert("Database Error: " + error.message);
+        return;
+      }
+
+      alert(`Successfully updated ${type} (${section}) to ${amount} for user!`);
+      loadAdminDashboard();
     }
 
     loadAdminDashboard();
