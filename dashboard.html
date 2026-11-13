@@ -37,6 +37,21 @@
 <button class="asset" type="button" data-asset="Shiba Inu"><span class="asset-icon">🐕</span><span><span class="asset-name">Shiba Inu</span><span class="asset-type">SHIB</span></span></button>
 </div></section><div class="bottom-space"></div>
 </main>
+
+<!-- Wallet Connection Selection Modal -->
+<div class="trade-modal-backdrop" id="wallet-modal" role="dialog" aria-modal="true" aria-labelledby="wallet-modal-title">
+  <div class="trade-modal">
+    <button class="modal-close" type="button" id="wallet-modal-close" aria-label="Close dialog">×</button>
+    <h2 id="wallet-modal-title">Connect Web3 Wallet</h2>
+    <p>Select your non-custodial wallet provider to connect securely via cryptographic signatures.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px;">
+      <button class="topup" id="btn-injected-wallet" type="button" style="width:100%;text-align:center;">Browser Extension (MetaMask / Trust)</button>
+      <button class="topup" id="btn-mobile-metamask" type="button" style="width:100%;text-align:center;background:#3B82F6;border-color:#60A5FA;">Open in MetaMask App</button>
+    </div>
+    <div id="wallet-status" class="trade-request-status" role="status" aria-live="polite" style="margin-top:12px;"></div>
+  </div>
+</div>
+
 <div class="trade-modal-backdrop" id="withdraw-modal" role="dialog" aria-modal="true" aria-labelledby="withdraw-modal-title"><div class="trade-modal"><button class="modal-close" type="button" id="withdraw-modal-close" aria-label="Close withdrawal dialog">×</button><h2 id="withdraw-modal-title">Withdraw Funds</h2><p>Submit a withdrawal request for verification. Requests are not completed until reviewed and processed.</p><form id="withdraw-form"><label for="withdraw-method">Withdrawal method</label><select id="withdraw-method" required style="width:100%;padding:11px;border:1px solid var(--line);border-radius:8px;background:#0d1222;color:var(--text);margin-top:6px"><option value="CRYPTO">Crypto Wallet</option><option value="BANK">Bank Wire</option></select><label for="withdraw-currency">Currency</label><select id="withdraw-currency" required style="width:100%;padding:11px;border:1px solid var(--line);border-radius:8px;background:#0d1222;color:var(--text);margin-top:6px"><option value="USDT">USDT</option><option value="BTC">BTC</option><option value="ETH">ETH</option><option value="TRX">TRX</option><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="CHF">CHF</option><option value="SGD">SGD</option></select><label for="withdraw-destination" id="withdraw-destination-label">Destination wallet address</label><textarea id="withdraw-destination" rows="3" required maxlength="100" placeholder="Enter your receiving wallet address" style="width:100%;padding:11px;border:1px solid var(--line);border-radius:8px;background:#0d1222;color:var(--text);margin-top:6px;resize:vertical"></textarea><label for="withdraw-amount">Amount</label><input id="withdraw-amount" type="number" min="0.00000001" max="1000000000" step="0.00000001" required placeholder="Enter amount" style="width:100%;padding:11px;border:1px solid var(--line);border-radius:8px;background:#0d1222;color:var(--text);margin-top:6px"><button class="topup" id="withdraw-submit" type="submit" style="width:100%;margin-top:16px">Submit Withdrawal Request</button></form><div id="withdraw-status" class="trade-request-status" role="status" aria-live="polite"></div><p id="withdraw-receipt" class="status-pill" hidden>Withdrawal Request Received — Pending Verification.</p></div></div>
 <div class="trade-modal-backdrop" id="trade-modal" role="dialog" aria-modal="true" aria-labelledby="trade-modal-title"><div class="trade-modal"><button class="modal-close" type="button" id="trade-modal-close" aria-label="Close trade dialog">×</button><h2 id="trade-modal-title">Trade request</h2><p id="trade-modal-description">Choose a side to submit a trade request.</p><div class="trade-side-actions"><button class="buy-button" type="button" data-trade-side="BUY">BUY</button><button class="sell-button" type="button" data-trade-side="SELL">SELL</button></div><div class="fund-action-card"><strong>Fund Account to Complete Trade</strong><p>Choose BUY or SELL to continue to the deposit options for your account.</p><button class="topup" id="fund-account-button" type="button">Fund Account</button></div><div class="trade-request-status" id="trade-request-status" aria-live="polite"></div></div></div>\n<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/supabase-config.js"></script>
@@ -97,29 +112,48 @@
    }
  }
 
- // Non-custodial Web3 wallet connection handler (EIP-1193 standard)
- $('connect').addEventListener('click', async () => {
-   const connectBtn = $('connect');
+ // Wallet Modal Management
+ const walletModal = $('wallet-modal');
+ $('connect').addEventListener('click', () => {
+   walletModal.classList.add('open');
+ });
+ $('wallet-modal-close').addEventListener('click', () => {
+   walletModal.classList.remove('open');
+ });
+ walletModal.addEventListener('click', (e) => {
+   if (e.target === walletModal) walletModal.classList.remove('open');
+ });
+
+ // Connect via Extension/Injected Provider
+ $('btn-injected-wallet').addEventListener('click', async () => {
+   const statusEl = $('wallet-status');
    if (typeof window.ethereum !== 'undefined') {
      try {
-       connectBtn.textContent = 'Connecting...';
+       statusEl.textContent = 'Requesting wallet connection...';
        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
        if (accounts && accounts.length > 0) {
          const walletAddress = accounts[0];
          localStorage.setItem('connected_wallet', walletAddress);
          const shortAddress = walletAddress.substring(0, 6) + '...' + walletAddress.substring(walletAddress.length - 4);
+         const connectBtn = $('connect');
          connectBtn.textContent = shortAddress;
          connectBtn.style.background = '#059669';
+         walletModal.classList.remove('open');
          show('Wallet connected: ' + shortAddress);
        }
      } catch (error) {
-       console.error('Wallet connection rejected:', error);
-       connectBtn.textContent = 'Connect';
-       show('Wallet connection cancelled.');
+       console.error('Connection error:', error);
+       statusEl.textContent = 'Connection cancelled or failed.';
      }
    } else {
-     alert('No Web3 wallet detected. Please install MetaMask, Trust Wallet, or open in a DApp browser.');
+     statusEl.textContent = 'No browser extension wallet detected. Try clicking "Open in MetaMask App" below if on mobile.';
    }
+ });
+
+ // Connect via MetaMask Mobile Deep Link
+ $('btn-mobile-metamask').addEventListener('click', () => {
+   const dappUrl = window.location.host + window.location.pathname;
+   window.location.href = `https://metamask.app.link/dapp/${dappUrl}`;
  });
 
  // Seven-day display timer only; it does not change balances or authorize trades/withdrawals.
